@@ -1,0 +1,37 @@
+import { Component, inject } from '@angular/core';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router, RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-login-page',
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss'
+})
+export class LoginPageComponent {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)])
+  });
+  errorMessage = '';
+  isLoading = false;
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    const { email, password } = this.loginForm.value as { email: string, password: string };
+    this.authService.login({ email, password }).subscribe({
+      next: () => {
+        this.router.navigate(['/feed']);
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'An error occurred during login.';
+        this.isLoading = false;
+      }
+    });
+  }
+}

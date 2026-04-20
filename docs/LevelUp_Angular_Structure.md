@@ -45,7 +45,7 @@ ng serve
 The complete intended folder structure for `src/app/`. Create feature folders as you build each phase — you do not need all of these on day one.
 
 ```text
-src/
+src/ 
 ├── app/
 │   │
 │   ├── core/                              ← Singleton services, guards, interceptors

@@ -153,22 +153,22 @@ com.levelup/
 ├── LevelUpApiApplication.java          ← Main class — do not modify
 │
 ├── config/
-│   ├── SecurityConfig.java             ← Spring Security filter chain, BCrypt bean
+│   ├── SecurityConfig.java     ← Spring Security filter chain,BCrypt bean
 │   ├── CorsConfig.java                 ← CORS allowed origins and methods
-│   └── WebClientConfig.java            ← WebClient bean configured for IGDB
+│   └── WebClientConfig.java      ← WebClient bean configured for IGDB
 │
 ├── security/
-│   ├── JwtUtil.java                    ← Generate and validate access + refresh tokens
-│   ├── JwtAuthFilter.java              ← Intercepts requests, validates Bearer access token
-│   ├── RefreshTokenService.java        ← Manages refresh token creation, rotation, and revocation
-│   └── UserDetailsServiceImpl.java     ← Loads user by email for Spring Security
+│   ├── JwtUtil.java      ← Generate and validate access + refresh tokens
+│   ├── JwtAuthFilter.java  ← Intercepts requests, validates Bearer access token
+│   ├── RefreshTokenService.java  ← Manages refresh token creation, rotation, and revocation
+│   └── UserDetailsServiceImpl.java ← Loads user by email for Spring Security
 │
 ├── controller/
 │   ├── AuthController.java             ← /api/v1/auth/**
 │   ├── UserController.java             ← /api/v1/users/**
 │   ├── GameController.java             ← /api/v1/games/**
 │   ├── LibraryController.java          ← /api/v1/library/**
-│   ├── ReviewController.java           ← /api/v1/games/:id/reviews, /api/v1/reviews/**
+│   ├── ReviewController.java  ← /api/v1/games/:id/reviews, /api/v1/reviews/**
 │   ├── CommentController.java          ← /api/v1/reviews/:id/comments, /api/v1/comments/**
 │   ├── FriendController.java           ← /api/v1/friends/**
 │   ├── FeedController.java             ← /api/v1/feed

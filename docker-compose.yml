@@ -13,5 +13,13 @@ services:
     volumes:
       - levelup_postgres_data:/var/lib/postgresql/data
 
+  adminer:
+    image: adminer
+    container_name: levelup_adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+
 volumes:
   levelup_postgres_data:

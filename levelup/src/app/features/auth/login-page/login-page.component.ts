@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -12,6 +12,7 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginPageComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private route = inject(ActivatedRoute);
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
@@ -26,7 +27,8 @@ export class LoginPageComponent {
     const { email, password } = this.loginForm.value as { email: string, password: string };
     this.authService.login({ email, password }).subscribe({
       next: () => {
-        this.router.navigate(['/feed']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/feed';
+        this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'An error occurred during login.';

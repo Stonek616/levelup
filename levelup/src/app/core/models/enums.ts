@@ -47,13 +47,13 @@ export enum Mood {
 
 export enum Platform {
     PC = 'PC',
-    PlayStation4 = 'PlayStation 4',
-    PlayStation5 = 'PlayStation 5',
-    XboxOne = 'Xbox One',
-    XboxSeriesXS = 'Xbox Series X|S',
-    NintendoSwitch = 'Nintendo Switch',
-    iOS = 'iOS',
-    Android = 'Android',
+    PlayStation4 = 'PS4',
+    PlayStation5 = 'PS5',
+    XboxOne = 'XBOXONE',
+    XboxSeriesXS = 'XBOXXS',
+    NintendoSwitch = 'SWITCH',
+    iOS = 'IOS',
+    Android = 'ANDROID',
     Any = 'ANY',
 }
 

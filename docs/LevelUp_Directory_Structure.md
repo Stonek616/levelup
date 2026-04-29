@@ -12,6 +12,14 @@
 
 ---
 
+```mermaid
+ treeView-beta
+  "folder"
+    "file"
+    "file"
+
+```
+
 ## Current State (before any phase work)
 
 Files that already exist from project generation:

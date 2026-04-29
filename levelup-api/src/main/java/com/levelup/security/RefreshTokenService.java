@@ -33,6 +33,11 @@ public class RefreshTokenService {
             throw new RuntimeException("Refresh token is expired or revoked");
         }
 
+        if(refreshToken.isRevoked()) {
+            refreshTokenRepository.delete(refreshToken);
+            throw new RuntimeException("Refresh token has been revoked");
+        }
+
         // Revoke the old token
         refreshTokenRepository.delete(refreshToken);
 

@@ -1,5 +1,5 @@
 # LevelUp — Getting Started Guide
-
+ 
 **Version:** 1.0  
 **Last updated:** 2026-04-08  
 **Audience:** First setup from scratch
@@ -326,9 +326,11 @@ JWT_SECRET=dev_secret_key_replace_this_in_production_must_be_256_bits_long_aaaa
 TWITCH_CLIENT_ID=your_twitch_client_id_here
 TWITCH_CLIENT_SECRET=your_twitch_client_secret_here
 
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 ```
+
+> **Warning — `ddl-auto` must be `validate`, not `update`.** Flyway manages the schema via migration files. Setting `ddl-auto=update` alongside Flyway means Hibernate and Flyway are both trying to manage the schema, which causes conflicts on the next migration. Always use `validate` so Hibernate only checks that the schema matches your entities without modifying it.
 
 > **IGDB credentials:** You need a free Twitch developer account. Go to [dev.twitch.tv](https://dev.twitch.tv), create an application, and copy the Client ID and Client Secret into this file.
 

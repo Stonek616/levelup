@@ -7,7 +7,12 @@ CREATE TABLE users (
       avatar_url VARCHAR(500),                                                                                                                                                                      
       onboarding_completed BOOLEAN NOT NULL DEFAULT false,
       created_at TIMESTAMP NOT NULL DEFAULT now(),                                                                                                                                                  
-      updated_at TIMESTAMP NOT NULL DEFAULT now()
+      updated_at TIMESTAMP NOT NULL DEFAULT now(),
+      library_visibility VARCHAR(10) NOT NULL DEFAULT 'PUBLIC',
+      wishlist_visibility VARCHAR(10) NOT NULL DEFAULT 'PUBLIC',
+      reviews_visibility VARCHAR(10) NOT NULL DEFAULT 'PUBLIC',
+      deleted_at TIMESTAMP
+
   );      
 
   CREATE TABLE refresh_tokens (

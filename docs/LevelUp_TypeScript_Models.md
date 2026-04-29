@@ -139,7 +139,7 @@ export interface ValidationErrorResponse extends ErrorResponse {
 ```typescript
 import { VisibilityType } from './enums';
 
-// Full user — returned for /users/me
+// Full user profile — returned only by GET /users/me. Not used in auth responses.
 export interface User {
   id: string;
   username: string;
@@ -201,10 +201,20 @@ export interface GenreBreakdown {
   percentage: number;
 }
 
-// Auth response — returned on login and register
+// Slim user shape returned in auth responses (login, register, refresh).
+// Does not include profile fields — fetch those via GET /users/me after app load.
+export interface AuthUser {
+  id: string;
+  username: string;
+  email: string;
+  avatarUrl: string | null;
+  onboardingCompleted: boolean;
+}
+
+// Auth response — returned on login, register, and refresh
 export interface AuthResponse {
-  token: string;
-  user: User;
+  accessToken: string;
+  user: AuthUser;
 }
 
 // Request bodies

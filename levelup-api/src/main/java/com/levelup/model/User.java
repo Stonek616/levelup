@@ -1,6 +1,8 @@
 package com.levelup.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -13,6 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.UUID;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import com.levelup.model.enums.VisibilityType;
 
 @Entity
 @Table(name = "users")
@@ -39,6 +43,19 @@ public class User {
     private Instant createdAt;
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VisibilityType libraryVisibility = VisibilityType.PUBLIC;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VisibilityType wishlistVisibility = VisibilityType.PUBLIC;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VisibilityType reviewsVisibility = VisibilityType.PUBLIC;
+
+    private LocalDateTime deletedAt;
 
     @PrePersist
     private void prePersist() {

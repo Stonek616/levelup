@@ -1,6 +1,6 @@
 # LevelUp — API Endpoint Design
-
-**Version:** 2.0
+ 
+**Version:** 5.0
 **Base URL:** `/api/v1`
 **Auth:** JWT Bearer token — `Authorization: Bearer <access_token>`
 **Format:** All requests and responses are `application/json` unless otherwise noted
@@ -74,6 +74,8 @@
 | `409` | Conflict — duplicate resource (e.g. friend request already exists) |
 | `500` | Internal Server Error |
 
+*`409` convention: used when the client is sending a valid, well-formed request but the resource already exists or a uniqueness constraint would be violated (e.g. "game already in library", "already reviewed this game", "already friends"). The client should branch on `409` to show a relevant UI state rather than a generic error. `400` is reserved for malformed or invalid input.*
+
 ### Pagination
 
 All list endpoints accept these query params:
@@ -96,6 +98,8 @@ All paginated responses follow this envelope:
   "last": false
 }
 ```
+
+*`totalPages` is a convenience field — it equals `Math.ceil(totalElements / size)`. Use `totalElements` and `last` as the authoritative fields for pagination logic.*
 
 ---
 
@@ -120,17 +124,12 @@ All paginated responses follow this envelope:
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9...",
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9...",
   "user": {
     "id": "uuid",
     "username": "stone",
     "email": "stone@example.com",
     "avatarUrl": null,
-    "bio": null,
-    "createdAt": "2025-01-01T00:00:00Z",
-    "libraryCount": 0,
-    "completedCount": 0,
-    "reviewCount": 0,
     "onboardingCompleted": false
   }
 }
@@ -160,17 +159,12 @@ All paginated responses follow this envelope:
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9...",
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9...",
   "user": {
     "id": "uuid",
     "username": "stone",
     "email": "stone@example.com",
     "avatarUrl": null,
-    "bio": null,
-    "createdAt": "2025-01-01T00:00:00Z",
-    "libraryCount": 47,
-    "completedCount": 12,
-    "reviewCount": 8,
     "onboardingCompleted": true
   }
 }
@@ -244,23 +238,18 @@ All paginated responses follow this envelope:
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9...",
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9...",
   "user": {
     "id": "uuid",
     "username": "stone",
     "email": "stone@example.com",
     "avatarUrl": null,
-    "bio": null,
-    "createdAt": "2025-01-01T00:00:00Z",
-    "libraryCount": 47,
-    "completedCount": 12,
-    "reviewCount": 8,
     "onboardingCompleted": true
   }
 }
 ```
 
-*The `user` object in all auth responses (`/auth/register`, `/auth/login`, `/auth/refresh`) must include the full `User` shape including `libraryCount`, `completedCount`, `reviewCount`, and `onboardingCompleted`. The `onboardingCompleted` field is critical — `onboardingGuard` reads this immediately after session restore. If any of these fields are missing, `AuthService` will fail to populate the current user correctly.*
+*Auth responses carry only the fields needed to boot the session: `id`, `username`, `email`, `avatarUrl`, and `onboardingCompleted`. `onboardingCompleted` is critical — `onboardingGuard` reads it immediately after session restore. Full profile data (`bio`, `createdAt`, `libraryCount`, `completedCount`, `reviewCount`) is fetched separately via `GET /users/me` once on app load.*
 
 *Also sets a new HttpOnly cookie with a fresh refresh token (token rotation).*
 
@@ -416,38 +405,22 @@ All paginated responses follow this envelope:
 
 ---
 
-### POST `/api/v1/users/me/onboarding/preferences`
+### POST `/api/v1/users/me/onboarding`
 
 **Auth:** Protected
-**Description:** Submit genre preferences gathered in onboarding step 2 (`OnboardingPrefsStepComponent`). Seeds the taste profile immediately so the discovery feed is relevant from day one. Called before `POST /users/me/onboarding` (which marks completion).
+**Description:** Submit onboarding data and mark onboarding as complete in a single atomic operation. Called after the user finishes both onboarding steps (genre preferences + library seed). Saves the taste profile and sets `onboardingCompleted = true` together so partial state is never possible.
 
 **Request body:**
 
 ```json
 {
   "favouriteGenres": ["RPG", "Action", "Indie"],
-  "platforms": ["PC", "PlayStation"]
+  "platforms": ["PC", "PlayStation"],
+  "seededGameIds": ["uuid1", "uuid2", "uuid3"]
 }
 ```
 
-**Response `200`:**
-
-```json
-{
-  "message": "Preferences saved."
-}
-```
-
-*Note: This does not mark onboarding as complete — call `POST /users/me/onboarding` immediately after to complete the flow. The preferences are stored against the user's taste profile and used to seed `GET /discover/for-you` results.*
-
-**Errors:** `400` empty genres list
-
----
-
-### POST `/api/v1/users/me/onboarding`
-
-**Auth:** Protected
-**Description:** Mark onboarding as complete. Called after the user finishes both onboarding steps (library seed + preferences).
+*`seededGameIds` is optional — the user may skip the library seed step. `favouriteGenres` must have at least one entry.*
 
 **Response `200`:**
 
@@ -456,6 +429,10 @@ All paginated responses follow this envelope:
   "message": "Onboarding complete."
 }
 ```
+
+*Genre preferences are stored against the user's taste profile and used to seed `GET /discover/for-you` results.*
+
+**Errors:** `400` empty genres list
 
 ---
 
@@ -630,6 +607,8 @@ All paginated responses follow this envelope:
 ```
 
 *Note: `userEntry` is the authenticated user's library entry if it exists. `friendEntries` is a list of friend ratings/statuses — populated when authenticated.*
+
+*`communityRating` is `null` when fewer than 3 ratings exist for the game. `totalRatings` indicates the current count — use it to show "Not enough ratings yet" rather than treating `null` as an error.*
 
 **Errors:** `404` game not found
 
@@ -842,16 +821,15 @@ All query params are optional filters.
 
 ```json
 {
-  "body": "A masterpiece of environmental storytelling...",
-  "rating": 10
+  "body": "A masterpiece of environmental storytelling..."
 }
 ```
 
-*Note: `body` is required — a review is a deliberate written piece. `rating` is optional here; if provided it updates the library entry rating. If omitted, the existing library entry rating is used in the review response. Standalone rating (without text) is handled via `PATCH /library/:entryId`.*
+*`body` is required — a review is a deliberate written piece. The review displays whatever `library_entries.rating` already holds for this user + game — rating is not accepted here and cannot be set via this endpoint. To set or update a rating, call `PATCH /library/:entryId` before or after creating the review.*
 
 **Response `201`:** The created review object.
 
-**Errors:** `400` body missing or empty, rating out of range, `403` no library entry for this game, `409` user has already reviewed this game
+**Errors:** `400` body missing or empty, `403` no library entry for this game, `409` user has already reviewed this game
 
 ---
 
@@ -1760,9 +1738,19 @@ LevelUp — API Endpoint Design — v3.0
 
 ---
 
+### Changelog (v5.0)
+
+- Slimmed auth response shape (`/auth/register`, `/auth/login`, `/auth/refresh`) — removed `bio`, `createdAt`, `libraryCount`, `completedCount`, `reviewCount`; auth responses now carry only session-boot fields (`id`, `username`, `email`, `avatarUrl`, `onboardingCompleted`); full profile data is fetched via `GET /users/me`
+- Renamed `token` → `accessToken` in all auth response shapes to match implementation
+- Removed rating mutation side effect from `POST /games/:gameId/reviews` — `rating` is no longer accepted in the request body; ratings are set exclusively via `PATCH /library/:entryId`
+- Merged two onboarding endpoints into one — `POST /users/me/onboarding` now accepts `favouriteGenres`, `platforms`, and `seededGameIds` atomically; removed `POST /users/me/onboarding/preferences`
+- Added `communityRating` null-threshold note to game detail endpoint — `communityRating` is `null` when fewer than 3 ratings exist
+- Added `409` convention note to section 1 — clarifies when to use `409` vs `400`
+- Added `totalPages` convenience-field note to pagination envelope
+
 ### Changelog (v4.0)
 
-- Added `POST /users/me/onboarding/preferences` endpoint — missing step for submitting genre preferences during onboarding step 2; must be called before the completion endpoint
+- Added `POST /users/me/onboarding/preferences` endpoint — missing step for submitting genre preferences during onboarding step 2; must be called before the completion endpoint *(superseded by v5.0 onboarding merge)*
 - Clarified collection visibility — `isPublic` per-collection boolean governs collection access; `wishlistVisibility` governs WISHLIST-status library entries only; these are separate mechanisms
 
 ### Changelog (v3.0)

@@ -3,49 +3,51 @@ import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { onboardingGuard } from './core/guards/onboarding.guard';
 import { LandingPageComponent } from './features/auth/landing-page/landing-page.component';
-import { LoginPageComponent } from './features/auth/login-page/login-page.component';
-import { RegisterPageComponent } from './features/auth/register-page/register-page.component';
-import { FeedPageComponent } from './features/feed/feed-page/feed-page.component';
-//import { OnboardingComponent } from './features/onboarding/onboarding.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: LandingPageComponent,
+  {
+    path: '',
+    component: LandingPageComponent,
+  },
 
-    },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/auth/login-page/login-page.component').then(
+        (m) => m.LoginPageComponent,
+      ),
+    canActivate: [guestGuard],
+  },
 
-    {
-        path: 'login',
-        component: LoginPageComponent,
-        canActivate: [guestGuard]
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/register-page/register-page.component').then(
+        (m) => m.RegisterPageComponent,
+      ),
+    canActivate: [guestGuard],
+  },
 
-    },
+  {
+    path: 'feed',
+    loadComponent: () =>
+      import('./features/feed/feed-page/feed-page.component').then(
+        (m) => m.FeedPageComponent,
+      ),
+    canActivate: [authGuard, onboardingGuard],
+  },
 
-    {
-        path: 'register',
-        component: RegisterPageComponent,
-        canActivate: [guestGuard]
-
-    },
-     
-    {
-        path: 'feed',
-           component: FeedPageComponent,
-           canActivate: [authGuard, onboardingGuard]
-       },
-   
-
-    /*
+  /*
     {
         path: 'onboarding',
-        component: OnboardingComponent,
+        loadComponent: () => import('./features/onboarding/onboarding.component')
+            .then(m => m.OnboardingComponent),
         canActivate: [authGuard]
     },
     */
 
-    {
-        path: '**',
-        redirectTo: ''
-    }
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

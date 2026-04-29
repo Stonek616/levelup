@@ -1,20 +1,28 @@
 # LevelUp — Development Plan
 
-**Version:** 2.0  
-**Last updated:** 2026-04-09  
+**Version:** 3.0  
+**Last updated:** 2026-04-21  
 **This document is the single source of truth for what to build and in what order.**
 
 ---
 
-## How to use this document
+## Table of Contents
 
-Read each phase fully before starting it. Every phase tells you:
+1. [Phase 1 - Authentication](#phase-1--authentication)
+2. [Phase 2 - Game Search IGDB](#phase-2--game-search-igdb)
+3. [Phase 3 - Library](#phase-3--library)
+4. [Phase 4 - User Profile](#phase-4--user-profile-own-profile)
+5. [Phase 5 - Reviews & Comments](#phase-5--reviews--comments)
+6. [Phase 6 - Friends](#phase-6--friends)
+7. [Phase 7 - Feed & Landing Page](#phase-7--feed--landing-page)
+8. [phase 8 - Collections](#phase-8--collections)
+9. [Phase 9 - Discovery Feeds](#phase-9--discovery-feeds)
+10. [Phase 10 - What to Play Next](#phase-10--what-to-play-next)
+11. [Phase 11 - Daily Challenge](#phase-11--daily-challenge)
+12. [Phase 12 - Onboarding, Settings and Polish](#phase-12--onboarding-settings--polish)
+13. [Phase 13 - Production Deployment](#phase-13--production-deployment)
 
-- What to build and in what order
-- Why the order matters
-- What concept you are learning and where to learn it
-- Which other doc to consult for exact patterns and code shapes
-- What a working checkpoint looks like
+---
 
 The other documents in `/docs` are reference material — they contain exact code patterns, full file structures, and API shapes. **This document tells you what to do. The others show you how.**
 
@@ -89,23 +97,21 @@ The current `application.properties` has a line `igdb.bearer-token=${BEARER_TOKE
 
 ## Phase 0 — Project Foundation
 
-**Status: In progress.** The Spring Boot and Angular projects have been generated. The tasks remaining are detailed below.
+**Status: In progress.** The Spring Boot and Angular projects have been generated. Tasks 0.1 and 0.2 are complete. Tasks 0.3 through 0.7 remain.
 
 This phase produces no visible features. It is the skeleton everything else attaches to. Getting it right here means every subsequent phase is straightforward. Rushing it means you will be debugging infrastructure instead of building features.
 
 ---
 
-### 0.1 Fix the migration file name
+### ✓ 0.1 Fix the migration file name — Complete
 
-**Before anything else:** rename `v1_initial_schema.sql` to `V1__initial_schema.sql` in `src/main/resources/db/migration/`.
-
-The file already has the correct `CREATE TABLE` SQL for `users`, `refresh_tokens`, and `password_reset_tokens`. You will add more tables to this same file as you build each entity in later phases.
+Renamed `v1_initial_schema.sql` to `V1__initial_schema.sql`.
 
 ---
 
-### 0.2 Fix application.properties
+### ✓ 0.2 Fix application.properties — Complete
 
-Remove the `igdb.bearer-token=${BEARER_TOKEN}` line from `application.properties`. That token is managed in memory by `IgdbTokenService`, not as a property.
+Removed the `igdb.bearer-token` line. The IGDB Bearer token is managed in memory by `IgdbTokenService`.
 
 ---
 
@@ -192,6 +198,200 @@ Angular 17+ uses standalone components by default. In older Angular, you needed 
 **Environment file note:** The `apiUrl` in `environment.ts` for development should be `/api/v1` (not `http://localhost:8080/api/v1`). The proxy config translates `/api/...` requests to `http://localhost:8080/api/...` automatically. Using the full URL in the environment file will bypass the proxy and cause CORS errors.
 
 **Checkpoint:** `ng serve` runs with no console errors. The app loads in the browser. The default Angular page or a blank page is fine — no features exist yet.
+
+---
+
+### 0.5 Fix existing backend code
+
+A code review found several issues in the already-written backend code. Fix these before building Phase 1 on top of them — they are foundational and touching them later means unpicking work across multiple phases.
+
+---
+
+#### 0.5.1 — Add 4 missing columns to the users table and entity
+
+The `users` table is missing columns needed for privacy settings (Phase 3+) and account soft-delete (Phase 12). Add them now so every phase that touches users starts with the complete schema. Adding them later would require a retroactive migration and updating multiple services at once.
+
+Add the following to the `users` table in `V1__initial_schema.sql`, inside the `CREATE TABLE users (...)` block:
+
+```sql
+library_visibility  VARCHAR(10) NOT NULL DEFAULT 'PUBLIC',
+wishlist_visibility VARCHAR(10) NOT NULL DEFAULT 'PUBLIC',
+reviews_visibility  VARCHAR(10) NOT NULL DEFAULT 'PUBLIC',
+deleted_at          TIMESTAMP
+```
+
+Add the corresponding fields to `User.java`:
+
+```java
+@Enumerated(EnumType.STRING)
+@Column(nullable = false)
+private VisibilityType libraryVisibility = VisibilityType.PUBLIC;
+
+@Enumerated(EnumType.STRING)
+@Column(nullable = false)
+private VisibilityType wishlistVisibility = VisibilityType.PUBLIC;
+
+@Enumerated(EnumType.STRING)
+@Column(nullable = false)
+private VisibilityType reviewsVisibility = VisibilityType.PUBLIC;
+
+private LocalDateTime deletedAt;
+```
+
+Create `VisibilityType.java` in `model/enums/`:
+
+```java
+public enum VisibilityType { PUBLIC, FRIENDS, PRIVATE }
+```
+
+---
+
+**0.5.2 — Fix `RefreshTokenService.validateAndRotate()` — revoked flag check is broken**
+
+The current code checks `isRevoked()` and deletes the token, but does not throw — execution continues and the revoked token is still accepted. This means a token that has been explicitly revoked (e.g. via a future admin action) would still grant access.
+
+Find the revoked check inside `validateAndRotate()` and change it to throw immediately:
+
+```java
+if (refreshToken.isRevoked()) {
+    refreshTokenRepository.delete(refreshToken);
+    throw new RuntimeException("Refresh token has been revoked");
+}
+```
+
+---
+
+**0.5.3 — Fix `AuthController` — three endpoints return wrong HTTP status**
+
+`logout`, `forgot-password`, and `reset-password` currently return `204 No Content`. They should return `200 OK` with a JSON body, because the frontend reads the message string on these responses.
+
+If a `MessageResponse` DTO doesn't exist yet, create one in `dto/response/`:
+
+```java
+@Data
+@AllArgsConstructor
+public class MessageResponse {
+    private String message;
+}
+```
+
+Then change each of the three endpoints to return:
+
+```java
+// logout
+return ResponseEntity.ok(new MessageResponse("Logged out successfully."));
+
+// forgot-password
+return ResponseEntity.ok(new MessageResponse("If an account exists for that email, a reset link has been sent."));
+
+// reset-password
+return ResponseEntity.ok(new MessageResponse("Password updated successfully."));
+```
+
+---
+
+**0.5.4 — Verify `AuthUserResponse` only has the 5 auth fields**
+
+The auth response DTO (`AuthUserResponse.java`) should contain exactly: `id`, `username`, `email`, `avatarUrl`, `onboardingCompleted`. If it has `bio`, `createdAt`, `libraryCount`, `completedCount`, or `reviewCount`, remove them — those are profile fields returned only by `GET /users/me`. Returning them on every token refresh requires expensive COUNT queries for no benefit.
+
+Full auth response shape is in `LevelUp_API_Endpoints.md` section 2.
+
+---
+
+### 0.6 Fix existing frontend code
+
+---
+
+**0.6.1 — `user.model.ts` — add `AuthUser` type and fix `AuthResponse`**
+
+The `AuthResponse` interface currently uses the full `User` type. Create a separate `AuthUser` interface with only the 5 fields that auth endpoints return, and update `AuthResponse` to use it:
+
+```typescript
+export interface AuthUser {
+  id: string;
+  username: string;
+  email: string;
+  avatarUrl: string | null;
+  onboardingCompleted: boolean;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  user: AuthUser;
+}
+```
+
+The full `User` interface (with `bio`, `createdAt`, `libraryCount`, etc.) stays — it is used by `UserService` after `GET /users/me`. The split keeps auth state lean and avoids storing stale count data in memory.
+
+The authoritative interface definitions are in `LevelUp_TypeScript_Models.md` section 3.
+
+---
+
+**0.6.2 — `enums.ts` — decide on canonical Platform values**
+
+The Platform enum values must match what the backend accepts in request bodies exactly. Pick one canonical set and use it everywhere — in the TypeScript enum, in the API request bodies, and in whatever validation the backend applies to platform strings.
+
+The design uses these values in its examples: `PC`, `PlayStation`, `Xbox`, `Switch`, `Mobile`. If the current enum uses `PS4`/`PS5`/`XBOXONE` etc., decide whether to split by generation or consolidate by brand, then update both the enum and any backend validation to match. The important thing is that both sides agree — a mismatch means library entries fail to save silently.
+
+---
+
+**0.6.3 — `app.routes.ts` — convert to lazy loading**
+
+All routes should use `loadComponent:` (lazy) instead of direct `component:` imports (eager). Lazy loading is required by the design and improves initial load time because the browser only downloads the code for a page when the user navigates to it.
+
+Pattern for every route going forward:
+
+```typescript
+{
+  path: 'login',
+  loadComponent: () => import('./features/auth/login-page/login-page.component')
+    .then(m => m.LoginPageComponent),
+  canActivate: [guestGuard]
+}
+```
+
+Convert the existing routes now, before Phase 1 adds more. The `**` wildcard catch-all should eventually load `NotFoundPageComponent` (built in Phase 12) — until then leave it redirecting to `''`, but make sure everything else is lazy.
+
+---
+
+**0.6.4 — `auth.guard.ts` — add `returnUrl` to redirect**
+
+When the guard redirects an unauthenticated user to `/login`, it should carry the original destination as a `returnUrl` query parameter. Without it, after the user logs in they always land on the default route (`/feed`) instead of the page they were trying to reach.
+
+Change the redirect:
+
+```typescript
+return router.createUrlTree(['/login'], {
+  queryParams: { returnUrl: state.url }
+});
+```
+
+When you build `LoginPageComponent` in Phase 1, read this param after a successful login and navigate to it:
+
+```typescript
+const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/feed';
+this.router.navigateByUrl(returnUrl);
+```
+
+---
+
+### 0.7 Schema validation checkpoint
+
+Do not start Phase 1 until these all pass. Catching foundation problems now takes 5 minutes. Catching them in Phase 3 takes a day.
+
+1. Start Docker: `docker-compose up -d`
+2. Run Spring Boot
+3. Check startup logs — Flyway should log `Successfully applied 1 migration(s) to schema "public"`
+4. If you see `Schema-validation: missing table` → your migration file name is wrong or the SQL has an error
+5. If you see `FlywayException: Checksum mismatch` → you edited a migration that already ran — do not edit applied migrations, create a new numbered file instead
+6. Open a DB client (IntelliJ's built-in database tool works — go to View → Tool Windows → Database, add a PostgreSQL data source at `localhost:5432`) and verify:
+   - The `users` table exists with all columns including `library_visibility`, `wishlist_visibility`, `reviews_visibility`, `deleted_at`
+   - The `refresh_tokens` table exists
+   - The `password_reset_tokens` table exists
+7. Run `ng serve` — confirm it compiles with no errors
+8. Open the app in the browser — confirm no console errors
+
+All 8 checks pass → proceed to Phase 1.
 
 ---
 
@@ -291,10 +491,19 @@ Every feature involving games — library, reviews, collections, challenges — 
 
 **What IGDB is:** The Internet Game Database (igdb.com), owned by Twitch/Amazon. It provides a free API for game data including titles, cover art, genres, platforms, and summaries. You need a free Twitch developer account to get API credentials.
 
-**Get your IGDB credentials:** Go to [Twitch Dev](https://dev.twitch.tv), log in or create an account, register an application, and copy the Client ID and Client Secret into your `application-dev.properties`.
+**Get your IGDB credentials before starting this phase:** Go to [Twitch Dev](https://dev.twitch.tv), log in or create an account, register an application, and copy the Client ID and Client Secret into your `application-dev.properties`. Confirm you can get a Bearer token via Postman (call the Twitch OAuth endpoint manually) before writing any code — this rules out credential issues before you are mid-phase.
 
 **The caching strategy:**  
 Every game searched through the IGDB API is saved to your local `games` table. When someone searches for the same game again, you return the cached version and also refresh from IGDB in the background (or re-fetch if the cache is older than 30 days). This reduces your API call volume and means game detail pages load fast.
+
+**Test data strategy — request a data dump from IGDB:**  
+Your local `games` table starts empty. Every feature from Phase 3 onward (library, reviews, collections, discovery) requires games to exist in the database. Without seed data you end up either hitting the IGDB API constantly during development (which burns rate-limit quota) or writing tests that fail on a fresh database.
+
+The cleanest solution for a developer project: **email IGDB and request a copy of their data.** IGDB has a process for sharing database exports with developers building on their API — contact them at the address in their API docs with a brief explanation that you are building a portfolio app. A partial export of titles, cover URLs, genres, and platforms is enough.
+
+If you receive a dump: load it into your local `games` table once. From that point on your dev environment has real game data without any API calls, and every feature that touches games works immediately on a fresh database clone.
+
+If you do not receive a dump: the fallback is to use Postman to search for 20–30 representative games after Phase 2 is built, which warms the local cache. Then export that data as a SQL seed file (`dev-seed.sql`) that you can re-run whenever you reset the database. Either way, have a seed strategy before you start Phase 3.
 
 ---
 
@@ -919,4 +1128,4 @@ Phase 13 — Production Deployment
 
 ---
 
-LevelUp — Development Plan — v2.0
+LevelUp — Development Plan — v3.0

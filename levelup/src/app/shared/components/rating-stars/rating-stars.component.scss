@@ -1,0 +1,45 @@
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+
+  &__heart {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    color: rgba(220, 50, 50, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.1s, transform 0.08s;
+    line-height: 0;
+
+    &:hover { transform: scale(1.25); }
+    &--active { color: #e03e3e; }
+    &:disabled { cursor: default; }
+    &:disabled:hover { transform: none; }
+  }
+
+  .heart-icon {
+    width: 16px;
+    height: 14px;
+    shape-rendering: crispEdges;
+  }
+
+  &__label {
+    margin-left: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+
+    &--empty {
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+  }
+
+  &--readonly .rating__heart {
+    pointer-events: none;
+  }
+}

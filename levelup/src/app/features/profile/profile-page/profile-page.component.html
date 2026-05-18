@@ -1,0 +1,25 @@
+<div class="profile-page">
+  @if (loading()) {
+    <p class="profile-page__loading">Loading profile...</p>
+  } @else if (error()) {
+    <p class="profile-page__error">{{ error() }}</p>
+  } @else if (profile()) {
+    <app-profile-header [profile]="profile()!" />
+
+    <div class="profile-page__body">
+      <div class="profile-page__main">
+        @if (canSeeFriendContent()) {
+          <app-taste-profile [tasteProfile]="tasteProfile()!" />
+        } @else {
+          <p class="profile-page__locked">
+            Add {{ profile()!.username }} as a friend to see their taste profile.
+          </p>
+        }
+        <app-recent-activity />
+      </div>
+      <aside class="profile-page__side">
+        <app-collections-preview [username]="profile()!.username" [isOwnProfile]="isOwnProfile()" />
+      </aside>
+    </div>
+  }
+

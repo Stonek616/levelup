@@ -1,0 +1,11 @@
+<div class="review-detail">
+  @if (loading()) {
+    <p class="review-detail__state">Loading…</p>
+  } @else if (error()) {
+    <p class="review-detail__state review-detail__state--error">{{ error() }}</p>
+  } @else if (review()) {
+    <button class="back-btn" (click)="goBack()">← Back</button>
+    <app-review-body [review]="review()!" />
+    <app-review-comments [reviewId]="review()!.id" />
+  }
+</div>

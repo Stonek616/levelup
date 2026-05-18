@@ -1,0 +1,18 @@
+.status-picker {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+  max-width: 175px;
+
+  &:hover,
+  &:focus {
+    border-color: var(--accent);
+  }
+}

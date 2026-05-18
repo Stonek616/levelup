@@ -1,0 +1,62 @@
+<div class="collections-preview">
+  <div class="collections-preview__header">
+    <h2 class="collections-preview__title">Collections</h2>
+    @if (isOwnProfile) {
+      <button class="collections-preview__new-btn" (click)="toggleCreate()">
+        {{ showCreateForm() ? 'Cancel' : '+ New' }}
+      </button>
+    }
+  </div>
+
+  @if (showCreateForm()) {
+    <div class="create-form">
+      <input
+        class="create-form__input"
+        type="text"
+        placeholder="Collection name"
+        [value]="newName()"
+        (input)="newName.set($any($event.target).value)"
+        maxlength="100"
+      />
+      <select
+        class="create-form__select"
+        [value]="newVisibility()"
+        (change)="newVisibility.set($any($event.target).value)"
+      >
+        <option value="PUBLIC">Public</option>
+        <option value="FRIENDS">Friends only</option>
+        <option value="PRIVATE">Private</option>
+      </select>
+      <button
+        class="create-form__submit"
+        (click)="submitCreate()"
+        [disabled]="saving() || !newName().trim()"
+      >
+        {{ saving() ? 'Creating…' : 'Create' }}
+      </button>
+    </div>
+  }
+
+  @if (loading()) {
+    <p class="collections-preview__empty">Loading…</p>
+  } @else if (collections().length === 0) {
+    <p class="collections-preview__empty">No collections yet.</p>
+  } @else {
+    @for (col of collections().slice(0, 3); track col.id) {
+      <a class="collection-card" [routerLink]="['/collections', col.id]">
+        <div class="cover-grid">
+          @for (coverId of col.previewCoverIds.slice(0, 4); track coverId) {
+            <img class="cover-grid__img" [src]="coverUrl(coverId)" [alt]="col.name" />
+          }
+          @for (_ of [].constructor(4 - col.previewCoverIds.slice(0, 4).length); track $index) {
+            <div class="cover-grid__placeholder"></div>
+          }
+        </div>
+        <div class="collection-card__info">
+          <span class="collection-card__name">{{ col.name }}</span>
+          <span class="collection-card__count">{{ col.gameCount }} {{ col.gameCount === 1 ? 'game' : 'games' }}</span>
+        </div>
+      </a>
+    }
+  }
+</div>

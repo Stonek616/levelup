@@ -1,0 +1,13 @@
+.review-detail {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+
+  &__state {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--text-secondary);
+
+    &--error { color: var(--error); }
+  }
+}

@@ -1,0 +1,7 @@
+<div class="avatar avatar--{{ size }}">
+  @if (avatarUrl) {
+    <img [src]="avatarUrl" [alt]="username + ' avatar'" class="avatar__image" />
+  } @else {
+    <span class="avatar__initials">{{ initials }}</span>
+  }
+</div>

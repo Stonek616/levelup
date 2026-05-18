@@ -1,0 +1,12 @@
+<div class="library-page">
+  <h1 class="library-page__title">My Library</h1>
+  <p class="library-page__count">{{ totalElements() }} games</p>
+
+  <app-library-toolbar (filtersChanged)="onFiltersChanged($event)" />
+
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else {
+    <app-library-grid [entries]="entries()" />
+  }
+</div>

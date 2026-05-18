@@ -1,0 +1,43 @@
+<div class="review-card">
+  <div class="review-card__header">
+    <app-avatar
+      [avatarUrl]="review.author.avatarUrl"
+      [username]="review.author.username"
+      size="sm"
+    />
+    <div class="review-card__meta">
+      <a class="review-card__author" [routerLink]="['/profile', review.author.username]">
+        {{ review.author.username }}
+      </a>
+      <span class="review-card__game-label">
+        on <a class="review-card__game" [routerLink]="['/game', review.game.id]">{{ review.game.title }}</a>
+      </span>
+    </div>
+    @if (review.rating) {
+      <div class="review-card__rating">
+        {{ review.rating }}<span class="review-card__rating-max">/10</span>
+      </div>
+    }
+  </div>
+
+  <p class="review-card__body">{{ review.body }}</p>
+
+  <div class="review-card__footer">
+    <button
+      class="review-card__like-btn"
+      [class.review-card__like-btn--liked]="likedByMe()"
+      (click)="toggleLike()"
+      [disabled]="!isLoggedIn"
+    >
+      ♥ {{ likeCount() }}
+    </button>
+
+    <span class="review-card__comments">
+      {{ review.commentCount }} {{ review.commentCount === 1 ? 'comment' : 'comments' }}
+    </span>
+
+    <span class="review-card__date">{{ review.createdAt | date:'mediumDate' }}</span>
+
+    <a class="review-card__link" [routerLink]="['/reviews', review.id]">View →</a>
+  </div>
+</div>

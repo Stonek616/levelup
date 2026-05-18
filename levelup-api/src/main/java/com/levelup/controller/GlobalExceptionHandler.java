@@ -46,6 +46,12 @@ public class GlobalExceptionHandler {
                         "Request body contains invalid fields", fields));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(IllegalArgumentException ex) {
+        return ResponseEntity.status(400)
+                .body(new ErrorResponse("BAD_REQUEST", 400, ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
         logger.error("Unhandled exception", ex);

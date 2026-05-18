@@ -1,0 +1,16 @@
+<div class="toolbar">
+  <button
+    class="toolbar__tab"
+    [class.toolbar__tab--active]="activeStatus === null"
+    (click)="selectStatus(null)">
+    All
+  </button>
+  @for (status of allStatuses; track status) {
+    <button
+      class="toolbar__tab"
+      [class.toolbar__tab--active]="activeStatus === status"
+      (click)="selectStatus(status)">
+      {{ labels[status] }}
+    </button>
+  }
+</div>

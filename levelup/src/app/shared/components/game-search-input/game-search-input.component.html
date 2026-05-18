@@ -12,8 +12,10 @@
   @if (results().length > 0) {
     <ul class="results-list">
       @for (game of results(); track game.id) {
-        <li (click)="selectGame(game)">
-          {{ game.title }} @if (game.releaseYear) { ({{ game.releaseYear }}) }
+        <li>
+          <button type="button" (click)="selectGame(game)">
+            {{ game.title }} @if (game.releaseYear) { ({{ game.releaseYear }}) }
+          </button>
         </li>
       }
     </ul>

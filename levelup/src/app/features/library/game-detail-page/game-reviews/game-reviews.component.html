@@ -1,0 +1,39 @@
+<div class="game-reviews">
+  <h2 class="game-reviews__title">Reviews</h2>
+
+  @if (isLoggedIn && !userHasReviewed) {
+    <div class="game-reviews__write">
+      <h3 class="game-reviews__write-title">Write a Review</h3>
+      <form [formGroup]="reviewForm" (ngSubmit)="submit()">
+        <textarea
+          class="game-reviews__textarea"
+          formControlName="body"
+          placeholder="Share your thoughts on this game..."
+          rows="4"
+        ></textarea>
+        @if (submitError()) {
+          <p class="game-reviews__error">{{ submitError() }}</p>
+        }
+        <button
+          class="game-reviews__submit"
+          type="submit"
+          [disabled]="reviewForm.invalid || submitting()"
+        >
+          {{ submitting() ? 'Posting...' : 'Post Review' }}
+        </button>
+      </form>
+    </div>
+  }
+
+  @if (loading()) {
+    <p class="game-reviews__loading">Loading reviews...</p>
+  } @else if (reviews().length === 0) {
+    <p class="game-reviews__empty">No reviews yet. Be the first!</p>
+  } @else {
+    <div class="game-reviews__list">
+      @for (review of reviews(); track review.id) {
+        <app-review-card [review]="review" />
+      }
+    </div>
+  }
+</div>

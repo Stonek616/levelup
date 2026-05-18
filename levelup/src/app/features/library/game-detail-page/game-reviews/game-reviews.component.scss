@@ -1,0 +1,82 @@
+.game-reviews {
+  margin-top: 40px;
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 24px;
+  }
+
+  &__write {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  &__write-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+
+  &__textarea {
+    width: 100%;
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    padding: 12px;
+    resize: vertical;
+    box-sizing: border-box;
+
+    &::placeholder { color: #6b7280; }
+
+    &:focus {
+      outline: none;
+      border-color: #6366f1;
+    }
+  }
+
+  &__error {
+    color: #f87171;
+    font-size: 0.875rem;
+    margin: 8px 0 0;
+  }
+
+  &__submit {
+    margin-top: 12px;
+    background: #6366f1;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 10px 24px;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) { background: #4f46e5; }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__loading,
+  &__empty {
+    color: #6b7280;
+    font-style: italic;
+    padding: 24px 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

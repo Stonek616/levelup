@@ -1,19 +1,27 @@
-<div class="game-card">
+<a class="game-card" [routerLink]="['/game', game.id]">
   @if (coverUrl) {
-    <img [src]="coverUrl" [alt]="game.title" class="game-cover" />
+    <img [src]="coverUrl" [alt]="game.title" class="game-card__cover" />
   } @else {
-    <div class="game-cover-placeholder">No Image</div>
+    <div class="game-card__cover game-card__cover--placeholder">No Image</div>
   }
 
-  <div class="game-info">
-    <h3 class="game-title">{{ game.title }}</h3>
+  <div class="game-card__info">
+    <h3 class="game-card__title">{{ game.title }}</h3>
 
     @if (game.releaseYear) {
-      <p class="game-year">{{ game.releaseYear }}</p>
+      <p class="game-card__year">{{ game.releaseYear }}</p>
     }
 
-    @if (game.platforms && game.platforms.length > 0) {
-      <p class="game-platforms">{{ game.platforms.join(', ') }}</p>
+    @if (libraryEntry) {
+      <div class="game-card__library">
+        <app-status-badge [status]="libraryEntry.status" />
+        @if (libraryEntry.isOwned) {
+          <span class="game-card__owned">Owned</span>
+        }
+        @if (libraryEntry.rating) {
+          <span class="game-card__rating">{{ libraryEntry.rating }}/10</span>
+        }
+      </div>
     }
   </div>
-</div>
+</a>

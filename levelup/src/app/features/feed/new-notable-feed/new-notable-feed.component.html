@@ -1,0 +1,37 @@
+@if (loading()) {
+  <p class="discovery__state">Loading new &amp; notable games...</p>
+} @else if (games().length === 0) {
+  <div class="discovery__empty">
+    <p>Nothing here yet.</p>
+    <p class="discovery__empty-hint">Check back once the community has been active with recently released games.</p>
+  </div>
+} @else {
+  <div class="discovery__grid">
+    @for (game of games(); track game.id) {
+      <a [routerLink]="['/game', game.id]" class="discovery-card">
+        <div class="discovery-card__cover">
+          @if (coverUrl(game)) {
+            <img [src]="coverUrl(game)" [alt]="game.title" class="discovery-card__img" />
+          } @else {
+            <div class="discovery-card__placeholder"></div>
+          }
+        </div>
+        <div class="discovery-card__info">
+          <h3 class="discovery-card__title">{{ game.title }}</h3>
+          @if (game.genres.length) {
+            <p class="discovery-card__genres">{{ game.genres.slice(0, 3).join(' · ') }}</p>
+          }
+          @if (game.releaseYear) {
+            <p class="discovery-card__year">{{ game.releaseYear }}</p>
+          }
+        </div>
+      </a>
+    }
+  </div>
+
+  @if (hasMore()) {
+    <button class="discovery__load-more" (click)="loadMore()" [disabled]="loadingMore()">
+      {{ loadingMore() ? 'Loading...' : 'Load more' }}
+    </button>
+  }
+}

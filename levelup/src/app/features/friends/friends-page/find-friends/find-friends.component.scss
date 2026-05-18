@@ -1,0 +1,21 @@
+.find-friends {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__status {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

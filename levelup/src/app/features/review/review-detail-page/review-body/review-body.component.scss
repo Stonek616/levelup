@@ -1,0 +1,80 @@
+.review-body {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 32px;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  &__author-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__author {
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+
+  &__game {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    a { color: #6366f1; text-decoration: none; &:hover { text-decoration: underline; } }
+  }
+
+  &__date {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  &__rating {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f59e0b;
+    flex-shrink: 0;
+  }
+
+  &__rating-max {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    font-weight: 400;
+  }
+
+  &__text {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #d1d5db;
+    margin: 0 0 20px;
+    white-space: pre-wrap;
+  }
+
+  &__actions {
+    padding-top: 16px;
+    border-top: 1px solid #374151;
+  }
+
+  &__like-btn {
+    background: none;
+    border: 1px solid #374151;
+    border-radius: 9999px;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 6px 16px;
+    font-size: 0.9375rem;
+    transition: all 0.15s;
+
+    &:hover:not(:disabled) { border-color: #ec4899; color: #ec4899; }
+    &--liked { border-color: #ec4899; color: #ec4899; }
+    &:disabled { cursor: default; opacity: 0.6; }
+  }
+}

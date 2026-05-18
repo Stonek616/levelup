@@ -1,0 +1,40 @@
+@if (loading()) {
+  <p class="trending__state">Loading trending games...</p>
+} @else if (games().length === 0) {
+  <div class="trending__empty">
+    <p>No trending games yet.</p>
+    <p class="trending__empty-hint">Start adding games to your library to generate activity.</p>
+  </div>
+} @else {
+  <div class="trending__grid">
+    @for (game of games(); track game.id) {
+      <a [routerLink]="['/game', game.id]" class="trending-card">
+        <div class="trending-card__cover">
+          @if (coverUrl(game)) {
+            <img [src]="coverUrl(game)" [alt]="game.title" class="trending-card__img" />
+          } @else {
+            <div class="trending-card__placeholder"></div>
+          }
+        </div>
+        <div class="trending-card__info">
+          <h3 class="trending-card__title">{{ game.title }}</h3>
+          @if (game.genres.length) {
+            <p class="trending-card__genres">{{ game.genres.slice(0, 3).join(' · ') }}</p>
+          }
+          <div class="trending-card__stats">
+            @if (game.communityRating) {
+              <span class="trending-card__rating">★ {{ game.communityRating }}</span>
+            }
+            <span class="trending-card__activity">{{ game.recentActivity }} recent</span>
+          </div>
+        </div>
+      </a>
+    }
+  </div>
+
+  @if (hasMore()) {
+    <button class="trending__load-more" (click)="loadMore()" [disabled]="loadingMore()">
+      {{ loadingMore() ? 'Loading...' : 'Load more' }}
+    </button>
+  }
+}

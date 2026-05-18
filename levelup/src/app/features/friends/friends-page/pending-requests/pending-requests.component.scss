@@ -1,0 +1,65 @@
+.pending-requests {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  &__state {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__btn {
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+
+    &--accept {
+      background: var(--accent-muted);
+      border-color: var(--accent);
+      color: var(--accent);
+      &:hover {
+        background: var(--accent);
+        color: var(--bg);
+      }
+    }
+
+    &--decline {
+      color: var(--text-muted);
+      &:hover {
+        border-color: var(--error);
+        color: var(--error);
+      }
+    }
+  }
+}

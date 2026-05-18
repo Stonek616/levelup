@@ -1,0 +1,135 @@
+<div class="wtp">
+  <div class="wtp__header">
+    <h1 class="wtp__title">What to Play Next?</h1>
+    <p class="wtp__subtitle">Answer a few questions and we'll pick from your library.</p>
+  </div>
+
+  @if (step() !== 'platform') {
+    <div class="wtp__breadcrumb">
+      <span class="wtp__crumb">{{ platformLabel() }}</span>
+      @if (step() !== 'mood') {
+        <span class="wtp__crumb-sep">·</span>
+        <span class="wtp__crumb">{{ moodLabel() }}</span>
+      }
+      @if (step() === 'options' || step() === 'results') {
+        <span class="wtp__crumb-sep">·</span>
+        <span class="wtp__crumb">{{ timeLabel() }}</span>
+      }
+    </div>
+  }
+
+  @switch (step()) {
+
+    @case ('platform') {
+      <div class="wtp__step">
+        <h2 class="wtp__question">What platform are you playing on?</h2>
+        <div class="wtp__options">
+          @for (opt of platformOptions; track opt.value) {
+            <button class="wtp__option" (click)="selectPlatform(opt.value)">
+              <span class="wtp__option-emoji">{{ opt.emoji }}</span>
+              <span class="wtp__option-label">{{ opt.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('mood') {
+      <div class="wtp__step">
+        <h2 class="wtp__question">What's your mood right now?</h2>
+        <div class="wtp__options">
+          @for (opt of moodOptions; track opt.value) {
+            <button class="wtp__option" (click)="selectMood(opt.value)">
+              <span class="wtp__option-emoji">{{ opt.emoji }}</span>
+              <div class="wtp__option-text">
+                <span class="wtp__option-label">{{ opt.label }}</span>
+                <span class="wtp__option-desc">{{ opt.description }}</span>
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('time') {
+      <div class="wtp__step">
+        <h2 class="wtp__question">How much time do you have?</h2>
+        <div class="wtp__options">
+          @for (opt of timeOptions; track opt.value) {
+            <button class="wtp__option" (click)="selectTime(opt.value)">
+              <span class="wtp__option-emoji">{{ opt.emoji }}</span>
+              <div class="wtp__option-text">
+                <span class="wtp__option-label">{{ opt.label }}</span>
+                <span class="wtp__option-desc">{{ opt.description }}</span>
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('options') {
+      <div class="wtp__step">
+        <h2 class="wtp__question">One last thing...</h2>
+        <div class="wtp__toggles">
+          <label class="wtp__toggle">
+            <input type="checkbox" [checked]="includeAlreadyPlayed()"
+                   (change)="includeAlreadyPlayed.set(!includeAlreadyPlayed())" />
+            <span class="wtp__toggle-label">Include games I've already played</span>
+          </label>
+          <label class="wtp__toggle">
+            <input type="checkbox" [checked]="includeNewSuggestions()"
+                   (change)="includeNewSuggestions.set(!includeNewSuggestions())" />
+            <span class="wtp__toggle-label">Suggest games outside my library</span>
+          </label>
+        </div>
+        <button class="btn btn--primary wtp__find-btn" (click)="findGame()" [disabled]="loading()">
+          {{ loading() ? 'Finding your game...' : 'Find My Game' }}
+        </button>
+        @if (error()) {
+          <p class="wtp__error">Something went wrong. Please try again.</p>
+        }
+      </div>
+    }
+
+    @case ('results') {
+      <div class="wtp__results">
+        @if (suggestions().length === 0) {
+          <div class="wtp__empty">
+            <p>No matches found for your criteria.</p>
+            <p class="wtp__empty-hint">Try broadening your options — enable "outside my library" or change your mood.</p>
+          </div>
+        } @else {
+          <div class="wtp__suggestions">
+            @for (s of suggestions(); track s.rank) {
+              <a [routerLink]="['/game', s.game.id]" class="suggestion-card">
+                <div class="suggestion-card__rank">{{ s.rank }}</div>
+                <div class="suggestion-card__cover">
+                  @if (s.game.coverUrl) {
+                    <img [src]="s.game.coverUrl" [alt]="s.game.title" class="suggestion-card__img" />
+                  } @else {
+                    <div class="suggestion-card__placeholder"></div>
+                  }
+                </div>
+                <div class="suggestion-card__info">
+                  <div class="suggestion-card__top">
+                    <h3 class="suggestion-card__title">{{ s.game.title }}</h3>
+                    <span class="suggestion-card__badge" [class]="sourceBadgeClass(s.source)">
+                      {{ sourceLabel(s.source) }}
+                    </span>
+                  </div>
+                  @if (s.game.genres.length) {
+                    <p class="suggestion-card__genres">{{ s.game.genres.slice(0, 3).join(' · ') }}</p>
+                  }
+                  <p class="suggestion-card__reason">{{ s.reason }}</p>
+                </div>
+              </a>
+            }
+          </div>
+        }
+        <button class="wtp__restart" (click)="restart()">Start over</button>
+      </div>
+    }
+
+  }
+</div>

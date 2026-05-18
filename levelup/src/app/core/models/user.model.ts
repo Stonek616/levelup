@@ -14,14 +14,14 @@ export interface UserProfile {
   username: string;
   bio: string | null;
   avatarUrl: string | null;
-  /**   createdAt: string;
-    libraryCount: number;
-    completedCount: number;
-    reviewCount: number;
-    isFriend: boolean;
-    friendRequestStatus: string | null;
-    */
+  createdAt: string;
+  libraryCount: number;
+  completedCount: number;
+  reviewCount: number;
+  isFriend: boolean | null;
+  friendRequestStatus: string | null;
 }
+
 
 export interface UserSummary {
   id: string;
@@ -83,4 +83,24 @@ export interface PrivacySettings {
   libraryVisibility: VisibilityType;
   wishlistVisibility: VisibilityType;
   reviewsVisibility: VisibilityType;
+}
+
+export interface FriendshipEntry {
+  id: string;
+  username: string;
+  avatarUrl: string | null;
+  bio: string | null;
+  friendSince: string;
+}
+
+export interface FriendRequest {
+  id: string;
+  requester: UserSummary;
+  createdAt: string;
+}
+
+export interface FriendRequestAction {
+  id: string;
+  status: string;
+  updatedAt: string;
 }

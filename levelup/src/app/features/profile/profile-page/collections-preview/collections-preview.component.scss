@@ -1,0 +1,114 @@
+.collections-preview {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__new-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: var(--text-primary);
+
+    &:hover { background: var(--surface); }
+  }
+
+  &__empty {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  &__input, &__select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+  }
+
+  &__submit {
+    padding: 0.4rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+    &:not(:disabled):hover { opacity: 0.9; }
+  }
+}
+
+.collection-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text-primary);
+
+  &:last-child { border-bottom: none; }
+  &:hover .collection-card__name { color: var(--accent); }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__count {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+}
+
+.cover-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 28px);
+  grid-template-rows: repeat(2, 28px);
+  gap: 2px;
+  flex-shrink: 0;
+
+  &__img {
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
+  &__placeholder {
+    width: 28px;
+    height: 28px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+}

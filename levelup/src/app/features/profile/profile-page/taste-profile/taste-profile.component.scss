@@ -1,0 +1,75 @@
+.taste-profile {
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+
+  &__rating {
+    color: #9ca3af;
+    margin: 0 0 20px;
+  }
+
+  &__section {
+    margin-bottom: 24px;
+  }
+
+  &__section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    margin: 0 0 12px;
+  }
+
+  &__genre-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  &__genre-name {
+    width: 120px;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  &__bar-track {
+    flex: 1;
+    height: 8px;
+    background: #374151;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    background: #6366f1;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  &__genre-pct {
+    width: 36px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__chip {
+    padding: 4px 12px;
+    background: #33e1d2;
+    border: 3px solid #121121;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+  }
+}

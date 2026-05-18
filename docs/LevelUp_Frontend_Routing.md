@@ -166,22 +166,26 @@ Guards in `canActivate` arrays execute left to right. The order on protected rou
 
 This is the single canonical profile route — it serves all users (self, friend, stranger, logged-out visitor) and renders in three conditional layers:
 
-**Layer 1 — Always visible (public)**
+##### **Layer 1 — Always visible (public)**
+
 - Bio, avatar, public stats (libraryCount, completedCount, reviewCount)
 - Public reviews, public collections
 - Taste profile
 
-**Layer 2 — Authenticated only**
+##### **Layer 2 — Authenticated only**
+
 - Friendship status badge
 - Add Friend / Request Pending / Friends button
 - Compatibility score (when authenticated and friendship is confirmed)
 
-**Layer 3 — Friends only**
+##### **Layer 3 — Friends only**
+
 - "Their Library" tab — renders `FriendLibraryComponent` only when `isFriend === true`; calls `GET /api/v1/users/:username/library` which respects the friend's privacy settings
 - "Games We Both Own" CTA — opens `SharedGamesComponent`; calls `GET /api/v1/library/shared/:username`
 - The user stays on `/profile/:username` while browsing the friend's library — no navigation to a separate route
 
-**Self-view behaviour**
+##### **Self-view behaviour**
+
 - When `username` matches the current user, the Add Friend button is hidden and the library link points to `/library`
 
 The component calls `GET /api/v1/users/:username` first. That response includes `isFriend` and `friendRequestStatus`. The friend library and shared games calls are made conditionally based on that response.

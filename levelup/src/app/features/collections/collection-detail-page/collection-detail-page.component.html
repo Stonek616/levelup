@@ -1,0 +1,90 @@
+@if (loading()) {
+  <p class="detail-page__state">Loading…</p>
+} @else if (error()) {
+  <p class="detail-page__state detail-page__state--error">{{ error() }}</p>
+} @else if (collection()) {
+  <div class="detail-page">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+
+    <div class="detail-page__header">
+      <div class="detail-page__meta">
+        <a class="detail-page__owner" [routerLink]="['/profile', collection()!.ownerUsername]">
+          {{ collection()!.ownerUsername }}
+        </a>
+        <h1 class="detail-page__title">{{ collection()!.name }}</h1>
+        @if (collection()!.description) {
+          <p class="detail-page__description">{{ collection()!.description }}</p>
+        }
+        <span class="detail-page__visibility">{{ collection()!.visibility | lowercase }}</span>
+      </div>
+
+      @if (isOwner()) {
+        <div class="detail-page__actions">
+          <button class="btn btn--secondary" (click)="toggleEdit()">
+            {{ showEditForm() ? 'Cancel' : 'Edit' }}
+          </button>
+          <button class="btn btn--danger" (click)="deleteCollection()">Delete</button>
+        </div>
+      }
+    </div>
+
+    @if (showEditForm()) {
+      <div class="edit-form">
+        <input
+          class="edit-form__input"
+          type="text"
+          [value]="editName()"
+          (input)="editName.set($any($event.target).value)"
+          maxlength="100"
+          placeholder="Collection name"
+        />
+        <select
+          class="edit-form__select"
+          [value]="editVisibility()"
+          (change)="editVisibility.set($any($event.target).value)"
+        >
+          <option value="PUBLIC">Public</option>
+          <option value="FRIENDS">Friends only</option>
+          <option value="PRIVATE">Private</option>
+        </select>
+        <button class="btn btn--primary" (click)="saveEdit()" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save' }}
+        </button>
+      </div>
+    }
+
+    @if (isOwner()) {
+      <div class="detail-page__add">
+        <button class="btn btn--secondary" (click)="toggleAddGame()">
+          {{ showAddGame() ? 'Cancel' : '+ Add game' }}
+        </button>
+        @if (showAddGame()) {
+          <app-game-search-input (gameSelected)="onGameSelected($event)" />
+        }
+      </div>
+    }
+
+    @if (collection()!.games.length === 0) {
+      <p class="detail-page__empty">No games yet.</p>
+    } @else {
+      <div class="game-grid">
+        @for (game of collection()!.games; track game.id) {
+          <div class="game-tile">
+            <a [routerLink]="['/game', game.id]">
+              @if (coverUrl(game.coverImageId)) {
+                <img class="game-tile__cover" [src]="coverUrl(game.coverImageId)" [alt]="game.title" />
+              } @else {
+                <div class="game-tile__cover game-tile__cover--empty"></div>
+              }
+            </a>
+            <p class="game-tile__title">{{ game.title }}</p>
+            @if (isOwner()) {
+              <button class="game-tile__remove" (click)="removeGame(game.id, game.title)">Remove</button>
+            }
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+}

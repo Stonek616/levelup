@@ -1,0 +1,20 @@
+@if (loading()) {
+  <p class="feed__state">Loading feed...</p>
+} @else if (events().length === 0) {
+  <div class="feed__empty">
+    <p>No activity yet.</p>
+    <p class="feed__empty-hint">Add friends and start tracking games to see their activity here.</p>
+  </div>
+} @else {
+  <div class="feed__list">
+    @for (event of events(); track event.id) {
+      <app-feed-item [event]="event" />
+    }
+  </div>
+
+  @if (hasMore()) {
+    <button class="feed__load-more" (click)="loadMore()" [disabled]="loadingMore()">
+      {{ loadingMore() ? 'Loading...' : 'Load more' }}
+    </button>
+  }
+}

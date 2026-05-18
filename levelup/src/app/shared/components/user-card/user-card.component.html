@@ -1,0 +1,26 @@
+<div class="user-card">
+  <a class="user-card__info" [routerLink]="['/profile', user.username]">
+    <app-avatar [avatarUrl]="user.avatarUrl" [username]="user.username" size="md" />
+    <span class="user-card__username">{{ user.username }}</span>
+  </a>
+
+  <div class="user-card__actions">
+    @if (isFriend()) {
+      <button class="user-card__btn user-card__btn--remove"
+              [disabled]="loading()"
+              (click)="remove()">
+        Remove
+      </button>
+    } @else if (requestStatus() === 'PENDING') {
+      <button class="user-card__btn user-card__btn--pending" disabled>
+        Request Sent
+      </button>
+    } @else {
+      <button class="user-card__btn user-card__btn--add"
+              [disabled]="loading()"
+              (click)="sendRequest()">
+        Add Friend
+      </button>
+    }
+  </div>
+</div>

@@ -1,0 +1,63 @@
+.landing {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 5rem 1rem 4rem;
+}
+
+.hero__title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+.hero__subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 auto 2rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero__cta {
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+
+  &--primary {
+    background: var(--accent);
+    color: #fff;
+
+    &:hover { opacity: 0.9; }
+  }
+
+  &--secondary {
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+
+    &:hover { background: var(--surface); }
+  }
+}
+
+.trending-section {
+  margin-top: 3rem;
+}
+
+.trending-section__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+}

@@ -1,0 +1,23 @@
+<div class="game-actions">
+  @if (!loading()) {
+    <app-status-picker
+      [status]="entry()?.status ?? null"
+      (statusChange)="onStatusSelected($event)" />
+
+    @if (entry()) {
+      <app-owned-toggle
+        [isOwned]="entry()!.isOwned"
+        [ownedPlatforms]="entry()!.platforms"
+        [availablePlatforms]="gamePlatforms"
+        (ownedChange)="onOwnedChanged($event)" />
+
+      <app-rating-stars
+        [rating]="entry()!.rating"
+        (ratingChange)="onRatingChanged($event)" />
+
+      <button class="game-actions__remove" (click)="removeFromLibrary()">
+        Remove from library
+      </button>
+    }
+  }
+</div>

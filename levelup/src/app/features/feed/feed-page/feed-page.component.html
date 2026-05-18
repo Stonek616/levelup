@@ -1,1 +1,57 @@
-<p>feed-page works!</p>
+<div class="feed-page">
+  <div class="feed-page__tabs">
+    <button class="feed-page__tab"
+            [class.feed-page__tab--active]="activeTab() === 'friends'"
+            (click)="setTab('friends')">
+      Friends
+    </button>
+    <button class="feed-page__tab"
+            [class.feed-page__tab--active]="activeTab() === 'trending'"
+            (click)="setTab('trending')">
+      Trending
+    </button>
+    <button class="feed-page__tab"
+            [class.feed-page__tab--active]="activeTab() === 'for-you'"
+            (click)="setTab('for-you')">
+      For You
+    </button>
+    <button class="feed-page__tab"
+            [class.feed-page__tab--active]="activeTab() === 'similar'"
+            (click)="setTab('similar')">
+      Similar
+    </button>
+    <button class="feed-page__tab"
+            [class.feed-page__tab--active]="activeTab() === 'new-notable'"
+            (click)="setTab('new-notable')">
+      New &amp; Notable
+    </button>
+  </div>
+
+  <div class="feed-page__content">
+    @defer (when activeTab() === 'friends') {
+      @if (activeTab() === 'friends') {
+        <app-friends-feed />
+      }
+    }
+    @defer (when activeTab() === 'trending') {
+      @if (activeTab() === 'trending') {
+        <app-trending-feed />
+      }
+    }
+    @defer (when activeTab() === 'for-you') {
+      @if (activeTab() === 'for-you') {
+        <app-for-you-feed />
+      }
+    }
+    @defer (when activeTab() === 'similar') {
+      @if (activeTab() === 'similar') {
+        <app-similar-feed />
+      }
+    }
+    @defer (when activeTab() === 'new-notable') {
+      @if (activeTab() === 'new-notable') {
+        <app-new-notable-feed />
+      }
+    }
+  </div>
+</div>

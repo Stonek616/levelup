@@ -11,14 +11,6 @@ public final class SlugUtil {
 
     private SlugUtil() {}
 
-    /**
-     * Converts a display name into a URL-safe slug.
-     * Examples:
-     *   "Role-playing (RPG)" -> "role-playing-rpg"
-     *   "Action"             -> "action"
-     *   "4X"                 -> "4x"
-     *   "Sci-Fi / Future"    -> "sci-fi-future"
-     */
     public static String slugify(String input) {
         if (input == null || input.isBlank()) {
             return "";
@@ -28,7 +20,6 @@ public final class SlugUtil {
         String lower = normalized.toLowerCase();
         String collapsed = WHITESPACE_AND_DASHES.matcher(lower).replaceAll("-");
         String stripped = NON_LATIN.matcher(collapsed).replaceAll("");
-        String trimmed = LEADING_TRAILING_DASHES.matcher(stripped).replaceAll("");
-        return trimmed;
+        return LEADING_TRAILING_DASHES.matcher(stripped).replaceAll("");
     }
 }

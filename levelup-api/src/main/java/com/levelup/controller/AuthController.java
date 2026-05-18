@@ -54,28 +54,37 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
-            @CookieValue("refreshToken") String refreshToken,
+            @CookieValue(value = "refreshToken", required = false) String refreshToken,
             HttpServletResponse response) {
-        authService.logout(refreshToken);
+        if (refreshToken != null) {
+            authService.logout(refreshToken);
+        }
         Cookie cookie = new Cookie("refreshToken", null);
         cookie.setHttpOnly(true);
         cookie.setPath("/api/v1/auth");
-        cookie.setMaxAge(0); // Expire immediately
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refresh(
-            @CookieValue("refreshToken") String refreshToken,
+            @CookieValue(value = "refreshToken", required = false) String refreshToken,
             HttpServletResponse response) {
-        AuthResponse result = authService.refresh(refreshToken);
-        Cookie cookie = new Cookie("refreshToken", result.getRefreshToken());
-        cookie.setHttpOnly(true);
-        cookie.setPath("/api/v1/auth");
-        cookie.setMaxAge(14 * 24 * 60 * 60); // 14 days
-        response.addCookie(cookie);
-        return ResponseEntity.ok(result);
+        if (refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            AuthResponse result = authService.refresh(refreshToken);
+            Cookie cookie = new Cookie("refreshToken", result.getRefreshToken());
+            cookie.setHttpOnly(true);
+            cookie.setPath("/api/v1/auth");
+            cookie.setMaxAge(14 * 24 * 60 * 60);
+            response.addCookie(cookie);
+            return ResponseEntity.ok(result);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @PostMapping("/forgot-password")

@@ -1,0 +1,28 @@
+<div class="rating" [class.rating--readonly]="readonly">
+  @for (n of ratings; track n) {
+    <button
+      type="button"
+      class="rating__heart"
+      [class.rating__heart--active]="activeRating !== null && n <= activeRating"
+      [disabled]="readonly"
+      (click)="setRating(n)"
+      (mouseenter)="setHovered(n)"
+      (mouseleave)="setHovered(null)"
+      [attr.aria-label]="n + ' out of 10'">
+      <svg class="heart-icon" viewBox="0 0 9 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="0" width="3" height="1"/>
+        <rect x="5" y="0" width="3" height="1"/>
+        <rect x="0" y="1" width="9" height="3"/>
+        <rect x="1" y="4" width="7" height="1"/>
+        <rect x="2" y="5" width="5" height="1"/>
+        <rect x="3" y="6" width="3" height="1"/>
+        <rect x="4" y="7" width="1" height="1"/>
+      </svg>
+    </button>
+  }
+  @if (rating !== null) {
+    <span class="rating__label">{{ rating }}/10</span>
+  } @else {
+    <span class="rating__label rating__label--empty">Rate</span>
+  }
+</div>

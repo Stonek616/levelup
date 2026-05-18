@@ -1,14 +1,4 @@
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { CanActivateFn } from '@angular/router';
 
-
-export const onboardingGuard: CanActivateFn = (route, state) => {
-  const userService = inject(UserService);
-  const router = inject(Router);
-  if (!userService.currentUser()?.onboardingCompleted) {
-    return router.parseUrl('/onboarding');
-  }
-  return true;
-
-};
+// Stub until Phase 12 — onboarding flow not yet built
+export const onboardingGuard: CanActivateFn = () => true;

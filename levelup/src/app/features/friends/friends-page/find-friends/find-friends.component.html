@@ -1,0 +1,18 @@
+<div class="find-friends">
+  <input class="find-friends__input"
+         type="text"
+         placeholder="Search by username..."
+         [formControl]="searchControl" />
+
+  @if (loading()) {
+    <p class="find-friends__status">Searching...</p>
+  } @else if (searched() && results().length === 0) {
+    <p class="find-friends__status">No users found.</p>
+  } @else {
+    <div class="find-friends__results">
+      @for (user of results(); track user.id) {
+        <app-user-card [user]="user" />
+      }
+    </div>
+  }
+</div>

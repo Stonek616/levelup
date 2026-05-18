@@ -1,0 +1,119 @@
+.review-card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__author {
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  &__game-label {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  &__game {
+    color: #6366f1;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  &__rating {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f59e0b;
+    flex-shrink: 0;
+  }
+
+  &__rating-max {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    font-weight: 400;
+  }
+
+  &__body {
+    margin: 0;
+    line-height: 1.6;
+    color: #d1d5db;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 8px;
+    border-top: 1px solid #374151;
+  }
+
+  &__like-btn {
+    background: none;
+    border: 1px solid #374151;
+    border-radius: 9999px;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px 12px;
+    font-size: 0.875rem;
+    transition: all 0.15s;
+
+    &:hover:not(:disabled) {
+      border-color: #ec4899;
+      color: #ec4899;
+    }
+
+    &--liked {
+      border-color: #ec4899;
+      color: #ec4899;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+  }
+
+  &__comments {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  &__date {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-left: auto;
+  }
+
+  &__link {
+    font-size: 0.875rem;
+    color: #6366f1;
+    text-decoration: none;
+    flex-shrink: 0;
+
+    &:hover { text-decoration: underline; }
+  }
+}

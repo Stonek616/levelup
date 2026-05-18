@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject } from 'rxjs';
-import { debounceTime, switchMap, tap } from 'rxjs';
+import { Subject, of } from 'rxjs';
+import { catchError, debounceTime, switchMap, tap } from 'rxjs';
 import { GameService } from '../../../core/services/game.service';
 import { GameSummary } from '../../../core/models/game.model';
 
@@ -27,7 +27,9 @@ export class GameSearchInputComponent implements OnInit {
     this.searchSubject.pipe(
       debounceTime(300),
       tap(() => this.loading.set(true)),
-      switchMap(query => this.gameService.searchGames(query)),
+      switchMap(query => this.gameService.searchGames(query).pipe(
+        catchError(() => of([]))
+      )),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       next: results => {

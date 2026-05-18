@@ -1,0 +1,52 @@
+<div class="profile-header">
+  <app-avatar
+    [avatarUrl]="profile.avatarUrl"
+    [username]="profile.username"
+    size="lg"
+  />
+
+  <div class="profile-header__info">
+    <h1 class="profile-header__username">{{ profile.username }}</h1>
+
+    @if (profile.bio) {
+      <p class="profile-header__bio">{{ profile.bio }}</p>
+    }
+
+    <div class="profile-header__stats">
+      <div class="profile-header__stat">
+        <span class="profile-header__stat-value">{{ profile.libraryCount }}</span>
+        <span class="profile-header__stat-label">In Library</span>
+      </div>
+      <div class="profile-header__stat">
+        <span class="profile-header__stat-value">{{ profile.completedCount }}</span>
+        <span class="profile-header__stat-label">Completed</span>
+      </div>
+      <div class="profile-header__stat">
+        <span class="profile-header__stat-value">{{ profile.reviewCount }}</span>
+        <span class="profile-header__stat-label">Reviews</span>
+      </div>
+    </div>
+
+    @if (!isOwnProfile()) {
+      <div class="profile-header__actions">
+        @if (isFriend()) {
+          <button class="profile-header__btn profile-header__btn--remove"
+                  [disabled]="loading()"
+                  (click)="remove()">
+            Friends
+          </button>
+        } @else if (requestStatus() === 'PENDING') {
+          <button class="profile-header__btn profile-header__btn--pending" disabled>
+            Request Sent
+          </button>
+        } @else {
+          <button class="profile-header__btn profile-header__btn--add"
+                  [disabled]="loading()"
+                  (click)="sendRequest()">
+            Add Friend
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

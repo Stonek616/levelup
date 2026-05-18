@@ -1,0 +1,55 @@
+<div class="review-comments">
+  <h3 class="review-comments__title">Comments ({{ comments().length }})</h3>
+
+  @if (loading()) {
+    <p class="review-comments__loading">Loading comments...</p>
+  } @else if (comments().length === 0) {
+    <p class="review-comments__empty">No comments yet.</p>
+  } @else {
+    <div class="review-comments__list">
+      @for (comment of comments(); track comment.id) {
+        <div class="review-comments__item">
+          <app-avatar [avatarUrl]="comment.author.avatarUrl" [username]="comment.author.username" size="sm" />
+          <div class="review-comments__content">
+            <div class="review-comments__meta">
+              <a class="review-comments__author" [routerLink]="['/profile', comment.author.username]">
+                {{ comment.author.username }}
+              </a>
+              <span class="review-comments__date">{{ comment.createdAt | date:'mediumDate' }}</span>
+            </div>
+            <p class="review-comments__body">{{ comment.body }}</p>
+            <div class="review-comments__actions">
+              <button
+                class="review-comments__like-btn"
+                [class.review-comments__like-btn--liked]="comment.likedByMe"
+                (click)="toggleLike(comment)"
+                [disabled]="!isLoggedIn"
+              >
+                ♥ {{ comment.likeCount }}
+              </button>
+              @if (comment.author.id === currentUserId()) {
+                <button class="review-comments__delete-btn" (click)="deleteComment(comment.id)">
+                  Delete
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (isLoggedIn) {
+    <form class="review-comments__form" [formGroup]="commentForm" (ngSubmit)="submit()">
+      <textarea
+        class="review-comments__textarea"
+        formControlName="body"
+        placeholder="Add a comment..."
+        rows="3"
+      ></textarea>
+      <button class="review-comments__submit" type="submit" [disabled]="commentForm.invalid || submitting()">
+        {{ submitting() ? 'Posting...' : 'Post Comment' }}
+      </button>
+    </form>
+  }
+</div>

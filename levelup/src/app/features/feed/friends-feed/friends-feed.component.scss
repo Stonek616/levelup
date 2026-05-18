@@ -1,0 +1,37 @@
+.feed__state {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem 0;
+}
+
+.feed__empty {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-secondary);
+}
+
+.feed__empty-hint {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.feed__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.feed__load-more {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  &:hover:not(:disabled) { background: var(--surface); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}

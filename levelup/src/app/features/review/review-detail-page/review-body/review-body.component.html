@@ -1,0 +1,32 @@
+<div class="review-body">
+  <div class="review-body__header">
+    <app-avatar [avatarUrl]="review.author.avatarUrl" [username]="review.author.username" size="md" />
+    <div class="review-body__author-info">
+      <a class="review-body__author" [routerLink]="['/profile', review.author.username]">
+        {{ review.author.username }}
+      </a>
+      <span class="review-body__game">
+        on <a [routerLink]="['/game', review.game.id]">{{ review.game.title }}</a>
+      </span>
+      <span class="review-body__date">{{ review.createdAt | date:'mediumDate' }}</span>
+    </div>
+    @if (review.rating) {
+      <div class="review-body__rating">
+        {{ review.rating }}<span class="review-body__rating-max">/10</span>
+      </div>
+    }
+  </div>
+
+  <p class="review-body__text">{{ review.body }}</p>
+
+  <div class="review-body__actions">
+    <button
+      class="review-body__like-btn"
+      [class.review-body__like-btn--liked]="likedByMe()"
+      (click)="toggleLike()"
+      [disabled]="!isLoggedIn"
+    >
+      ♥ {{ likeCount() }}
+    </button>
+  </div>
+</div>

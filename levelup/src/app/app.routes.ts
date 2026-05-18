@@ -2,12 +2,15 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { onboardingGuard } from './core/guards/onboarding.guard';
-import { LandingPageComponent } from './features/auth/landing-page/landing-page.component';
+
 
 export const routes: Routes = [
   {
     path: '',
-    component: LandingPageComponent,
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./features/auth/landing-page/landing-page.component')
+        .then(m => m.LandingPageComponent),
   },
 
   {
@@ -45,6 +48,56 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     */
+  {
+    path: 'library',
+    loadComponent: () =>
+      import('./features/library/library-page/library-page.component').then(
+        (m) => m.LibraryPageComponent,
+      ),
+    canActivate: [authGuard, onboardingGuard],
+  },
+  {
+    path: 'game/:id',
+    loadComponent: () =>
+      import('./features/library/game-detail-page/game-detail-page.component').then(
+        (m) => m.GameDetailPageComponent,
+      )
+  },
+  {
+    path: 'profile/:username',
+    loadComponent: () =>
+      import('./features/profile/profile-page/profile-page.component')
+        .then(m => m.ProfilePageComponent)
+  },
+  {
+    path: 'reviews/:id',
+    loadComponent: () =>
+      import('./features/review/review-detail-page/review-detail-page.component').then(
+        (m) => m.ReviewDetailPageComponent,
+      )
+  },
+  {
+    path: 'collections/:id',
+    loadComponent: () =>
+      import('./features/collections/collection-detail-page/collection-detail-page.component')
+        .then(m => m.CollectionDetailPageComponent)
+  },
+
+  {
+    path: 'friends',
+    loadComponent: () =>
+      import('./features/friends/friends-page/friends-page.component')
+        .then(m => m.FriendsPageComponent),
+    canActivate: [authGuard, onboardingGuard]
+  },
+
+  {
+    path: 'what-to-play',
+    loadComponent: () =>
+      import('./features/what-to-play/what-to-play-page/what-to-play-page.component')
+        .then(m => m.WhatToPlayPageComponent),
+    canActivate: [authGuard, onboardingGuard]
+  },
 
   {
     path: '**',

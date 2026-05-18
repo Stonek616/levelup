@@ -1,0 +1,8 @@
+<select class="status-picker" (change)="onSelect($event)">
+  <option value="" [selected]="status === null">Add to library...</option>
+  @for (option of options; track option) {
+    <option [value]="option" [selected]="option === status">
+      {{ labels[option] }}
+    </option>
+  }
+</select>

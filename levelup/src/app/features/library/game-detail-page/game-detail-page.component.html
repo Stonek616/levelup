@@ -1,0 +1,48 @@
+@if (loading()) {
+  <div class="game-detail"><p class="game-detail__state">Loading…</p></div>
+} @else if (game()) {
+  <div class="game-detail">
+    <button class="back-btn" (click)="goBack()">← Back</button>
+
+    <div class="game-detail__header">
+      @if (coverUrl) {
+        <img [src]="coverUrl" [alt]="game()!.title" class="game-detail__cover" />
+      }
+      <div class="game-detail__meta">
+        <h1 class="game-detail__title">{{ game()!.title }}</h1>
+
+        @if (game()!.releaseYear) {
+          <p class="game-detail__year">{{ game()!.releaseYear }}</p>
+        }
+
+        @if (game()!.genres.length > 0) {
+          <div class="game-detail__tags">
+            @for (genre of game()!.genres; track genre) {
+              <span class="game-detail__tag">{{ genre }}</span>
+            }
+          </div>
+        }
+
+        @if (game()!.developers.length > 0) {
+          <p class="game-detail__dev">{{"Developers: " + game()!.developers.join(', ') }}</p>
+        }
+
+        @if (authService.isAuthenticated()) {
+          <app-user-game-actions [gameId]="game()!.id" [gamePlatforms]="game()!.platforms" />
+        }
+      </div>
+    </div>
+
+    @if (game()!.summary) {
+      <div class="game-detail__summary-section">
+        <h2 class="game-detail__section-title">About</h2>
+        <p class="game-detail__summary">{{ game()!.summary }}</p>
+      </div>
+    }
+
+    <div class="game-detail__reviews-section">
+      <h2 class="game-detail__section-title">Reviews</h2>
+      <app-game-reviews [gameId]="game()!.id" />
+    </div>
+  </div>
+}

@@ -1,0 +1,13 @@
+<div class="friend-list">
+  @if (loading()) {
+    <p class="friend-list__state">Loading friends...</p>
+  } @else if (friends().length === 0) {
+    <p class="friend-list__state">You haven't added any friends yet.</p>
+  } @else {
+    @for (friend of friends(); track friend.id) {
+      <app-user-card
+        [user]="toUserSummary(friend)"
+        (friendRemoved)="onFriendRemoved($event)" />
+    }
+  }
+</div>

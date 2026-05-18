@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { tap, catchError, of } from 'rxjs';
+import { Observable, tap, catchError, of, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/user.model';
 import { UserService } from './user.service';
@@ -19,6 +19,8 @@ export class AuthService {
 
   private readonly _initialized = signal(false);
   readonly initialized = this._initialized.asReadonly();
+
+  private _refreshInProgress: Observable<AuthResponse | null> | null = null;
 
 
   login(request: LoginRequest) {
@@ -46,8 +48,10 @@ export class AuthService {
   }
 
 
-  refreshSession() {
-    return this.http
+  refreshSession(): Observable<AuthResponse | null> {
+    if (this._refreshInProgress) return this._refreshInProgress;
+
+    this._refreshInProgress = this.http
       .post<AuthResponse>(`${environment.apiUrl}/auth/refresh`, {},
         { withCredentials: true })
       .pipe(
@@ -55,14 +59,19 @@ export class AuthService {
           this._token.set(response.accessToken);
           this.userService.setUser(response.user);
           this._initialized.set(true);
+          this._refreshInProgress = null;
         }),
         catchError(() => {
           this._token.set(null);
           this.userService.clearUser();
           this._initialized.set(true);
+          this._refreshInProgress = null;
           return of(null);
-        })
+        }),
+        shareReplay(1)
       );
+
+    return this._refreshInProgress;
   }
 
   logout() {

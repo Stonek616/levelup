@@ -5,9 +5,11 @@
 
   &__state {
     text-align: center;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     padding: 4rem 0;
   }
+
+  // ── Header ────────────────────────────────────────────────────────────────
 
   &__header {
     display: flex;
@@ -21,24 +23,40 @@
     min-width: 180px;
     aspect-ratio: 3 / 4;
     object-fit: cover;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
   }
 
   &__meta {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.75rem;
     padding-top: 0.25rem;
+    min-width: 0;
   }
 
-  &__title { margin: 0; }
+  &__title {
+    margin: 0;
+    line-height: 1.15;
+  }
 
-  &__year {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
+  // ── Byline (date · developer) ──────────────────────────────────────────────
+
+  &__byline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
     margin: 0;
   }
+
+  &__dot {
+    color: var(--color-border-strong);
+  }
+
+  // ── Genre tags ─────────────────────────────────────────────────────────────
 
   &__tags {
     display: flex;
@@ -49,36 +67,62 @@
   &__tag {
     font-size: 0.75rem;
     padding: 0.2rem 0.6rem;
-    border-radius: 20px;
-    background: var(--accent-muted);
-    color: var(--accent);
+    border-radius: var(--radius-pill);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent);
     font-weight: 500;
   }
 
-  &__dev {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin: 0;
+  // ── Metadata grid (platforms / modes / perspective) ────────────────────────
+
+  &__info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  &__summary-section,
-  &__reviews-section {
+  &__info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  &__info-label {
+    min-width: 84px;
+    padding-top: 0.18rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__info-value {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    padding-top: 0.1rem;
+  }
+
+  // ── Content sections ───────────────────────────────────────────────────────
+
+  &__section {
     margin-top: 2rem;
   }
 
   &__section-title {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
     margin-bottom: 0.75rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  &__summary {
-    color: var(--text-secondary);
+  &__body-text {
+    color: var(--color-text-secondary);
     line-height: 1.8;
     margin: 0;
   }

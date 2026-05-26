@@ -1,4 +1,4 @@
-.detail-page {
+﻿.detail-page {
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1rem 4rem;
@@ -6,9 +6,9 @@
   &__state {
     text-align: center;
     padding: 4rem;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
 
-    &--error { color: var(--error, #ef4444); }
+    &--error { color: var(--color-error); }
   }
 
   &__header {
@@ -21,10 +21,10 @@
 
   &__owner {
     font-size: 0.85rem;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     text-decoration: none;
 
-    &:hover { color: var(--accent); }
+    &:hover { color: var(--color-accent); }
   }
 
   &__title {
@@ -34,7 +34,7 @@
   }
 
   &__description {
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     margin: 0 0 0.5rem;
   }
 
@@ -42,9 +42,9 @@
     display: inline-block;
     font-size: 0.75rem;
     padding: 0.2rem 0.5rem;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
     text-transform: capitalize;
   }
 
@@ -63,7 +63,7 @@
   }
 
   &__empty {
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     padding: 2rem 0;
   }
 }
@@ -79,19 +79,19 @@
     flex: 1;
     min-width: 200px;
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
-    color: var(--text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
     font-size: 0.9rem;
   }
 
   &__select {
     padding: 0.5rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
-    color: var(--text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
     font-size: 0.9rem;
   }
 }
@@ -111,11 +111,11 @@
     width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     display: block;
 
     &--empty {
-      background: var(--border);
+      background: var(--color-border);
     }
   }
 
@@ -133,42 +133,42 @@
   &__remove {
     background: none;
     border: none;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     font-size: 0.75rem;
     cursor: pointer;
     padding: 0;
     text-align: left;
 
-    &:hover { color: var(--error, #ef4444); }
+    &:hover { color: var(--color-error); }
   }
 }
 
 .btn {
   padding: 0.45rem 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   border: none;
 
   &--primary {
-    background: var(--accent);
-    color: #fff;
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
     &:hover { opacity: 0.9; }
     &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 
   &--secondary {
     background: none;
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    &:hover { background: var(--surface); }
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    &:hover { background: var(--color-surface); }
   }
 
   &--danger {
     background: none;
-    border: 1px solid var(--error, #ef4444);
-    color: var(--error, #ef4444);
-    &:hover { background: var(--error, #ef4444); color: #fff; }
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+    &:hover { background: var(--color-error); color: var(--color-text-inverse); }
   }
 }

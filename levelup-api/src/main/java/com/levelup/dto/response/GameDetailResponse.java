@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.UUID;
+import java.time.LocalDate;
 import java.util.List;
 import com.levelup.model.Game;
 import com.levelup.model.Genre;
@@ -18,8 +19,10 @@ import com.levelup.model.Theme;
 public class GameDetailResponse {
     private UUID id;
     private Integer igdbId;
+    private String slug;
     private String title;
     private String coverImageId;
+    private LocalDate firstReleaseDate;
     private Integer releaseYear;
     private String summary;
     private String storyline;
@@ -34,8 +37,10 @@ public class GameDetailResponse {
             return GameDetailResponse.builder()
                     .id(game.getId())
                     .igdbId(game.getIgdbId())
+                    .slug(game.getSlug())
                     .title(game.getTitle())
                     .coverImageId(game.getCoverImageId())
+                    .firstReleaseDate(game.getFirstReleaseDate())
                     .releaseYear(game.getReleaseYear())
                     .summary(game.getSummary())
                     .storyline(game.getStoryline())

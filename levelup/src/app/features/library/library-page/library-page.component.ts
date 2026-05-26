@@ -1,6 +1,7 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { LibraryService } from '../../../core/services/library.service';
 import { LibraryEntry } from '../../../core/models/library-entry.model';
+import { PLATFORM_LABELS } from '../../../core/utils/platform-labels';
 import { LibraryGridComponent } from '../library-grid/library-grid.component';
 import { LibraryToolbarComponent, LibraryFilters } from '../library-toolbar/library-toolbar.component';
 
@@ -17,7 +18,15 @@ export class LibraryPageComponent implements OnInit {
   loading = signal(true);
   totalElements = signal(0);
 
-  private currentFilters: LibraryFilters = { status: null };
+  availablePlatforms = computed(() => {
+    const seen = new Set<string>();
+    this.entries().forEach(e => e.platforms.forEach(p => seen.add(p)));
+    return [...seen].sort((a, b) =>
+      (PLATFORM_LABELS[a] ?? a).localeCompare(PLATFORM_LABELS[b] ?? b)
+    );
+  });
+
+  private currentFilters: LibraryFilters = { status: null, platform: null, ownership: null };
 
   ngOnInit(): void {
     this.loadLibrary();
@@ -32,14 +41,16 @@ export class LibraryPageComponent implements OnInit {
     this.loading.set(true);
     this.libraryService.getLibrary({
       status: this.currentFilters.status ?? undefined,
-      size: 100
+      platform: this.currentFilters.platform ?? undefined,
+      ownership: this.currentFilters.ownership ?? undefined,
+      size: 100,
     }).subscribe({
       next: (response) => {
         this.entries.set(response.content);
         this.totalElements.set(response.totalElements);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 }

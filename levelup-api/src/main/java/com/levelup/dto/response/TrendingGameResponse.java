@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TrendingGameResponse {
     private UUID id;
+    private String slug;
     private String title;
     private String coverImageId;
     private List<String> genres;

@@ -1,0 +1,56 @@
+@if (open) {
+  <div class="report-overlay" (click)="onOverlayClick($event)">
+    <div class="report-dialog" role="dialog" aria-modal="true">
+
+      <div class="report-dialog__header">
+        <h3 class="report-dialog__title">Report content</h3>
+        <button class="report-dialog__close" type="button" (click)="close()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      @if (submitted()) {
+        <div class="report-dialog__success">
+          <div class="report-dialog__success-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="report-dialog__success-title">Report submitted</p>
+          <p class="report-dialog__success-body">Thanks for letting us know. We'll review it shortly.</p>
+          <button class="btn btn--ghost btn--sm" type="button" (click)="close()">Close</button>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <p class="report-dialog__label">Why are you reporting this?</p>
+
+          <div class="report-dialog__reasons">
+            @for (r of reasons; track r.value) {
+              <label class="report-dialog__reason">
+                <input type="radio" formControlName="reason" [value]="r.value" />
+                <span>{{ r.label }}</span>
+              </label>
+            }
+          </div>
+
+          @if (error()) {
+            <p class="report-dialog__error">{{ error() }}</p>
+          }
+
+          <div class="report-dialog__actions">
+            <button class="btn btn--ghost btn--sm" type="button" (click)="close()">Cancel</button>
+            <button class="btn btn--danger btn--sm" type="submit"
+                    [disabled]="form.invalid || submitting()">
+              {{ submitting() ? 'Submitting...' : 'Submit report' }}
+            </button>
+          </div>
+        </form>
+      }
+
+    </div>
+  </div>
+}

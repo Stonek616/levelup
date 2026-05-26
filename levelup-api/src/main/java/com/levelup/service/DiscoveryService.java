@@ -24,35 +24,68 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class DiscoveryService {
 
+    /*
+     * Minimum rating threshold for a game to count as "liked" when sourcing recommendations.
+     * Picked 7 as the cutoff because anything 6 and below typically reflects mixed feelings,
+     * while 7+ usually means the user genuinely enjoyed the game.
+     */
+    private static final int LIKED_THRESHOLD = 7;
+
+    /*
+     * Lower threshold used for the "Similar" feed — gives the user broader recommendations
+     * by sourcing from a wider pool of their library when they don't have many highly-rated games.
+     */
+    private static final int SIMILAR_THRESHOLD = 6;
+
     private final LibraryEntryRepository libraryEntryRepository;
     private final GameRepository gameRepository;
     private final FeedEventRepository feedEventRepository;
 
+    /*
+     * For You — personalised recommendations.
+     * Strategy: use IGDB's similar_game_ids field, treating each of the user's
+     * highly-rated games as a source for similar candidates. Games that appear
+     * as "similar to" multiple liked games rank highest.
+     *
+     * Fallback: if the user has no rated games yet, recommend by theme overlap
+     * with their library (regardless of rating).
+     */
     public Page<DiscoveryGameResponse> getForYou(UUID userId, Pageable pageable) {
-        List<String> topGenres = libraryEntryRepository.findGenreCountsByUserId(userId)
-                .stream()
-                .limit(5)
-                .map(row -> (String) row[0])
-                .toList();
+        Page<UUID> idPage;
 
-        if (topGenres.isEmpty()) return Page.empty(pageable);
+        if (gameRepository.userHasRatedGames(userId, LIKED_THRESHOLD)) {
+            idPage = gameRepository.findRecommendedGameIds(userId, LIKED_THRESHOLD, null, pageable);
+        } else {
+            // Cold-start path: theme overlap based on whatever's in their library
+            idPage = gameRepository.findThemeBasedRecommendations(userId, null, pageable);
+        }
 
-        Pageable unsorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-        Page<UUID> idPage = gameRepository.findForYouGameIds(userId, topGenres, unsorted);
         return buildPage(idPage, pageable);
     }
 
+    /*
+     * Similar — broader version of For You. Same underlying algorithm but uses
+     * a more permissive rating threshold to include games the user merely liked.
+     */
     public Page<DiscoveryGameResponse> getSimilar(UUID userId, Pageable pageable) {
-        Pageable unsorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-        Page<UUID> idPage = gameRepository.findSimilarGameIds(userId, 7, unsorted);
-        if (idPage.isEmpty()) return Page.empty(pageable);
+        Page<UUID> idPage;
+
+        if (gameRepository.userHasRatedGames(userId, SIMILAR_THRESHOLD)) {
+            idPage = gameRepository.findRecommendedGameIds(userId, SIMILAR_THRESHOLD, null, pageable);
+        } else {
+            idPage = gameRepository.findThemeBasedRecommendations(userId, null, pageable);
+        }
+
         return buildPage(idPage, pageable);
     }
 
+    /*
+     * New & Notable — kept from previous version. Surfaces games released recently
+     * that have generated activity on the platform.
+     */
     public Page<DiscoveryGameResponse> getNewAndNotable(Pageable pageable) {
         int sinceYear = LocalDate.now().getYear() - 2;
-        Pageable unsorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-        Page<Object[]> countPage = feedEventRepository.findNewAndNotableWithCounts(sinceYear, unsorted);
+        Page<Object[]> countPage = feedEventRepository.findNewAndNotableWithCounts(sinceYear, pageable);
 
         if (countPage.isEmpty()) return Page.empty(pageable);
 
@@ -60,31 +93,26 @@ public class DiscoveryService {
                 .map(row -> (UUID) row[0])
                 .toList();
 
-        Map<UUID, Game> gamesById = gameRepository.findByIdInWithGenres(gameIds)
-                .stream()
-                .collect(Collectors.toMap(Game::getId, g -> g));
-
-        List<DiscoveryGameResponse> results = gameIds.stream()
-                .filter(gamesById::containsKey)
-                .map(id -> DiscoveryGameResponse.from(gamesById.get(id)))
-                .toList();
-
-        return new PageImpl<>(results, pageable, countPage.getTotalElements());
+        return buildResponsePage(gameIds, countPage.getTotalElements(), pageable);
     }
 
     private Page<DiscoveryGameResponse> buildPage(Page<UUID> idPage, Pageable pageable) {
-        List<UUID> ids = idPage.getContent();
+        if (idPage.isEmpty()) return Page.empty(pageable);
+        return buildResponsePage(idPage.getContent(), idPage.getTotalElements(), pageable);
+    }
+
+    private Page<DiscoveryGameResponse> buildResponsePage(List<UUID> ids, long total, Pageable pageable) {
         if (ids.isEmpty()) return Page.empty(pageable);
 
-        Map<UUID, Game> gamesById = gameRepository.findByIdInWithGenres(ids)
-                .stream()
+        Map<UUID, Game> gamesById = gameRepository.findByIdInWithGenres(ids).stream()
                 .collect(Collectors.toMap(Game::getId, g -> g));
 
+        // Preserve the ID ordering from the recommendation query — that's the ranking
         List<DiscoveryGameResponse> results = ids.stream()
                 .filter(gamesById::containsKey)
                 .map(id -> DiscoveryGameResponse.from(gamesById.get(id)))
                 .toList();
 
-        return new PageImpl<>(results, pageable, idPage.getTotalElements());
+        return new PageImpl<>(results, pageable, total);
     }
 }

@@ -8,6 +8,8 @@ import { ProfileHeaderComponent } from './profile-header/profile-header.componen
 import { TasteProfileComponent } from './taste-profile/taste-profile.component';
 import { RecentActivityComponent } from './recent-activity/recent-activity.component';
 import { CollectionsPreviewComponent } from './collections-preview/collections-preview.component';
+import { ChallengeHistoryComponent } from './challenge-history/challenge-history.component';
+import { GamingAccountsComponent } from './gaming-accounts/gaming-accounts.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,7 +17,9 @@ import { CollectionsPreviewComponent } from './collections-preview/collections-p
     ProfileHeaderComponent,
     TasteProfileComponent,
     RecentActivityComponent,
-    CollectionsPreviewComponent
+    CollectionsPreviewComponent,
+    ChallengeHistoryComponent,
+    GamingAccountsComponent,
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'

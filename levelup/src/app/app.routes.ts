@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { onboardingGuard } from './core/guards/onboarding.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 
 export const routes: Routes = [
@@ -32,6 +33,24 @@ export const routes: Routes = [
   },
 
   {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./features/auth/forgot-password-page/forgot-password-page.component').then(
+        (m) => m.ForgotPasswordPageComponent,
+      ),
+    canActivate: [guestGuard],
+  },
+
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password-page/reset-password-page.component').then(
+        (m) => m.ResetPasswordPageComponent,
+      ),
+    canActivate: [guestGuard],
+  },
+
+  {
     path: 'feed',
     loadComponent: () =>
       import('./features/feed/feed-page/feed-page.component').then(
@@ -40,14 +59,6 @@ export const routes: Routes = [
     canActivate: [authGuard, onboardingGuard],
   },
 
-  /*
-    {
-        path: 'onboarding',
-        loadComponent: () => import('./features/onboarding/onboarding.component')
-            .then(m => m.OnboardingComponent),
-        canActivate: [authGuard]
-    },
-    */
   {
     path: 'library',
     loadComponent: () =>
@@ -57,7 +68,7 @@ export const routes: Routes = [
     canActivate: [authGuard, onboardingGuard],
   },
   {
-    path: 'game/:id',
+    path: 'game/:slug',
     loadComponent: () =>
       import('./features/library/game-detail-page/game-detail-page.component').then(
         (m) => m.GameDetailPageComponent,
@@ -68,6 +79,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/profile/profile-page/profile-page.component')
         .then(m => m.ProfilePageComponent)
+  },
+  {
+    path: 'profile/:username/library',
+    loadComponent: () =>
+      import('./features/profile/user-library-page/user-library-page.component')
+        .then(m => m.UserLibraryPageComponent)
   },
   {
     path: 'reviews/:id',
@@ -100,7 +117,48 @@ export const routes: Routes = [
   },
 
   {
+    path: 'challenge',
+    loadComponent: () =>
+      import('./features/challenge/challenge-page/challenge-page.component')
+        .then(m => m.ChallengePageComponent),
+    canActivate: [authGuard, onboardingGuard]
+  },
+
+  {
+    path: 'onboarding',
+    loadComponent: () =>
+      import('./features/onboarding/onboarding-page/onboarding-page.component')
+        .then(m => m.OnboardingPageComponent),
+    canActivate: [authGuard]
+  },
+
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./features/settings/settings-page/settings-page.component')
+        .then(m => m.SettingsPageComponent),
+    canActivate: [authGuard, onboardingGuard]
+  },
+
+  {
+    path: 'admin/reports',
+    loadComponent: () =>
+      import('./features/admin/admin-reports-page/admin-reports-page.component')
+        .then(m => m.AdminReportsPageComponent),
+    canActivate: [authGuard, adminGuard]
+  },
+
+  {
+    path: 'not-found',
+    loadComponent: () =>
+      import('./features/not-found/not-found-page/not-found-page.component')
+        .then(m => m.NotFoundPageComponent)
+  },
+
+  {
     path: '**',
-    redirectTo: '',
+    loadComponent: () =>
+      import('./features/not-found/not-found-page/not-found-page.component')
+        .then(m => m.NotFoundPageComponent)
   },
 ];

@@ -82,6 +82,14 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  forgotPassword(email: string) {
+    return this.http.post<void>(`${environment.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post<void>(`${environment.apiUrl}/auth/reset-password`, { token, newPassword });
+  }
+
   getToken(): string | null {
     return this._token();
   }

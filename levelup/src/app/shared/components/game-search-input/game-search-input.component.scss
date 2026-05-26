@@ -1,4 +1,4 @@
-.search-container {
+﻿.search-container {
   position: relative;
   width: 100%;
 
@@ -7,17 +7,17 @@
     height: 34px;
     padding: 0 0.75rem;
     font-size: 0.875rem;
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text-primary);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text-primary);
     outline: none;
     transition: border-color 0.15s, background 0.15s;
 
-    &::placeholder { color: var(--text-muted); }
+    &::placeholder { color: var(--color-text-muted); }
     &:focus {
-      border-color: var(--accent);
-      background: var(--surface);
+      border-color: var(--color-accent);
+      background: var(--color-surface);
     }
   }
 }
@@ -27,10 +27,10 @@
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: var(--shadow);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   list-style: none;
   overflow: hidden;
   z-index: 200;
@@ -38,21 +38,67 @@
   overflow-y: auto;
 
   li {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border);
     &:last-child { border-bottom: none; }
   }
 
   button {
     width: 100%;
-    text-align: left;
-    padding: 0.6rem 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.45rem 0.75rem;
     background: none;
     border: none;
-    color: var(--text-primary);
-    font-size: 0.875rem;
+    color: var(--color-text-primary);
     cursor: pointer;
     transition: background 0.12s;
 
-    &:hover { background: var(--surface-raised); }
+    &:hover { background: var(--color-surface-raised); }
+  }
+}
+
+.result-cover {
+  flex-shrink: 0;
+  width: 30px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-surface-raised);
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-surface-strong);
+  }
+}
+
+.result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+  text-align: left;
+
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__year {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
   }
 }

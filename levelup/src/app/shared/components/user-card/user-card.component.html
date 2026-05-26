@@ -8,7 +8,7 @@
     @if (isFriend()) {
       <button class="user-card__btn user-card__btn--remove"
               [disabled]="loading()"
-              (click)="remove()">
+              (click)="showRemoveConfirm.set(true)">
         Remove
       </button>
     } @else if (requestStatus() === 'PENDING') {
@@ -24,3 +24,12 @@
     }
   </div>
 </div>
+
+<app-confirm-dialog
+  [open]="showRemoveConfirm()"
+  title="Remove friend?"
+  [message]="'Remove ' + user.username + ' from your friends? You can always send another request later.'"
+  confirmLabel="Remove"
+  cancelLabel="Keep"
+  (confirmed)="remove(); showRemoveConfirm.set(false)"
+  (cancelled)="showRemoveConfirm.set(false)" />

@@ -1,0 +1,40 @@
+<div class="prefs-step">
+  <div class="prefs-step__header">
+    <h1>Welcome to LevelUp</h1>
+    <p>Tell us what you're into so we can personalise your experience.</p>
+  </div>
+
+  <section class="prefs-step__section">
+    <h2>Favourite genres <span class="prefs-step__hint">(pick at least one)</span></h2>
+    <div class="prefs-step__chips">
+      @for (genre of genres; track genre) {
+        <button
+          class="chip"
+          [class.chip--selected]="isGenreSelected(genre)"
+          (click)="toggleGenre(genre)"
+          type="button"
+        >{{ genre }}</button>
+      }
+    </div>
+  </section>
+
+  <section class="prefs-step__section">
+    <h2>Platforms you play on <span class="prefs-step__hint">(pick at least one)</span></h2>
+    <div class="prefs-step__chips">
+      @for (platform of platforms; track platform) {
+        <button
+          class="chip"
+          [class.chip--selected]="isPlatformSelected(platform)"
+          (click)="togglePlatform(platform)"
+          type="button"
+        >{{ platform }}</button>
+      }
+    </div>
+  </section>
+
+  <div class="prefs-step__actions">
+    <button class="btn btn--primary" [disabled]="!canContinue()" (click)="continue()">
+      Continue
+    </button>
+  </div>
+</div>

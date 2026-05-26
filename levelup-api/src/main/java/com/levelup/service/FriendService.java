@@ -125,6 +125,11 @@ public class FriendService {
     }
 
     @Transactional(readOnly = true)
+    public long getFriendCount(UUID userId) {
+        return friendshipRepository.countByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
     public boolean areUsersFriends(UUID userId, UUID otherUserId) {
         return friendshipRepository.existsByUserIdAndFriendId(userId, otherUserId);
     }

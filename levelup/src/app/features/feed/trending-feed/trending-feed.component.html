@@ -8,7 +8,7 @@
 } @else {
   <div class="trending__grid">
     @for (game of games(); track game.id) {
-      <a [routerLink]="['/game', game.id]" class="trending-card">
+      <a [routerLink]="['/game', game.slug]" class="trending-card">
         <div class="trending-card__cover">
           @if (coverUrl(game)) {
             <img [src]="coverUrl(game)" [alt]="game.title" class="trending-card__img" />

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.UUID;
 import com.levelup.model.User;
+import com.levelup.model.enums.UserRole;
+import com.levelup.model.enums.VisibilityType;
 
 @Data
 @Builder
@@ -20,19 +22,25 @@ public class UserResponse {
     private String bio;
     private String avatarUrl;
     private boolean onboardingCompleted;
+    private UserRole role;
     private Instant createdAt;
     private long libraryCount;
     private long completedCount;
     private long reviewCount;
+    private long friendCount;
     private Boolean isFriend;
     private String friendRequestStatus;
+    private VisibilityType libraryVisibility;
+    private VisibilityType wishlistVisibility;
+    private VisibilityType reviewsVisibility;
 
-    public static UserResponse from(User user, long libraryCount, long completedCount, long reviewCount) {
-        return from(user, libraryCount, completedCount, reviewCount, null, null);
+    public static UserResponse from(User user, long libraryCount, long completedCount, long reviewCount,
+                                    long friendCount) {
+        return from(user, libraryCount, completedCount, reviewCount, friendCount, null, null);
     }
 
     public static UserResponse from(User user, long libraryCount, long completedCount, long reviewCount,
-                                    Boolean isFriend, String friendRequestStatus) {
+                                    long friendCount, Boolean isFriend, String friendRequestStatus) {
         return UserResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -40,12 +48,17 @@ public class UserResponse {
                 .bio(user.getBio())
                 .avatarUrl(user.getAvatarUrl())
                 .onboardingCompleted(user.isOnboardingCompleted())
+                .role(user.getRole())
                 .createdAt(user.getCreatedAt())
                 .libraryCount(libraryCount)
                 .completedCount(completedCount)
                 .reviewCount(reviewCount)
+                .friendCount(friendCount)
                 .isFriend(isFriend)
                 .friendRequestStatus(friendRequestStatus)
+                .libraryVisibility(user.getLibraryVisibility())
+                .wishlistVisibility(user.getWishlistVisibility())
+                .reviewsVisibility(user.getReviewsVisibility())
                 .build();
     }
 }

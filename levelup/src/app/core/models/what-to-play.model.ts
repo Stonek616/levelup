@@ -1,6 +1,6 @@
-export type WhatToPlayPlatform = 'PC' | 'PLAYSTATION' | 'XBOX' | 'SWITCH' | 'ANY';
+export type WhatToPlayPlatform = string;
 export type TimeAvailable = 'SHORT' | 'FEW_HOURS' | 'ALL_DAY';
-export type Mood = 'CHILL' | 'STORY' | 'CHALLENGE' | 'SOCIAL' | 'ANYTHING';
+export type Mood = 'FAMILIAR' | 'NEW' | 'SURPRISE';
 export type SuggestionSource = 'BACKLOG' | 'OWNED' | 'ALREADY_PLAYED' | 'NEW_SUGGESTION';
 
 export interface WhatToPlayRequest {
@@ -14,6 +14,7 @@ export interface WhatToPlayRequest {
 
 export interface SuggestionGame {
   id: string;
+  slug: string;
   title: string;
   coverUrl: string | null;
   genres: string[];

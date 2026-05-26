@@ -2,8 +2,10 @@ import { LibraryStatus } from "./enums";
 export interface Game {
     id: string;
     igdbId: number;
+    slug: string;
     title: string;
     coverImageId: string | null;
+    firstReleaseDate: string | null;
     releaseYear: number | null;
     summary: string | null;
     storyline: string | null;
@@ -20,6 +22,7 @@ export interface Game {
 export interface GameSummary {
     id: string;
     igdbId: number;
+    slug: string;
     title: string;
     coverImageId: string | null;
     releaseYear: number | null;
@@ -27,6 +30,7 @@ export interface GameSummary {
 }
 
 export interface GameDetail extends GameSummary {
+    firstReleaseDate: string | null;
     summary: string | null;
     storyline: string | null;
     playerPerspectives: string[];

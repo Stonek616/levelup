@@ -1,8 +1,27 @@
-<select class="status-picker" (change)="onSelect($event)">
-  <option value="" [selected]="status === null">Add to library...</option>
-  @for (option of options; track option) {
-    <option [value]="option" [selected]="option === status">
-      {{ labels[option] }}
-    </option>
+<div class="status-picker" [class.status-picker--open]="isOpen()">
+  <button class="status-picker__trigger" (click)="toggle()" type="button">
+    <span>{{ currentLabel }}</span>
+    <svg class="status-picker__chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  @if (isOpen()) {
+    <ul class="status-picker__dropdown" role="listbox">
+      <li class="status-picker__option"
+          [class.status-picker__option--active]="status === null"
+          (click)="selectNull()"
+          role="option">
+        Add to library…
+      </li>
+      @for (option of options; track option) {
+        <li class="status-picker__option"
+            [class.status-picker__option--active]="option === status"
+            (click)="select(option)"
+            role="option">
+          {{ labels[option] }}
+        </li>
+      }
+    </ul>
   }
-</select>
+</div>

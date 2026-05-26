@@ -16,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DiscoveryGameResponse {
     private UUID id;
+    private String slug;
     private String title;
     private String coverImageId;
     private Integer releaseYear;
@@ -24,6 +25,7 @@ public class DiscoveryGameResponse {
     public static DiscoveryGameResponse from(Game game) {
         return DiscoveryGameResponse.builder()
                 .id(game.getId())
+                .slug(game.getSlug())
                 .title(game.getTitle())
                 .coverImageId(game.getCoverImageId())
                 .releaseYear(game.getReleaseYear())

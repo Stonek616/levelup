@@ -1,11 +1,22 @@
 <div class="library-page">
-  <h1 class="library-page__title">My Library</h1>
-  <p class="library-page__count">{{ totalElements() }} games</p>
 
-  <app-library-toolbar (filtersChanged)="onFiltersChanged($event)" />
+  <header class="library-page__header">
+    <div>
+      <p class="library-page__eyebrow">LevelUp · Collection</p>
+      <h1 class="library-page__title">The Library</h1>
+    </div>
+    <div class="library-page__count">
+      <span class="library-page__count-number">{{ totalElements() }}</span>
+      <span class="library-page__count-label">Games</span>
+    </div>
+  </header>
+
+  <app-library-toolbar
+    [availablePlatforms]="availablePlatforms()"
+    (filtersChanged)="onFiltersChanged($event)" />
 
   @if (loading()) {
-    <p>Loading...</p>
+    <p class="library-page__loading">Loading...</p>
   } @else {
     <app-library-grid [entries]="entries()" />
   }

@@ -7,10 +7,12 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { UserService } from '../../../../core/services/user.service';
 import { Comment } from '../../../../core/models/review.model';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ReportModalComponent } from '../../../../shared/components/report-modal/report-modal.component';
 
 @Component({
   selector: 'app-review-comments',
-  imports: [ReactiveFormsModule, RouterLink, DatePipe, AvatarComponent],
+  imports: [ReactiveFormsModule, RouterLink, DatePipe, AvatarComponent, ConfirmDialogComponent, ReportModalComponent],
   templateUrl: './review-comments.component.html',
   styleUrl: './review-comments.component.scss'
 })
@@ -24,6 +26,8 @@ export class ReviewCommentsComponent implements OnInit {
   comments = signal<Comment[]>([]);
   loading = signal(true);
   submitting = signal(false);
+  reportingCommentId = signal<string | null>(null);
+  deletingCommentId = signal<string | null>(null);
 
   commentForm = new FormGroup({
     body: new FormControl('', [Validators.required])

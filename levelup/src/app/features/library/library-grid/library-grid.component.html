@@ -1,37 +1,14 @@
 @if (entries.length > 0) {
-  <div class="shelving-unit">
-    @for (shelf of shelves; track $index) {
-      <div class="shelf">
-        <div class="shelf__games">
-          @for (entry of shelf; track entry.id) {
-            <a class="shelf-case" [routerLink]="['/game', entry.game.id]">
-              <div class="shelf-case__cover">
-                @if (coverUrl(entry)) {
-                  <img [src]="coverUrl(entry)" [alt]="entry.game.title" class="shelf-case__img" />
-                } @else {
-                  <div class="shelf-case__nocov">
-                    <span class="shelf-case__nocov-text">{{ entry.game.title }}</span>
-                  </div>
-                }
-                <div class="shelf-case__info">
-                  <div class="shelf-case__badges">
-                    <app-status-badge [status]="entry.status" />
-                    @if (entry.rating) {
-                      <span class="shelf-case__rating">★ {{ entry.rating }}/10</span>
-                    }
-                  </div>
-                  <span class="shelf-case__title">{{ entry.game.title }}</span>
-                </div>
-              </div>
-            </a>
-          }
-        </div>
-        <div class="shelf__plank"></div>
+  <div class="library-grid">
+    @for (entry of entries; track entry.id) {
+      <div class="library-grid__case">
+        <app-game-card [card]="toCard(entry)" />
       </div>
     }
   </div>
 } @else {
-  <div class="shelving-unit__empty">
-    <p>No games found. Search for a game to add it to your library.</p>
+  <div class="library-grid__empty">
+    <p class="library-grid__empty-msg">Your library is empty.</p>
+    <p class="library-grid__empty-hint">Search for a game to add it to your collection.</p>
   </div>
 }

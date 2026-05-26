@@ -1,0 +1,33 @@
+<div class="search-step">
+  <div class="search-step__header">
+    <h1>Add some games you've played</h1>
+    <p>This helps us build your taste profile. You can skip this and add games later from your library.</p>
+  </div>
+
+  <app-game-search-input (gameSelected)="onGameSelected($event)" />
+
+  @if (seededGames().length > 0) {
+    <ul class="search-step__selected">
+      @for (game of seededGames(); track game.id) {
+        <li class="search-step__game">
+          @if (coverUrl(game)) {
+            <img [src]="coverUrl(game)" [alt]="game.title" class="search-step__cover" />
+          }
+          <span class="search-step__title">{{ game.title }}</span>
+          <button class="search-step__remove" (click)="removeGame(game.id)" type="button" aria-label="Remove">✕</button>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (error) {
+    <p class="search-step__error">{{ error }}</p>
+  }
+
+  <div class="search-step__actions">
+    <button class="btn btn--ghost" (click)="back.emit()" type="button">Back</button>
+    <button class="btn btn--primary" (click)="finish()" [disabled]="submitting" type="button">
+      {{ submitting ? 'Setting up...' : 'Get started' }}
+    </button>
+  </div>
+</div>

@@ -1,9 +1,46 @@
 <div class="profile-header">
-  <app-avatar
-    [avatarUrl]="profile.avatarUrl"
-    [username]="profile.username"
-    size="lg"
-  />
+  <div class="profile-header__avatar-wrap">
+    @if (isOwnProfile()) {
+      <button
+        class="profile-header__avatar-btn"
+        type="button"
+        [disabled]="uploading()"
+        (click)="fileInput.click()"
+        title="Change avatar">
+        <app-avatar [avatarUrl]="avatarUrl()" [username]="profile.username" size="lg" />
+        <span class="profile-header__avatar-overlay">
+          @if (uploading()) {
+            <span class="profile-header__spinner"></span>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          }
+        </span>
+      </button>
+      <input #fileInput type="file" accept="image/jpeg,image/png,image/webp,image/gif"
+             class="profile-header__file-input"
+             (change)="onFileSelected($event)" />
+      @if (avatarUrl()) {
+        <button class="profile-header__avatar-remove" type="button"
+                [disabled]="uploading()" (click)="removeAvatar()" title="Remove avatar"
+                aria-label="Remove avatar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      }
+      @if (uploadError()) {
+        <p class="profile-header__upload-error">{{ uploadError() }}</p>
+      }
+    } @else {
+      <app-avatar [avatarUrl]="avatarUrl()" [username]="profile.username" size="lg" />
+    }
+  </div>
 
   <div class="profile-header__info">
     <h1 class="profile-header__username">{{ profile.username }}</h1>
@@ -13,10 +50,17 @@
     }
 
     <div class="profile-header__stats">
-      <div class="profile-header__stat">
-        <span class="profile-header__stat-value">{{ profile.libraryCount }}</span>
-        <span class="profile-header__stat-label">In Library</span>
-      </div>
+      @if (canSeeLibrary()) {
+        <a class="profile-header__stat profile-header__stat--link" [routerLink]="libraryLink()">
+          <span class="profile-header__stat-value">{{ profile.libraryCount }}</span>
+          <span class="profile-header__stat-label">In Library</span>
+        </a>
+      } @else {
+        <div class="profile-header__stat">
+          <span class="profile-header__stat-value">{{ profile.libraryCount }}</span>
+          <span class="profile-header__stat-label">In Library</span>
+        </div>
+      }
       <div class="profile-header__stat">
         <span class="profile-header__stat-value">{{ profile.completedCount }}</span>
         <span class="profile-header__stat-label">Completed</span>
@@ -25,6 +69,10 @@
         <span class="profile-header__stat-value">{{ profile.reviewCount }}</span>
         <span class="profile-header__stat-label">Reviews</span>
       </div>
+      <div class="profile-header__stat">
+        <span class="profile-header__stat-value">{{ profile.friendCount ?? 0 }}</span>
+        <span class="profile-header__stat-label">Friends</span>
+      </div>
     </div>
 
     @if (!isOwnProfile()) {
@@ -32,7 +80,7 @@
         @if (isFriend()) {
           <button class="profile-header__btn profile-header__btn--remove"
                   [disabled]="loading()"
-                  (click)="remove()">
+                  (click)="showRemoveFriendConfirm.set(true)">
             Friends
           </button>
         } @else if (requestStatus() === 'PENDING') {
@@ -46,7 +94,26 @@
             Add Friend
           </button>
         }
+        <button class="profile-header__btn profile-header__btn--report"
+                (click)="showReportModal.set(true)">
+          Report
+        </button>
       </div>
     }
   </div>
 </div>
+
+<app-report-modal
+  [open]="showReportModal()"
+  targetType="USER"
+  [targetId]="profile.id"
+  (closed)="showReportModal.set(false)" />
+
+<app-confirm-dialog
+  [open]="showRemoveFriendConfirm()"
+  title="Remove friend?"
+  [message]="'Remove ' + profile.username + ' from your friends? You can always send another request later.'"
+  confirmLabel="Remove"
+  cancelLabel="Keep"
+  (confirmed)="remove(); showRemoveFriendConfirm.set(false)"
+  (cancelled)="showRemoveFriendConfirm.set(false)" />

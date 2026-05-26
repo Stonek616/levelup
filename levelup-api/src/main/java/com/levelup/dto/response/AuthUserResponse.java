@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Builder;
 import java.util.UUID;
 import com.levelup.model.User;
+import com.levelup.model.enums.UserRole;
 
 @Data
 @Builder
@@ -17,6 +18,7 @@ public class AuthUserResponse {
     private String email;
     private String avatarUrl;
     private boolean onboardingCompleted;
+    private UserRole role;
 
     public static AuthUserResponse from(User user) {
         return AuthUserResponse.builder()
@@ -25,6 +27,7 @@ public class AuthUserResponse {
                 .email(user.getEmail())
                 .avatarUrl(user.getAvatarUrl())
                 .onboardingCompleted(user.isOnboardingCompleted())
+                .role(user.getRole())
                 .build();
     }
 }

@@ -1,43 +1,54 @@
-.profile-page {
+﻿.profile-page {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1.25rem 4rem;
 
   &__loading,
   &__error {
     padding: 4rem 0;
     text-align: center;
-    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
-  &__error { color: var(--error); }
+  &__error { color: var(--color-error); }
 
   &__locked {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    padding: 1rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    color: var(--color-text-secondary);
+    font-size: 0.88rem;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-md);
     text-align: center;
+    line-height: 1.5;
+    margin: 0;
   }
 
+  /* Body: two-column grid below the header */
   &__body {
     display: grid;
-    grid-template-columns: 1fr 280px;
+    grid-template-columns: minmax(0, 1fr) 280px;
     gap: 2rem;
-    padding-bottom: 4rem;
+
+    @media (max-width: 880px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__main {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     min-width: 0;
   }
 
   &__side {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 }

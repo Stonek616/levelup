@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../avatar/avatar.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { UserSummary } from '../../../core/models/user.model';
 import { FriendService } from '../../../core/services/friend.service';
 
 @Component({
   selector: 'app-user-card',
-  imports: [RouterLink, AvatarComponent],
+  imports: [RouterLink, AvatarComponent, ConfirmDialogComponent],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss'
 })
@@ -19,6 +20,7 @@ export class UserCardComponent implements OnInit {
   isFriend = signal(false);
   requestStatus = signal<string | null>(null);
   loading = signal(false);
+  showRemoveConfirm = signal(false);
 
   ngOnInit(): void {
     this.isFriend.set(this.user.isFriend ?? false);

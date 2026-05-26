@@ -1,0 +1,20 @@
+<div class="gaming-accounts">
+  <h3 class="gaming-accounts__title">Gaming Accounts</h3>
+
+  @if (loading()) {
+    <p class="gaming-accounts__empty">Loading...</p>
+  } @else if (profiles().length === 0) {
+    <p class="gaming-accounts__empty">No accounts linked.</p>
+  } @else {
+    <ul class="gaming-accounts__list">
+      @for (profile of profiles(); track profile.id) {
+        <li class="gaming-accounts__item">
+          <span class="gaming-accounts__tag" [class]="platformClass(profile.platform)">
+            {{ platformLabel(profile.platform) }}
+          </span>
+          <span class="gaming-accounts__handle">{{ profile.handle }}</span>
+        </li>
+      }
+    </ul>
+  }
+</div>

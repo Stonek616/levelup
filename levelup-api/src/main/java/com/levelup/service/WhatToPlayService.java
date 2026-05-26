@@ -7,9 +7,10 @@ import com.levelup.dto.response.WhatToPlayResponse;
 import com.levelup.model.Game;
 import com.levelup.model.Genre;
 import com.levelup.model.LibraryEntry;
+import com.levelup.model.enums.LibraryStatus;
+import com.levelup.model.enums.GamePlatform;
 import com.levelup.model.enums.Mood;
-import com.levelup.model.enums.TimeAvailable;
-import com.levelup.model.enums.WhatToPlayPlatform;
+import com.levelup.model.enums.OwnershipStatus;
 import com.levelup.repository.GameRepository;
 import com.levelup.repository.LibraryEntryRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,98 +20,147 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/*
+ * Simplified What to Play service.
+ *
+ * Three moods, in spirit:
+ *   - FAMILIAR    → pull from the user's owned/backlog library
+ *   - NEW         → pull from outside the library (recommendation engine)
+ *   - SURPRISE    → randomly pick a familiar game, biased toward backlog
+ *
+ * Filters always apply (platform, multiplayer). No fake "time available" filter
+ * since we don't have time-to-complete data.
+ */
 @Service
 @RequiredArgsConstructor
 public class WhatToPlayService {
 
-    private static final Map<Mood, List<String>> MOOD_GENRES = new EnumMap<>(Mood.class);
-    private static final List<String> SHORT_GENRES =
-            List.of("Puzzle", "Sports", "Racing", "Fighting", "Arcade", "Casual");
-    private static final List<String> LONG_GENRES =
-            List.of("Role-playing (RPG)", "Strategy", "Real Time Strategy (RTS)",
-                    "Simulation", "Turn-based strategy (TBS)");
-
-    static {
-        MOOD_GENRES.put(Mood.CHILL, List.of("Puzzle", "Simulation", "Adventure", "Casual", "Indie", "Strategy"));
-        MOOD_GENRES.put(Mood.STORY, List.of("Adventure", "Role-playing (RPG)", "Visual Novel", "Point-and-click"));
-        MOOD_GENRES.put(Mood.CHALLENGE, List.of("Platformer", "Shooter", "Fighting", "Racing", "Hack and slash/Beat 'em up"));
-        MOOD_GENRES.put(Mood.SOCIAL, List.of());
-        MOOD_GENRES.put(Mood.ANYTHING, List.of());
-    }
+    private static final int RESULT_SIZE = 5;
+    private static final int CANDIDATE_POOL_SIZE = 40;
+    private static final int RATING_THRESHOLD_FOR_RECS = 6;
 
     private final LibraryEntryRepository libraryEntryRepository;
     private final GameRepository gameRepository;
 
     public WhatToPlayResponse getSuggestions(UUID userId, WhatToPlayRequest request) {
-        boolean needsMultiplayer = request.isMultiplayer() || request.getMood() == Mood.SOCIAL;
-
-        List<LibraryEntry> allEntries = libraryEntryRepository.findAllByUserIdWithGameAndGenres(userId);
-
-        List<ScoredEntry> candidates = new ArrayList<>();
-        for (LibraryEntry entry : allEntries) {
-            Game game = entry.getGame();
-            String source = determineSource(entry);
-
-            if ("ALREADY_PLAYED".equals(source) && !request.isIncludeAlreadyPlayed()) continue;
-            if (request.getPlatform() != WhatToPlayPlatform.ANY && !matchesPlatform(game, request.getPlatform())) continue;
-            if (!matchesMood(game, request.getMood())) continue;
-            if (needsMultiplayer && !hasMultiplayer(game)) continue;
-
-            candidates.add(new ScoredEntry(entry, source, score(entry, request, source)));
-        }
-
-        candidates.sort(Comparator.comparingInt(ScoredEntry::score).reversed());
-
-        List<GameSuggestion> suggestions = new ArrayList<>();
-        int rank = 1;
-        for (ScoredEntry se : candidates) {
-            if (suggestions.size() >= 5) break;
-            String reason = buildReason(se.source(), request, needsMultiplayer);
-            suggestions.add(new GameSuggestion(mapGame(se.entry().getGame()), se.source(), reason, rank++));
-        }
-
-        if (request.isIncludeNewSuggestions() && suggestions.size() < 5) {
-            suggestions.addAll(getNewSuggestions(userId, request, needsMultiplayer, suggestions.size(), rank));
-        }
-
+        List<GameSuggestion> suggestions = switch (request.getMood()) {
+            case FAMILIAR -> getFamiliarSuggestions(userId, request);
+            case NEW      -> getNewSuggestions(userId, request);
+            case SURPRISE -> getSurpriseSuggestions(userId, request);
+        };
         return new WhatToPlayResponse(suggestions);
     }
 
-    private List<GameSuggestion> getNewSuggestions(UUID userId, WhatToPlayRequest request,
-                                                    boolean needsMultiplayer, int existing, int startRank) {
-        List<Object[]> genreRows = libraryEntryRepository.findGenreCountsByUserId(userId);
-        if (genreRows.isEmpty()) return List.of();
+    /*
+     * Familiar: games already in the user's library that match their criteria.
+     * Priority order: Backlog (unplayed but owned) > Owned > Already played.
+     */
+    private List<GameSuggestion> getFamiliarSuggestions(UUID userId, WhatToPlayRequest request) {
+        List<LibraryEntry> entries = libraryEntryRepository.findAllByUserIdWithGameAndGenres(userId);
 
-        List<String> topGenres = genreRows.stream().limit(5).map(r -> (String) r[0]).toList();
-        List<UUID> ids = gameRepository.findForYouGameIds(userId, topGenres, PageRequest.of(0, 20)).getContent();
-        if (ids.isEmpty()) return List.of();
+        List<ScoredEntry> candidates = entries.stream()
+                .filter(e -> passesFilters(e.getGame(), request))
+                .filter(e -> request.isIncludeAlreadyPlayed() || !isAlreadyPlayed(e))
+                .map(e -> new ScoredEntry(e, sourceOf(e), scoreFamiliar(e)))
+                .sorted(Comparator.comparingInt(ScoredEntry::score).reversed())
+                .limit(RESULT_SIZE)
+                .toList();
 
-        List<Game> newGames = gameRepository.findByIdInWithGenres(ids);
-
-        int rank = startRank;
-        List<GameSuggestion> result = new ArrayList<>();
-        for (Game game : newGames) {
-            if (result.size() >= 5 - existing) break;
-            if (request.getPlatform() != WhatToPlayPlatform.ANY && !matchesPlatform(game, request.getPlatform())) continue;
-            if (!matchesMood(game, request.getMood())) continue;
-            if (needsMultiplayer && !hasMultiplayer(game)) continue;
-
-            String reason = "Based on your taste — matches genres you love";
-            result.add(new GameSuggestion(mapGame(game), "NEW_SUGGESTION", reason, rank++));
-        }
-        return result;
+        AtomicRank rank = new AtomicRank();
+        return candidates.stream()
+                .map(se -> new GameSuggestion(
+                        mapGame(se.entry().getGame()),
+                        se.source(),
+                        reasonForFamiliar(se.source()),
+                        rank.next()))
+                .toList();
     }
 
-    private boolean matchesPlatform(Game game, WhatToPlayPlatform platform) {
+    /*
+     * New: recommendation engine results, filtered to match the user's platform/multiplayer needs.
+     * Pulls a larger candidate pool than needed, then filters down — since the engine doesn't know
+     * about platform constraints, we filter post-recommendation rather than pre.
+     */
+    private List<GameSuggestion> getNewSuggestions(UUID userId, WhatToPlayRequest request) {
+        boolean hasRatings = gameRepository.userHasRatedGames(userId, RATING_THRESHOLD_FOR_RECS);
+        String platformName = request.getPlatform() == GamePlatform.ANY
+                ? null
+                : request.getPlatform().getDisplayName();
+
+        List<UUID> candidateIds = (hasRatings
+                ? gameRepository.findRecommendedGameIds(userId, RATING_THRESHOLD_FOR_RECS, platformName, PageRequest.of(0, CANDIDATE_POOL_SIZE))
+                : gameRepository.findThemeBasedRecommendations(userId, platformName, PageRequest.of(0, CANDIDATE_POOL_SIZE)))
+                .getContent();
+
+        if (candidateIds.isEmpty()) return List.of();
+
+        List<Game> candidates = gameRepository.findByIdInWithGenres(candidateIds);
+        Map<UUID, Game> byId = candidates.stream().collect(Collectors.toMap(Game::getId, g -> g));
+
+        // Preserve recommendation order; filter down to RESULT_SIZE (multiplayer check only — platform already applied in query)
+        AtomicRank rank = new AtomicRank();
+        return candidateIds.stream()
+                .map(byId::get)
+                .filter(Objects::nonNull)
+                .filter(g -> !request.isMultiplayer() || hasMultiplayer(g))
+                .limit(RESULT_SIZE)
+                .map(g -> new GameSuggestion(
+                        mapGame(g),
+                        "NEW_SUGGESTION",
+                        "Based on games you've loved",
+                        rank.next()))
+                .toList();
+    }
+
+    /*
+     * Surprise: a single random pick from the user's library, biased toward backlog.
+     * Returns 1 game (not 5) since the whole point is "just pick something."
+     */
+    private List<GameSuggestion> getSurpriseSuggestions(UUID userId, WhatToPlayRequest request) {
+        List<LibraryEntry> entries = libraryEntryRepository.findAllByUserIdWithGameAndGenres(userId);
+
+        List<LibraryEntry> pool = entries.stream()
+                .filter(e -> passesFilters(e.getGame(), request))
+                .filter(e -> !isAlreadyPlayed(e))
+                .toList();
+
+        if (pool.isEmpty()) return List.of();
+
+        // Weighted random: backlog gets weight 3, owned gets 2, anything else 1
+        List<LibraryEntry> weighted = new ArrayList<>();
+        for (LibraryEntry e : pool) {
+            int weight = switch (sourceOf(e)) {
+                case "BACKLOG" -> 3;
+                case "OWNED"   -> 2;
+                default        -> 1;
+            };
+            for (int i = 0; i < weight; i++) weighted.add(e);
+        }
+
+        LibraryEntry pick = weighted.get(new Random().nextInt(weighted.size()));
+        return List.of(new GameSuggestion(
+                mapGame(pick.getGame()),
+                sourceOf(pick),
+                "A random pick from your library — give it a chance",
+                1));
+    }
+
+    // ── Filter helpers ─────────────────────────────────────────────
+
+    private boolean passesFilters(Game game, WhatToPlayRequest request) {
+        if (request.getPlatform() != GamePlatform.ANY && !matchesPlatform(game, request.getPlatform())) {
+            return false;
+        }
+        if (request.isMultiplayer() && !hasMultiplayer(game)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean matchesPlatform(Game game, GamePlatform platform) {
         if (game.getPlatforms() == null) return false;
-        String keyword = switch (platform) {
-            case PC -> "Windows";
-            case PLAYSTATION -> "PlayStation";
-            case XBOX -> "Xbox";
-            case SWITCH -> "Nintendo Switch";
-            case ANY -> null;
-        };
-        return Arrays.stream(game.getPlatforms()).anyMatch(p -> p.contains(keyword));
+        String name = platform.getDisplayName();
+        return Arrays.asList(game.getPlatforms()).contains(name);
     }
 
     private boolean hasMultiplayer(Game game) {
@@ -121,67 +171,39 @@ public class WhatToPlayService {
                 m.equalsIgnoreCase("Split screen"));
     }
 
-    private boolean matchesMood(Game game, Mood mood) {
-        if (mood == Mood.ANYTHING || mood == Mood.SOCIAL) return true;
-        List<String> moodGenres = MOOD_GENRES.get(mood);
-        if (moodGenres.isEmpty()) return true;
-        Set<String> gameGenreNames = game.getGenres().stream().map(Genre::getName).collect(Collectors.toSet());
-        return moodGenres.stream().anyMatch(gameGenreNames::contains);
-    }
+    // ── Scoring helpers ────────────────────────────────────────────
 
-    private String determineSource(LibraryEntry entry) {
-        return switch (entry.getStatus()) {
-            case PLAYED, FINISHED, COMPLETED -> "ALREADY_PLAYED";
-            case BACKLOG, WISHLIST -> "BACKLOG";
-            default -> entry.isOwned() ? "OWNED" : "BACKLOG";
-        };
-    }
-
-    private int score(LibraryEntry entry, WhatToPlayRequest request, String source) {
-        int s = switch (source) {
-            case "BACKLOG" -> 3;
-            case "OWNED" -> 2;
+    private int scoreFamiliar(LibraryEntry entry) {
+        return switch (sourceOf(entry)) {
+            case "BACKLOG"        -> 3;
+            case "OWNED"          -> 2;
             case "ALREADY_PLAYED" -> 1;
-            default -> 0;
+            default               -> 0;
         };
-
-        Set<String> gameGenreNames = entry.getGame().getGenres().stream()
-                .map(Genre::getName).collect(Collectors.toSet());
-
-        if (request.getMood() != Mood.ANYTHING && request.getMood() != Mood.SOCIAL) {
-            List<String> moodGenres = MOOD_GENRES.get(request.getMood());
-            s += (int) Math.min(3, moodGenres.stream().filter(gameGenreNames::contains).count());
-        }
-
-        if (request.getTimeAvailable() == TimeAvailable.SHORT) {
-            if (SHORT_GENRES.stream().anyMatch(gameGenreNames::contains)) s += 2;
-        } else if (request.getTimeAvailable() == TimeAvailable.ALL_DAY) {
-            if (LONG_GENRES.stream().anyMatch(gameGenreNames::contains)) s += 2;
-        }
-
-        return s;
     }
 
-    private String buildReason(String source, WhatToPlayRequest request, boolean needsMultiplayer) {
-        String sourceDesc = switch (source) {
-            case "BACKLOG" -> "In your backlog";
-            case "OWNED" -> "Owned but unplayed";
-            case "ALREADY_PLAYED" -> "Previously played";
-            default -> "In your library";
+    private String sourceOf(LibraryEntry entry) {
+        if (isAlreadyPlayed(entry)) return "ALREADY_PLAYED";
+        if (entry.getStatus() == LibraryStatus.BACKLOG) return "BACKLOG";
+        if (entry.getOwnership() == OwnershipStatus.OWNED) return "OWNED";
+        return "BACKLOG";
+    }
+
+    private boolean isAlreadyPlayed(LibraryEntry entry) {
+        if (entry.getStatus() == null) return false;
+        return switch (entry.getStatus()) {
+            case PLAYED, FINISHED, COMPLETED -> true;
+            default                          -> false;
         };
-        String moodDesc = switch (request.getMood()) {
-            case CHILL -> "great for a relaxed session";
-            case STORY -> "has an engaging narrative";
-            case CHALLENGE -> "will test your skills";
-            case SOCIAL -> "supports multiplayer";
-            case ANYTHING -> "matches your criteria";
+    }
+
+    private String reasonForFamiliar(String source) {
+        return switch (source) {
+            case "BACKLOG"        -> "From your backlog — time to start it";
+            case "OWNED"          -> "You own this but haven't started yet";
+            case "ALREADY_PLAYED" -> "You've played this — worth revisiting";
+            default               -> "From your library";
         };
-        String timeDesc = switch (request.getTimeAvailable()) {
-            case SHORT -> "quick to pick up";
-            case FEW_HOURS -> "good for a few hours";
-            case ALL_DAY -> "perfect for a long session";
-        };
-        return sourceDesc + " — " + moodDesc + " · " + timeDesc;
     }
 
     private GameSuggestionGame mapGame(Game game) {
@@ -189,8 +211,22 @@ public class WhatToPlayService {
                 ? "https://images.igdb.com/igdb/image/upload/t_cover_big/" + game.getCoverImageId() + ".jpg"
                 : null;
         List<String> genres = game.getGenres().stream().map(Genre::getName).toList();
-        List<String> gameModes = game.getGameModes() != null ? Arrays.asList(game.getGameModes()) : List.of();
-        return new GameSuggestionGame(game.getId().toString(), game.getTitle(), coverUrl, genres, gameModes);
+        List<String> gameModes = game.getGameModes() != null
+                ? Arrays.asList(game.getGameModes())
+                : List.of();
+        return new GameSuggestionGame(
+                game.getId().toString(),
+                game.getSlug(),
+                game.getTitle(),
+                coverUrl,
+                genres,
+                gameModes);
+    }
+
+    // Small helper to avoid using a mutable int in the lambda
+    private static class AtomicRank {
+        private int n = 1;
+        int next() { return n++; }
     }
 
     private record ScoredEntry(LibraryEntry entry, String source, int score) {}

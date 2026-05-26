@@ -1,6 +1,7 @@
 package com.levelup.security;
 
 import com.levelup.model.User;
+import com.levelup.model.enums.UserRole;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,16 +16,18 @@ public class UserDetailsImpl implements UserDetails {
     private final UUID id;
     private final String email;
     private final String passwordHash;
+    private final UserRole role;
 
     public UserDetailsImpl(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.passwordHash = user.getPasswordHash();
+        this.role = user.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

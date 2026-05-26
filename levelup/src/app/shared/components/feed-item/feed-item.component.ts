@@ -29,6 +29,8 @@ export class FeedItemComponent {
         return `added to library · ${this.formatStatus(meta['status'])}`;
       case 'REVIEW_POSTED':
         return 'posted a review';
+      case 'COMMENT_POSTED':
+        return 'commented on a review';
       case 'COLLECTION_CREATED':
         return 'created a collection';
       default:

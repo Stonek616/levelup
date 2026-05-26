@@ -65,4 +65,19 @@ public interface FeedEventRepository extends JpaRepository<FeedEvent, UUID> {
 
     // Used by FeedEventCleanupScheduler
     void deleteByCreatedAtBefore(Instant cutoff);
+
+    // User profile activity feed
+    @Query(value = """
+            SELECT fe FROM FeedEvent fe
+            JOIN FETCH fe.user
+            JOIN FETCH fe.game
+            WHERE fe.user.username = :username
+            ORDER BY fe.createdAt DESC
+            """,
+            countQuery = """
+            SELECT COUNT(fe) FROM FeedEvent fe
+            JOIN fe.user u
+            WHERE u.username = :username
+            """)
+    Page<FeedEvent> findByUserUsername(@Param("username") String username, Pageable pageable);
 }

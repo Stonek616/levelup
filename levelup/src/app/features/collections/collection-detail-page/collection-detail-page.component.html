@@ -70,7 +70,7 @@
       <div class="game-grid">
         @for (game of collection()!.games; track game.id) {
           <div class="game-tile">
-            <a [routerLink]="['/game', game.id]">
+            <a [routerLink]="['/game', game.slug]">
               @if (coverUrl(game.coverImageId)) {
                 <img class="game-tile__cover" [src]="coverUrl(game.coverImageId)" [alt]="game.title" />
               } @else {

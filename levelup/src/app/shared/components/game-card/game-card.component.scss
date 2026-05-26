@@ -5,104 +5,135 @@
   max-width: 185px;
 
   overflow: hidden;
-  border-radius: 0.85rem;
+  border-radius: var(--radius-sm);
 
-  background: #171b22;
-  color: #f4f6fb;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   text-decoration: none;
 
   transition:
-    transform 140ms ease,
-    box-shadow 140ms ease,
-    background 140ms ease;
+    transform 180ms cubic-bezier(0.34, 1.2, 0.64, 1),
+    box-shadow 180ms ease;
 
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-card);
 
   &:hover {
-    transform: translateY(-3px);
-    background: #1d2330;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-raised);
+    text-decoration: none;
+
+    .game-card__title {
+      color: var(--color-accent);
+    }
   }
+}
+
+
+.game-card__cover-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 
 .game-card__cover {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
-
-  background: #252b38;
+  background: var(--color-surface-raised);
 }
 
 .game-card__cover--placeholder {
-  aspect-ratio: 3 / 4;
   display: grid;
   place-items: center;
 
-  color: #9ca6b8;
-  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
   font-weight: 600;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
+// Triangular wishlist bookmark in top-right corner — now status-wishlist token
+.game-card__bookmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+
+  // Drawn as an SVG inside; the SVG's polygon should fill var(--status-wishlist).
+  // Since CSS can't override SVG fill="..." attrs, the SVG should use
+  //   fill="currentColor"  and we set color here:
+  color: var(--status-wishlist);
+}
+
+.game-card__bookmark-icon {
+  display: block;
+}
+
+// Info row: text on left, glyph on right
 .game-card__info {
   display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
 
-  padding: 0.75rem;
+  padding: 0.55rem 0.65rem 0.7rem;
+  min-height: 5.5rem;
+}
+
+.game-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0; // allow text truncation
+  flex: 1;
 }
 
 .game-card__title {
   margin: 0;
 
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.3;
+  font-family: var(--font-serif);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--color-text-primary);
 
-  color: #ffffff;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: color 140ms ease;
 }
 
-.game-card__year {
+.game-card__meta {
   margin: 0;
 
-  font-size: 0.78rem;
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 
-  color: #97a3b6;
-}
+  color: var(--color-text-muted);
 
-.game-card__library {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem;
-
-  margin-top: 0.15rem;
-}
-
-.game-card__owned,
-.game-card__rating {
-  display: inline-flex;
-  align-items: center;
-
-  padding: 0.18rem 0.45rem;
-  border-radius: 999px;
-
-  font-size: 0.7rem;
-  font-weight: 700;
-}
-
-.game-card__owned {
-  background: rgba(96, 165, 250, 0.16);
-  color: #b1dfff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .game-card__rating {
-  background: rgba(250, 204, 21, 0.14);
-  color: #fde68a;
+  margin: 0;
+
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+
+  color: var(--status-ring); // brass — the "earned" color
 }

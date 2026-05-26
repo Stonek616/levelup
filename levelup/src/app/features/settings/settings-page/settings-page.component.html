@@ -1,0 +1,28 @@
+<div class="settings-page">
+  <div class="settings-page__header">
+    <h1>Settings</h1>
+  </div>
+
+  <div class="settings-page__layout">
+    <nav class="settings-page__nav">
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="settings-page__nav-item"
+          [class.settings-page__nav-item--active]="activeTab() === tab.id"
+          [class.settings-page__nav-item--danger]="tab.id === 'danger'"
+          (click)="activeTab.set(tab.id)"
+          type="button"
+        >{{ tab.label }}</button>
+      }
+    </nav>
+
+    <div class="settings-page__content">
+      @switch (activeTab()) {
+        @case ('account') { <app-account-settings /> }
+        @case ('privacy') { <app-privacy-settings /> }
+        @case ('gaming')  { <app-game-profiles /> }
+        @case ('danger')  { <app-account-deletion /> }
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+.account-settings {
+  .settings-section__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 24px;
+  }
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  &__input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+
+    &:focus { border-color: var(--color-primary); }
+
+    &--textarea {
+      resize: vertical;
+      font-family: inherit;
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 8px 0;
+  }
+
+  &__subheading {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: -4px;
+  }
+
+  &__error { color: var(--color-danger, #e55); font-size: 0.85rem; }
+  &__success { color: var(--color-success, #4caf50); font-size: 0.85rem; }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+}

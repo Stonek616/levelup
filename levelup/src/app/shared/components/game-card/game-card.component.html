@@ -1,27 +1,42 @@
-<a class="game-card" [routerLink]="['/game', game.id]">
-  @if (coverUrl) {
-    <img [src]="coverUrl" [alt]="game.title" class="game-card__cover" />
-  } @else {
-    <div class="game-card__cover game-card__cover--placeholder">No Image</div>
-  }
+<a class="game-card" [routerLink]="['/game', game.slug]">
 
-  <div class="game-card__info">
-    <h3 class="game-card__title">{{ game.title }}</h3>
 
-    @if (game.releaseYear) {
-      <p class="game-card__year">{{ game.releaseYear }}</p>
+  <!-- Cover -->
+  <div class="game-card__cover-wrap">
+    @if (coverUrl) {
+      <img [src]="coverUrl" [alt]="game.title" class="game-card__cover" />
+    } @else {
+      <div class="game-card__cover game-card__cover--placeholder">No Image</div>
     }
 
-    @if (libraryEntry) {
-      <div class="game-card__library">
-        <app-status-badge [status]="libraryEntry.status" />
-        @if (libraryEntry.isOwned) {
-          <span class="game-card__owned">Owned</span>
-        }
-        @if (libraryEntry.rating) {
-          <span class="game-card__rating">{{ libraryEntry.rating }}/10</span>
-        }
+    <!-- Wishlist bookmark: purple triangular corner mark -->
+    @if (libraryEntry?.ownership === 'WISHLIST') {
+      <div class="game-card__bookmark" aria-label="Wishlist">
+        <svg class="game-card__bookmark-icon" viewBox="0 0 36 36" width="36" height="36" aria-hidden="true">
+          <polygon points="0,0 36,0 36,36" fill="#ff5fae" />
+          <line x1="17" y1="9" x2="27" y2="9" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <line x1="22" y1="4"  x2="22" y2="14" stroke="white" stroke-width="2" stroke-linecap="round" />
+        </svg>
       </div>
     }
   </div>
+
+  <!-- Info row -->
+  <div class="game-card__info">
+    <div class="game-card__text">
+      <h3 class="game-card__title">{{ game.title }}</h3>
+      @if (metaLine) {
+        <p class="game-card__meta">{{ metaLine }}</p>
+      }
+      @if (libraryEntry?.rating) {
+        <p class="game-card__rating">&#9733; {{ libraryEntry!.rating }}/10</p>
+      }
+    </div>
+
+    <!-- Hex status glyph — only for entries with a non-null status -->
+    @if (libraryEntry?.status) {
+      <app-status-glyph [status]="libraryEntry!.status" />
+    }
+  </div>
+
 </a>

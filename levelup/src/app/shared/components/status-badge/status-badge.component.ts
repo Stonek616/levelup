@@ -12,10 +12,10 @@ export class StatusBadgeComponent {
   @Input() status!: LibraryStatus;
 
   get label(): string {
-    return LibraryStatusLabels[this.status];
+    return this.status ? LibraryStatusLabels[this.status] : '';
   }
 
   get cssClass(): string {
-    return `badge badge--${this.status.toLowerCase()}`;
+    return this.status ? `badge badge--${this.status.toLowerCase()}` : 'badge';
   }
 }

@@ -6,6 +6,7 @@ export interface ReviewAuthor {
 
 export interface ReviewGame {
     id: string;
+    slug: string;
     title: string;
 }
 
@@ -43,4 +44,9 @@ export interface CreateReviewRequest {
 
 export interface CreateCommentRequest {
     body: string;
+}
+
+export interface UpdateReviewRequest {
+    body: string;
+    rating: number | null;
 }

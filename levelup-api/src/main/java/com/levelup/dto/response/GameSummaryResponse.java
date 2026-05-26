@@ -16,6 +16,7 @@ import com.levelup.model.Game;
 public class GameSummaryResponse {
     private UUID id;
     private Integer igdbId;
+    private String slug;
     private String title;
     private String coverImageId;
     private Integer releaseYear;
@@ -25,6 +26,7 @@ public class GameSummaryResponse {
         return GameSummaryResponse.builder()
                 .id(game.getId())
                 .igdbId(game.getIgdbId())
+                .slug(game.getSlug())
                 .title(game.getTitle())
                 .coverImageId(game.getCoverImageId())
                 .releaseYear(game.getReleaseYear())

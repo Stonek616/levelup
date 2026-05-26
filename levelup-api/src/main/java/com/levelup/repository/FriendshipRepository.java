@@ -20,6 +20,8 @@ public interface FriendshipRepository extends JpaRepository<Friendship, UUID> {
 
     Optional<Friendship> findByUserIdAndFriendId(UUID userId, UUID friendId);
 
+    long countByUserId(UUID userId);
+
     // Returns only the friend UUIDs — used by FeedService to avoid loading full entities
     @Query("SELECT f.friend.id FROM Friendship f WHERE f.user.id = :userId")
     List<UUID> findFriendIdsByUserId(@Param("userId") UUID userId);

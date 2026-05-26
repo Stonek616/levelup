@@ -1,0 +1,92 @@
+<div class="admin-reports">
+  <h1 class="admin-reports__title">Reports</h1>
+
+  <div class="admin-reports__filters">
+    @for (f of filters; track f.label) {
+      <button
+        class="admin-reports__filter"
+        [class.admin-reports__filter--active]="activeFilter() === f.value"
+        (click)="setFilter(f.value)">
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+  @if (loading() && reports().length === 0) {
+    <p class="admin-reports__loading">Loading...</p>
+  } @else if (reports().length === 0) {
+    <p class="admin-reports__empty">No reports found.</p>
+  } @else {
+    <div class="admin-reports__list">
+      @for (report of reports(); track report.id) {
+        <div class="admin-reports__card" [class.admin-reports__card--resolved]="report.status === 'RESOLVED'"
+             [class.admin-reports__card--dismissed]="report.status === 'DISMISSED'">
+          <div class="admin-reports__card-header">
+            <span class="admin-reports__badge admin-reports__badge--{{ report.status | lowercase }}">
+              {{ report.status }}
+            </span>
+            <span class="admin-reports__type">{{ report.targetType }}</span>
+            <span class="admin-reports__date">{{ report.createdAt | date:'medium' }}</span>
+          </div>
+
+          <div class="admin-reports__card-body">
+            <div class="admin-reports__field">
+              <span class="admin-reports__field-label">Reporter</span>
+              <a [routerLink]="['/profile', report.reporterUsername]" class="admin-reports__link">
+                {{ report.reporterUsername }}
+              </a>
+            </div>
+            <div class="admin-reports__field">
+              <span class="admin-reports__field-label">Target</span>
+              @if (report.targetType === 'COMMENT') {
+                <span class="admin-reports__mono">{{ report.targetId }}</span>
+              } @else {
+                <a [routerLink]="targetLink(report)" class="admin-reports__link">
+                  View {{ report.targetType | lowercase }}
+                </a>
+              }
+            </div>
+            <div class="admin-reports__field">
+              <span class="admin-reports__field-label">Reason</span>
+              <span>{{ formatReason(report.reason) }}</span>
+            </div>
+            @if (report.notes) {
+              <div class="admin-reports__field">
+                <span class="admin-reports__field-label">Notes</span>
+                <span>{{ report.notes }}</span>
+              </div>
+            }
+          </div>
+
+          @if (report.status === 'PENDING') {
+            <div class="admin-reports__card-actions">
+              <input
+                class="admin-reports__notes-input"
+                type="text"
+                placeholder="Optional notes..."
+                [(ngModel)]="notesInput[report.id]" />
+              <label class="admin-reports__delete-check">
+                <input type="checkbox" [(ngModel)]="deleteContent[report.id]" />
+                Delete {{ report.targetType | lowercase }}
+              </label>
+              <button class="admin-reports__btn admin-reports__btn--resolve"
+                      (click)="resolve(report)">
+                Resolve
+              </button>
+              <button class="admin-reports__btn admin-reports__btn--dismiss"
+                      (click)="dismiss(report)">
+                Dismiss
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (hasMore()) {
+      <button class="admin-reports__more" [disabled]="loading()" (click)="load()">
+        {{ loading() ? 'Loading...' : 'Load more' }}
+      </button>
+    }
+  }
+</div>

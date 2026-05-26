@@ -10,7 +10,7 @@
         {{ review.author.username }}
       </a>
       <span class="review-card__game-label">
-        on <a class="review-card__game" [routerLink]="['/game', review.game.id]">{{ review.game.title }}</a>
+        on <a class="review-card__game" [routerLink]="['/game', review.game.slug]">{{ review.game.title }}</a>
       </span>
     </div>
     @if (review.rating) {

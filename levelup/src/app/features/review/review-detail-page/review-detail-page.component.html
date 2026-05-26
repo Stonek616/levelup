@@ -5,7 +5,9 @@
     <p class="review-detail__state review-detail__state--error">{{ error() }}</p>
   } @else if (review()) {
     <button class="back-btn" (click)="goBack()">← Back</button>
-    <app-review-body [review]="review()!" />
+    <app-review-body [review]="review()!"
+                     (updated)="review.set($event)"
+                     (deleted)="goBack()" />
     <app-review-comments [reviewId]="review()!.id" />
   }
 </div>

@@ -18,6 +18,7 @@ import com.levelup.model.Game;
 import com.levelup.model.Review;
 import com.levelup.model.ReviewLike;
 import com.levelup.model.User;
+import com.levelup.model.enums.FeedEventType;
 import com.levelup.repository.GameRepository;
 import com.levelup.repository.LibraryEntryRepository;
 import com.levelup.repository.ReviewCommentRepository;
@@ -39,6 +40,7 @@ public class ReviewService {
     private final LibraryEntryRepository libraryEntryRepository;
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
+    private final FeedService feedService;
 
     @Transactional(readOnly = true)
     public Page<ReviewResponse> getReviewsForGame(UUID gameId, UUID currentUserId, Pageable pageable) {
@@ -72,6 +74,7 @@ public class ReviewService {
         review.setLikeCount(0);
 
         Review saved = reviewRepository.save(review);
+        feedService.emitFeedEvent(userId, game.getId(), FeedEventType.REVIEW_POSTED, null);
         return buildResponse(saved, userId);
     }
 

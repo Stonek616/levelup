@@ -124,6 +124,12 @@
 			<artifactId>hypersistence-utils-hibernate-70</artifactId>
 			<version>3.15.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.38.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

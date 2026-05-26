@@ -6,27 +6,87 @@
         {{ review.author.username }}
       </a>
       <span class="review-body__game">
-        on <a [routerLink]="['/game', review.game.id]">{{ review.game.title }}</a>
+        on <a [routerLink]="['/game', review.game.slug]">{{ review.game.title }}</a>
       </span>
       <span class="review-body__date">{{ review.createdAt | date:'mediumDate' }}</span>
     </div>
-    @if (review.rating) {
+    @if (review.rating && !editing()) {
       <div class="review-body__rating">
         {{ review.rating }}<span class="review-body__rating-max">/10</span>
       </div>
     }
   </div>
 
-  <p class="review-body__text">{{ review.body }}</p>
+  @if (editing()) {
+    <div class="review-body__edit">
+      <textarea
+        class="review-body__edit-textarea"
+        [(ngModel)]="editBody"
+        rows="6"
+        placeholder="Write your review...">
+      </textarea>
+      <div class="review-body__edit-rating">
+        <span class="review-body__edit-rating-label">Rating</span>
+        <div class="review-body__edit-rating-nums">
+          @for (n of [1,2,3,4,5,6,7,8,9,10]; track n) {
+            <button type="button"
+                    class="review-body__rating-num"
+                    [class.review-body__rating-num--active]="editRating === n"
+                    (click)="editRating = editRating === n ? null : n">
+              {{ n }}
+            </button>
+          }
+        </div>
+      </div>
+      <div class="review-body__edit-actions">
+        <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">Cancel</button>
+        <button class="btn btn--primary btn--sm" type="button"
+                [disabled]="!editBody.trim() || saving()"
+                (click)="saveEdit()">
+          {{ saving() ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  } @else {
+    <p class="review-body__text">{{ review.body }}</p>
+  }
 
   <div class="review-body__actions">
     <button
       class="review-body__like-btn"
       [class.review-body__like-btn--liked]="likedByMe()"
       (click)="toggleLike()"
-      [disabled]="!isLoggedIn"
-    >
+      [disabled]="!isLoggedIn || editing()">
       ♥ {{ likeCount() }}
     </button>
+
+    @if (isOwnReview) {
+      <button class="review-body__action-btn" (click)="startEdit()" [disabled]="editing()">
+        Edit
+      </button>
+      <button class="review-body__action-btn review-body__action-btn--danger"
+              (click)="showDeleteConfirm.set(true)" [disabled]="editing()">
+        Delete
+      </button>
+    } @else if (isLoggedIn) {
+      <button class="review-body__report-btn" (click)="showReportModal.set(true)">
+        Report
+      </button>
+    }
   </div>
 </div>
+
+<app-confirm-dialog
+  [open]="showDeleteConfirm()"
+  title="Delete review?"
+  message="This will permanently delete your review and all its comments. This can't be undone."
+  confirmLabel="Delete"
+  cancelLabel="Keep it"
+  (confirmed)="confirmDelete(); showDeleteConfirm.set(false)"
+  (cancelled)="showDeleteConfirm.set(false)" />
+
+<app-report-modal
+  [open]="showReportModal()"
+  targetType="REVIEW"
+  [targetId]="review.id"
+  (closed)="showReportModal.set(false)" />

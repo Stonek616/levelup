@@ -28,8 +28,12 @@
                 ♥ {{ comment.likeCount }}
               </button>
               @if (comment.author.id === currentUserId()) {
-                <button class="review-comments__delete-btn" (click)="deleteComment(comment.id)">
+                <button class="review-comments__delete-btn" (click)="deletingCommentId.set(comment.id)">
                   Delete
+                </button>
+              } @else if (isLoggedIn) {
+                <button class="review-comments__report-btn" (click)="reportingCommentId.set(comment.id)">
+                  Report
                 </button>
               }
             </div>
@@ -38,6 +42,21 @@
       }
     </div>
   }
+
+  <app-confirm-dialog
+    [open]="deletingCommentId() !== null"
+    title="Delete comment?"
+    message="This will permanently delete your comment."
+    confirmLabel="Delete"
+    cancelLabel="Keep it"
+    (confirmed)="deleteComment(deletingCommentId()!); deletingCommentId.set(null)"
+    (cancelled)="deletingCommentId.set(null)" />
+
+  <app-report-modal
+    [open]="reportingCommentId() !== null"
+    targetType="COMMENT"
+    [targetId]="reportingCommentId()!"
+    (closed)="reportingCommentId.set(null)" />
 
   @if (isLoggedIn) {
     <form class="review-comments__form" [formGroup]="commentForm" (ngSubmit)="submit()">

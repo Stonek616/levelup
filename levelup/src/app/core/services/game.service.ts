@@ -15,7 +15,7 @@ export class GameService {
     });
   }
 
-  getGame(id: string): Observable<GameDetail> {
-    return this.http.get<GameDetail>(`${environment.apiUrl}/games/${id}`);
+  getGame(slug: string): Observable<GameDetail> {
+    return this.http.get<GameDetail>(`${environment.apiUrl}/games/slug/${slug}`);
   }
 }

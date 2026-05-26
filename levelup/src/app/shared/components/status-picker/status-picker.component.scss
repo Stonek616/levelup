@@ -1,18 +1,73 @@
 .status-picker {
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--surface);
-  color: var(--text-primary);
-  font-size: 0.85rem;
-  font-family: inherit;
-  cursor: pointer;
-  outline: none;
-  transition: border-color 0.15s;
-  max-width: 175px;
+  position: relative;
+  display: inline-block;
 
-  &:hover,
-  &:focus {
-    border-color: var(--accent);
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.65rem 0.35rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: var(--color-accent);
+    }
+  }
+
+  &--open &__trigger {
+    border-color: var(--color-accent);
+  }
+
+  &__chevron {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    transition: transform 0.15s ease;
+  }
+
+  &--open &__chevron {
+    transform: rotate(180deg);
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 100;
+    min-width: 100%;
+    list-style: none;
+    padding: 0.25rem;
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-raised);
+  }
+
+  &__option {
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.1s, color 0.1s;
+
+    &:hover {
+      background: var(--color-surface-strong);
+      color: var(--color-text-primary);
+    }
+
+    &--active {
+      color: var(--color-accent);
+      font-weight: 500;
+    }
   }
 }

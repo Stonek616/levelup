@@ -1,0 +1,31 @@
+<div class="game-profiles">
+  <h2 class="settings-section__title">Gaming Profiles</h2>
+  <p class="game-profiles__desc">Link your accounts on other platforms.</p>
+
+  @if (profiles().length > 0) {
+    <ul class="game-profiles__list">
+      @for (profile of profiles(); track profile.id) {
+        <li class="game-profiles__item">
+          <span class="game-profiles__platform">{{ platformLabel(profile.platform) }}</span>
+          <span class="game-profiles__handle">{{ profile.handle }}</span>
+          <button class="game-profiles__remove" (click)="remove(profile.id)" type="button">Remove</button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="game-profiles__empty">No gaming profiles linked yet.</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="add()" class="game-profiles__form">
+    <select class="settings-form__input" formControlName="platform">
+      @for (p of platforms; track p) {
+        <option [value]="p">{{ platformLabel(p) }}</option>
+      }
+    </select>
+    <input class="settings-form__input" type="text" formControlName="handle" placeholder="Your handle / gamertag" />
+    @if (error()) { <p class="settings-form__error">{{ error() }}</p> }
+    <button class="btn btn--secondary" type="submit" [disabled]="form.invalid || adding()">
+      {{ adding() ? 'Adding...' : 'Link profile' }}
+    </button>
+  </form>
+</div>

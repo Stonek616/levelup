@@ -49,6 +49,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/collections/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/users/{username}/collections").permitAll()
+                // Admin-only endpoints
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )

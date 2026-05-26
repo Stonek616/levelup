@@ -1,62 +1,86 @@
 .review-card {
-  background: #1f2937;
-  border: 1px solid #374151;
-  border-radius: 12px;
-  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.85rem;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: var(--color-border-strong);
+  }
 
   &__header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0.75rem;
   }
 
   &__meta {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 0.1rem;
   }
 
   &__author {
     font-weight: 600;
-    color: white;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
     text-decoration: none;
+    transition: color 0.15s;
 
-    &:hover { text-decoration: underline; }
+    &:hover {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
   }
 
   &__game-label {
-    font-size: 0.875rem;
-    color: #9ca3af;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   &__game {
-    color: #6366f1;
+    color: var(--color-text-secondary);
     text-decoration: none;
+    transition: color 0.15s;
 
-    &:hover { text-decoration: underline; }
+    &:hover {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
   }
 
   &__rating {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #f59e0b;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--status-ring);
     flex-shrink: 0;
+    line-height: 1;
+    align-self: flex-start;
   }
 
   &__rating-max {
-    font-size: 0.875rem;
-    color: #9ca3af;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
     font-weight: 400;
+    letter-spacing: 0.04em;
   }
 
   &__body {
     margin: 0;
-    line-height: 1.6;
-    color: #d1d5db;
+    line-height: 1.65;
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -66,54 +90,66 @@
   &__footer {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding-top: 8px;
-    border-top: 1px solid #374151;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
   }
 
   &__like-btn {
-    background: none;
-    border: 1px solid #374151;
-    border-radius: 9999px;
-    color: #9ca3af;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
     cursor: pointer;
-    padding: 4px 12px;
-    font-size: 0.875rem;
-    transition: all 0.15s;
+    padding: 0.2rem 0.7rem;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
 
     &:hover:not(:disabled) {
-      border-color: #ec4899;
-      color: #ec4899;
+      border-color: var(--status-wishlist);
+      color: var(--status-wishlist);
     }
 
     &--liked {
-      border-color: #ec4899;
-      color: #ec4899;
+      border-color: var(--status-wishlist);
+      color: var(--status-wishlist);
+      background: var(--status-wishlist-subtle, color-mix(in srgb, var(--status-wishlist) 12%, transparent));
     }
 
     &:disabled {
       cursor: default;
-      opacity: 0.6;
+      opacity: 0.5;
     }
   }
 
-  &__comments {
-    font-size: 0.875rem;
-    color: #9ca3af;
+  &__comments,
+  &__date {
+    color: var(--color-text-muted);
+    text-transform: uppercase;
   }
 
   &__date {
-    font-size: 0.875rem;
-    color: #6b7280;
     margin-left: auto;
   }
 
   &__link {
-    font-size: 0.875rem;
-    color: #6366f1;
+    color: var(--color-accent);
     text-decoration: none;
     flex-shrink: 0;
+    text-transform: uppercase;
+    transition: color 0.15s;
 
-    &:hover { text-decoration: underline; }
+    &:hover {
+      color: var(--color-accent-hover);
+      text-decoration: none;
+    }
   }
 }

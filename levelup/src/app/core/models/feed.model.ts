@@ -1,6 +1,6 @@
 export interface FeedEvent {
   id: string;
-  type: 'STATUS_CHANGE' | 'RATING_ADDED' | 'REVIEW_POSTED' | 'COLLECTION_CREATED' | 'GAME_ADDED';
+  type: 'STATUS_CHANGE' | 'RATING_ADDED' | 'REVIEW_POSTED' | 'COLLECTION_CREATED' | 'GAME_ADDED' | 'COMMENT_POSTED';
   user: {
     id: string;
     username: string;
@@ -8,6 +8,7 @@ export interface FeedEvent {
   };
   game: {
     id: string;
+    slug: string;
     title: string;
     coverImageId: string | null;
   };
@@ -17,6 +18,7 @@ export interface FeedEvent {
 
 export interface TrendingGame {
   id: string;
+  slug: string;
   title: string;
   coverImageId: string | null;
   genres: string[];
@@ -27,6 +29,7 @@ export interface TrendingGame {
 
 export interface DiscoveryGame {
   id: string;
+  slug: string;
   title: string;
   coverImageId: string | null;
   releaseYear: number | null;

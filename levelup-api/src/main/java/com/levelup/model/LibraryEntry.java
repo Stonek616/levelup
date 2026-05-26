@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import com.levelup.model.enums.LibraryStatus;
+import com.levelup.model.enums.OwnershipStatus;
 
 @Entity
 @Table(name = "library_entries", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "game_id" }))
@@ -42,11 +43,12 @@ public class LibraryEntry {
     private Game game;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LibraryStatus status;
 
-    @Column(name = "is_owned", nullable = false)
-    private boolean isOwned = false;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ownership", nullable = false)
+    private OwnershipStatus ownership = OwnershipStatus.NONE;
 
     @Column(name = "platforms", columnDefinition = "text[]")
     private String[] platforms;

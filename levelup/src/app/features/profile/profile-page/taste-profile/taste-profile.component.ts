@@ -10,4 +10,20 @@ import { DecimalPipe } from '@angular/common';
 })
 export class TasteProfileComponent {
   @Input({ required: true }) tasteProfile!: TasteProfile;
+
+  showDetail = false;
+
+  get topGenres(): string {
+    return this.tasteProfile.genres
+      .slice(0, 3)
+      .map(g => g.name)
+      .join(' · ');
+  }
+
+  get compactTags(): string[] {
+    return [
+      ...this.tasteProfile.topTags.slice(0, 4),
+      ...this.tasteProfile.topPlatforms.slice(0, 2),
+    ];
+  }
 }

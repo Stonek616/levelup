@@ -10,6 +10,7 @@ export interface CollectionSummary {
 
 export interface CollectionGame {
   id: string;
+  slug: string;
   title: string;
   coverImageId: string | null;
   addedAt: string;

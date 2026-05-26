@@ -33,6 +33,7 @@ public class CollectionResponse {
     @AllArgsConstructor
     public static class GameInCollection {
         private UUID id;
+        private String slug;
         private String title;
         private String coverImageId;
         private Instant addedAt;
@@ -42,6 +43,7 @@ public class CollectionResponse {
         List<GameInCollection> games = items.stream()
                 .map(item -> GameInCollection.builder()
                         .id(item.getGame().getId())
+                        .slug(item.getGame().getSlug())
                         .title(item.getGame().getTitle())
                         .coverImageId(item.getGame().getCoverImageId())
                         .addedAt(item.getAddedAt())

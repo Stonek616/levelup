@@ -37,4 +37,11 @@ public class GameService {
                 .orElseThrow(() -> new ResourceNotFoundException("Game not found with id: " + id));
         return GameDetailResponse.from(game);
     }
+
+    @Transactional(readOnly = true)
+    public GameDetailResponse getGameBySlug(String slug) {
+        Game game = gameRepository.findBySlugWithGenresAndThemes(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Game not found with slug: " + slug));
+        return GameDetailResponse.from(game);
+    }
 }

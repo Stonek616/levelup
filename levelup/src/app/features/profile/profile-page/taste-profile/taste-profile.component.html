@@ -1,50 +1,87 @@
 <div class="taste-profile">
-  <h2 class="taste-profile__title">Taste Profile</h2>
 
-  @if (tasteProfile.averageRating) {
-    <p class="taste-profile__rating">
-      Avg Rating: <strong>{{ tasteProfile.averageRating | number:'1.1-1' }}</strong>
-      / 10 &nbsp;·&nbsp; {{ tasteProfile.totalRated }} rated
-    </p>
-  }
+  <div class="taste-profile__head">
+    <span class="taste-profile__label">Taste</span>
+    <button class="taste-profile__toggle" type="button" (click)="showDetail = !showDetail">
+      {{ showDetail ? 'Less' : 'Details' }}
+    </button>
+  </div>
 
-  @if (tasteProfile.genres.length > 0) {
-    <section class="taste-profile__section">
-      <h3 class="taste-profile__section-title">Genres</h3>
-      @for (genre of tasteProfile.genres; track genre.name) {
-        <div class="taste-profile__genre-row">
-          <span class="taste-profile__genre-name">{{ genre.name }}</span>
-          <div class="taste-profile__bar-track">
-            <div
-              class="taste-profile__bar-fill"
-              [style.width.%]="genre.percentage"
-            ></div>
-          </div>
-          <span class="taste-profile__genre-pct">{{ genre.percentage }}%</span>
+  @if (!showDetail) {
+
+    <!-- Compact view -->
+    <div class="taste-profile__compact">
+
+      @if (topGenres) {
+        <div class="taste-profile__genres-row">
+          <span class="taste-profile__genre-names">{{ topGenres }}</span>
+          @if (tasteProfile.averageRating) {
+            <span class="taste-profile__avg">&#9733; {{ tasteProfile.averageRating | number:'1.1-1' }}</span>
+          }
         </div>
       }
-    </section>
+
+      @if (compactTags.length > 0) {
+        <div class="taste-profile__tags-row">
+          @for (tag of compactTags; track tag) {
+            <span class="taste-profile__tag">{{ tag }}</span>
+          }
+        </div>
+      }
+
+    </div>
+
+  } @else {
+
+    <!-- Detail view -->
+    <div class="taste-profile__detail">
+
+      @if (tasteProfile.averageRating) {
+        <p class="taste-profile__rating">
+          <strong>{{ tasteProfile.averageRating | number:'1.1-1' }}</strong>/10
+          <span class="taste-profile__rating-count">{{ tasteProfile.totalRated }} rated</span>
+        </p>
+      }
+
+      @if (tasteProfile.genres.length > 0) {
+        <section class="taste-profile__section">
+          <h3 class="taste-profile__section-title">Genres</h3>
+          @for (genre of tasteProfile.genres; track genre.name) {
+            <div class="taste-profile__genre-row">
+              <span class="taste-profile__genre-name">{{ genre.name }}</span>
+              <div class="taste-profile__bar-track">
+                <div class="taste-profile__bar-fill" [style.width.%]="genre.percentage"></div>
+              </div>
+              <span class="taste-profile__genre-pct">{{ genre.percentage }}%</span>
+            </div>
+          }
+        </section>
+      }
+
+      @if (tasteProfile.topTags.length > 0) {
+        <section class="taste-profile__section">
+          <h3 class="taste-profile__section-title">Top Themes</h3>
+          <div class="taste-profile__chips">
+            @for (tag of tasteProfile.topTags; track tag) {
+              <span class="taste-profile__chip">{{ tag }}</span>
+            }
+          </div>
+        </section>
+      }
+
+      @if (tasteProfile.topPlatforms.length > 0) {
+        <section class="taste-profile__section">
+          <h3 class="taste-profile__section-title">Platforms</h3>
+          <div class="taste-profile__chips">
+            @for (platform of tasteProfile.topPlatforms; track platform) {
+              <span class="taste-profile__chip">{{ platform }}</span>
+            }
+          </div>
+        </section>
+      }
+
+    </div>
+
   }
 
-  @if (tasteProfile.topTags.length > 0) {
-    <section class="taste-profile__section">
-      <h3 class="taste-profile__section-title">Top Themes</h3>
-      <div class="taste-profile__chips">
-        @for (tag of tasteProfile.topTags; track tag) {
-          <span class="taste-profile__chip">{{ tag }}</span>
-        }
-      </div>
-    </section>
-  }
-
-  @if (tasteProfile.topPlatforms.length > 0) {
-    <section class="taste-profile__section">
-      <h3 class="taste-profile__section-title">Platforms</h3>
-      <div class="taste-profile__chips">
-        @for (platform of tasteProfile.topPlatforms; track platform) {
-          <span class="taste-profile__chip">{{ platform }}</span>
-        }
-      </div>
-    </section>
-  }
 </div>

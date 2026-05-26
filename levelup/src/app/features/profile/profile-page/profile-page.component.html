@@ -15,11 +15,15 @@
             Add {{ profile()!.username }} as a friend to see their taste profile.
           </p>
         }
-        <app-recent-activity />
+        <app-recent-activity [username]="profile()!.username" />
       </div>
       <aside class="profile-page__side">
         <app-collections-preview [username]="profile()!.username" [isOwnProfile]="isOwnProfile()" />
+        @if (canSeeFriendContent()) {
+          <app-gaming-accounts [username]="profile()!.username" />
+        }
+        <app-challenge-history [isOwnProfile]="isOwnProfile()" />
       </aside>
     </div>
   }
-
+</div>

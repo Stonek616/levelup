@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { LibraryEntry } from '../../../core/models/library-entry.model';
+import { GameCardComponent } from '../../../shared/components/game-card/game-card.component';
+import { GameCardInput } from '../../../core/models/game-card.model';
+import { PLATFORM_LABELS } from '../../../core/utils/platform-labels';
 
 @Component({
   selector: 'app-library-grid',
-  imports: [RouterLink, StatusBadgeComponent],
+  imports: [GameCardComponent],
   templateUrl: './library-grid.component.html',
   styleUrl: './library-grid.component.scss'
 })
@@ -20,9 +21,11 @@ export class LibraryGridComponent {
     return result;
   }
 
-  coverUrl(entry: LibraryEntry): string | null {
-    return entry.game.coverImageId
-      ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${entry.game.coverImageId}.jpg`
-      : null;
+  toCard(entry: LibraryEntry): GameCardInput {
+    return { kind: 'entry', data: entry };
+  }
+
+  platformLabel(platform: string): string {
+    return PLATFORM_LABELS[platform] ?? platform;
   }
 }

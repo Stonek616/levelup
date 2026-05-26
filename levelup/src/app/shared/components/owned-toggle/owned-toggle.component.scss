@@ -1,86 +1,91 @@
-.owned-toggle {
+﻿.owned-toggle {
   position: relative;
 
   &__btn {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 0.35rem;
     padding: 0.35rem 0.85rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
     background: transparent;
-    color: var(--text-muted);
-    font-size: 0.85rem;
+    color: var(--color-text-muted);
     font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
     white-space: nowrap;
 
     &--active {
-      background: var(--accent-muted);
-      border-color: var(--accent);
-      color: var(--accent);
+      background: var(--status-ring-subtle, color-mix(in srgb, var(--status-ring) 14%, transparent));
+      border-color: var(--status-ring);
+      color: var(--status-ring);
     }
 
     &:not(.owned-toggle__btn--active):hover {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-primary);
     }
   }
 
   &__platforms {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
+    color: inherit;
+    opacity: 0.75;
+    font-size: 0.78rem;
     font-weight: 400;
   }
 
   &__picker {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 0.5rem);
     left: 0;
     width: 272px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     padding: 1rem;
     z-index: 200;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--shadow-raised);
   }
 
   &__picker-label {
-    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
     font-weight: 500;
-    color: var(--text-secondary);
-    margin: 0 0 0.6rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.7rem;
   }
 
   &__chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 0.75rem;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
   }
 
   &__chip {
-    padding: 0.22rem 0.65rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
+    padding: 0.2rem 0.65rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
     background: transparent;
-    color: var(--text-secondary);
-    font-size: 0.78rem;
+    color: var(--color-text-muted);
     font-family: inherit;
+    font-size: 0.78rem;
     cursor: pointer;
-    transition: all 0.12s;
+    transition: border-color 0.12s, color 0.12s, background 0.12s;
 
     &:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: var(--color-border-strong);
+      color: var(--color-text-primary);
     }
 
     &--selected {
-      background: var(--accent-muted);
-      border-color: var(--accent);
-      color: var(--accent);
+      background: var(--status-ring-subtle, color-mix(in srgb, var(--status-ring) 14%, transparent));
+      border-color: var(--status-ring);
+      color: var(--status-ring);
     }
   }
 

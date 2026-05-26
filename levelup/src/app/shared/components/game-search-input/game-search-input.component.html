@@ -14,7 +14,19 @@
       @for (game of results(); track game.id) {
         <li>
           <button type="button" (click)="selectGame(game)">
-            {{ game.title }} @if (game.releaseYear) { ({{ game.releaseYear }}) }
+            <span class="result-cover">
+              @if (coverUrl(game)) {
+                <img [src]="coverUrl(game)!" [alt]="game.title" class="result-cover__img" />
+              } @else {
+                <span class="result-cover__placeholder"></span>
+              }
+            </span>
+            <span class="result-info">
+              <span class="result-info__title">{{ game.title }}</span>
+              @if (game.releaseYear) {
+                <span class="result-info__year">{{ game.releaseYear }}</span>
+              }
+            </span>
           </button>
         </li>
       }

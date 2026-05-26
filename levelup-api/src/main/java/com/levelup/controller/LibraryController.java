@@ -21,6 +21,7 @@ import com.levelup.dto.request.CreateLibraryEntryRequest;
 import com.levelup.dto.request.UpdateLibraryEntryRequest;
 import com.levelup.dto.response.LibraryEntryResponse;
 import com.levelup.model.enums.LibraryStatus;
+import com.levelup.model.enums.OwnershipStatus;
 import com.levelup.security.UserDetailsImpl;
 import com.levelup.service.LibraryService;
 
@@ -37,11 +38,11 @@ public class LibraryController {
     public ResponseEntity<Page<LibraryEntryResponse>> getLibrary(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestParam(required = false) LibraryStatus status,
-            @RequestParam(required = false) Boolean owned,
+            @RequestParam(required = false) OwnershipStatus ownership,
             @RequestParam(required = false) String platform,
             Pageable pageable) {
         Page<LibraryEntryResponse> entries = libraryService.getUserLibrary(
-                userDetails.getId(), status, owned, platform, pageable);
+                userDetails.getId(), status, ownership, platform, pageable);
         return ResponseEntity.ok(entries);
     }
 
@@ -49,8 +50,7 @@ public class LibraryController {
     public ResponseEntity<LibraryEntryResponse> addToLibrary(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @Valid @RequestBody CreateLibraryEntryRequest request) {
-        LibraryEntryResponse entry = libraryService.addToLibrary(
-                userDetails.getId(), request);
+        LibraryEntryResponse entry = libraryService.addToLibrary(userDetails.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(entry);
     }
 
@@ -72,10 +72,9 @@ public class LibraryController {
     }
 
     @GetMapping("/game/{gameId}")
-public ResponseEntity<LibraryEntryResponse> getEntryByGame(
-        @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @PathVariable UUID gameId) {
-    return ResponseEntity.ok(libraryService.getEntryByGame(userDetails.getId(), gameId));
-}
-
+    public ResponseEntity<LibraryEntryResponse> getEntryByGame(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @PathVariable UUID gameId) {
+        return ResponseEntity.ok(libraryService.getEntryByGame(userDetails.getId(), gameId));
+    }
 }

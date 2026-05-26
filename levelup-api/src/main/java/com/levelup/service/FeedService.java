@@ -93,6 +93,7 @@ public class FeedService {
                     Double rating = stats[0] > 0 ? Math.round(stats[0] * 10.0) / 10.0 : null;
                     return TrendingGameResponse.builder()
                             .id(game.getId())
+                            .slug(game.getSlug())
                             .title(game.getTitle())
                             .coverImageId(game.getCoverImageId())
                             .genres(game.getGenres().stream()
@@ -107,6 +108,11 @@ public class FeedService {
                 .toList();
 
         return new PageImpl<>(results, pageable, trendingPage.getTotalElements());
+    }
+
+    public Page<FeedEventResponse> getUserActivity(String username, Pageable pageable) {
+        return feedEventRepository.findByUserUsername(username, pageable)
+                .map(FeedEventResponse::from);
     }
 
     // Called by LibraryService when library entries are created or updated

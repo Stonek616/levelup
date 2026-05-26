@@ -43,4 +43,11 @@ export class FeedService {
       { params: { page, size } }
     );
   }
+
+  getUserActivity(username: string, page = 0, size = 10): Observable<PagedResponse<FeedEvent>> {
+    return this.http.get<PagedResponse<FeedEvent>>(
+      `${environment.apiUrl}/users/${username}/activity`,
+      { params: { page, size } }
+    );
+  }
 }

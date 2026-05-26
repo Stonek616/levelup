@@ -1,0 +1,44 @@
+<div class="challenge-page">
+  <header class="challenge-page__header">
+    <h1 class="challenge-page__title">Daily Challenge</h1>
+    <p class="challenge-page__subtitle">Odd One Out — find the game that doesn't fit</p>
+  </header>
+
+  <div class="challenge-page__body">
+    @switch (state()) {
+      @case ('loading') {
+        <p class="challenge-page__status">Loading today's challenge...</p>
+      }
+      @case ('active') {
+        @if (friendCompletedCount() > 0) {
+          <p class="challenge-page__friends-note">
+            {{ friendCompletedCount() }} {{ friendCompletedCount() === 1 ? 'friend has' : 'friends have' }} already completed today's challenge.
+          </p>
+        }
+        <app-challenge-active
+          [payload]="payload()!"
+          (completed)="onRoundsCompleted($event)" />
+      }
+      @case ('submitting') {
+        <p class="challenge-page__status">Scoring your answers...</p>
+      }
+      @case ('result') {
+        <app-challenge-result
+          [result]="result()!"
+          [friendScores]="friendScores()" />
+      }
+      @case ('already-done') {
+        <p class="challenge-page__already-done">You've already completed today's challenge.</p>
+        <app-challenge-result
+          [result]="result()!"
+          [friendScores]="friendScores()" />
+      }
+      @case ('no-challenge') {
+        <p class="challenge-page__status">No challenge is available yet — check back later!</p>
+      }
+      @case ('error') {
+        <p class="challenge-page__error">Something went wrong. Please try again.</p>
+      }
+    }
+  </div>
+</div>

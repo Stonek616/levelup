@@ -1,0 +1,46 @@
+<div class="account-settings">
+  <h2 class="settings-section__title">Account</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="settings-form">
+    <div class="settings-form__group">
+      <label class="settings-form__label">Username</label>
+      <input class="settings-form__input" type="text" formControlName="username" autocomplete="username" />
+    </div>
+
+    <div class="settings-form__group">
+      <label class="settings-form__label">Email</label>
+      <input class="settings-form__input" type="email" formControlName="email" autocomplete="email" />
+    </div>
+
+    <div class="settings-form__group">
+      <label class="settings-form__label">Bio</label>
+      <textarea class="settings-form__input settings-form__input--textarea" formControlName="bio" rows="3"></textarea>
+    </div>
+
+    <div class="settings-form__divider"></div>
+    <h3 class="settings-form__subheading">Change password</h3>
+
+    <div class="settings-form__group">
+      <label class="settings-form__label">Current password</label>
+      <input class="settings-form__input" type="password" formControlName="currentPassword" autocomplete="current-password" />
+    </div>
+
+    <div class="settings-form__group">
+      <label class="settings-form__label">New password</label>
+      <input class="settings-form__input" type="password" formControlName="newPassword" autocomplete="new-password" />
+    </div>
+
+    @if (error()) {
+      <p class="settings-form__error">{{ error() }}</p>
+    }
+    @if (success()) {
+      <p class="settings-form__success">Changes saved.</p>
+    }
+
+    <div class="settings-form__actions">
+      <button class="btn btn--primary" type="submit" [disabled]="saving() || form.invalid">
+        {{ saving() ? 'Saving...' : 'Save changes' }}
+      </button>
+    </div>
+  </form>
+</div>

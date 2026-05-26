@@ -1,5 +1,5 @@
 <div class="feed-item">
-  <a [routerLink]="['/game', event.game.id]" class="feed-item__cover">
+  <a [routerLink]="['/game', event.game.slug]" class="feed-item__cover">
     @if (coverUrl) {
       <img [src]="coverUrl" [alt]="event.game.title" class="feed-item__cover-img" />
     } @else {
@@ -19,7 +19,7 @@
     </div>
 
     <div class="feed-item__detail">
-      <a [routerLink]="['/game', event.game.id]" class="feed-item__game-title">
+      <a [routerLink]="['/game', event.game.slug]" class="feed-item__game-title">
         {{ event.game.title }}
       </a>
       <span class="feed-item__description">{{ description }}</span>

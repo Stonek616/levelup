@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GameSuggestionGame {
     private String id;
+    private String slug;
     private String title;
     private String coverUrl;
     private List<String> genres;

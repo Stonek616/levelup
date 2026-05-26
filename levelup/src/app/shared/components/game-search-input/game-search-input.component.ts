@@ -49,6 +49,11 @@ export class GameSearchInputComponent implements OnInit {
     this.searchSubject.next(value);
   }
 
+  coverUrl(game: GameSummary): string | null {
+    if (!game.coverImageId) return null;
+    return `https://images.igdb.com/igdb/image/upload/t_thumb/${game.coverImageId}.jpg`;
+  }
+
   selectGame(game: GameSummary) {
     this.gameSelected.emit(game);
     this.results.set([]);

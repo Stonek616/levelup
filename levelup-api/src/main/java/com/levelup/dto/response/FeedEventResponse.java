@@ -38,6 +38,7 @@ public class FeedEventResponse {
     @AllArgsConstructor
     public static class GameInFeed {
         private UUID id;
+        private String slug;
         private String title;
         private String coverImageId;
     }
@@ -53,6 +54,7 @@ public class FeedEventResponse {
                         .build())
                 .game(GameInFeed.builder()
                         .id(event.getGame().getId())
+                        .slug(event.getGame().getSlug())
                         .title(event.getGame().getTitle())
                         .coverImageId(event.getGame().getCoverImageId())
                         .build())

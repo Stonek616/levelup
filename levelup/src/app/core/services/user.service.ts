@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { AuthUser, UpdateProfileRequest, UserProfile, UserSearchResult} from '../models/user.model';
+import { AuthUser, GameProfile, UpdateProfileRequest, UserProfile, UserSearchResult} from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -34,11 +34,25 @@ export class UserService {
     return this.http.patch<UserProfile>(`${environment.apiUrl}/users/me`, request);
   }
 
+  uploadAvatar(file: File): Observable<UserProfile> {
+    const body = new FormData();
+    body.append('file', file);
+    return this.http.post<UserProfile>(`${environment.apiUrl}/users/me/avatar`, body);
+  }
+
+  deleteAvatar(): Observable<UserProfile> {
+    return this.http.delete<UserProfile>(`${environment.apiUrl}/users/me/avatar`);
+  }
+
   searchUsers(query: string): Observable<PagedResponse<UserSearchResult>> {
     return this.http.get<PagedResponse<UserSearchResult>>(
       `${environment.apiUrl}/users/search`,
       { params: { q: query } }
     );
+  }
+
+  getGameProfiles(username: string): Observable<GameProfile[]> {
+    return this.http.get<GameProfile[]>(`${environment.apiUrl}/users/${username}/game-profiles`);
   }
 
 }

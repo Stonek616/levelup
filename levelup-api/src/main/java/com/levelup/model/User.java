@@ -16,6 +16,7 @@ import lombok.Setter;
 import java.util.UUID;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import com.levelup.model.enums.UserRole;
 import com.levelup.model.enums.VisibilityType;
 
 @Entity
@@ -39,6 +40,9 @@ public class User {
     private String avatarUrl;
     @Column(name = "onboarding_completed", nullable = false)
     private boolean onboardingCompleted = false;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role = UserRole.USER;
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
     @Column(name = "updated_at", nullable = false)

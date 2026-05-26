@@ -1,4 +1,4 @@
-.find-friends {
+﻿.find-friends {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -9,7 +9,7 @@
   }
 
   &__status {
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
   }
 

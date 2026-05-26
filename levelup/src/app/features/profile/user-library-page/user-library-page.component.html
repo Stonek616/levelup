@@ -1,0 +1,29 @@
+<div class="user-library-page">
+  <header class="user-library-page__header">
+    <div>
+      <button class="user-library-page__back" (click)="goBack()">← Back</button>
+      <p class="user-library-page__eyebrow">{{ username() }} · Collection</p>
+      <h1 class="user-library-page__title">Library</h1>
+    </div>
+    <div class="user-library-page__count">
+      <span class="user-library-page__count-number">{{ totalElements() }}</span>
+      <span class="user-library-page__count-label">Games</span>
+    </div>
+  </header>
+
+  @if (error()) {
+    <p class="user-library-page__error">{{ error() }}</p>
+  } @else {
+    <app-library-toolbar
+      [availablePlatforms]="availablePlatforms()"
+      (filtersChanged)="onFiltersChanged($event)" />
+
+    @if (loading()) {
+      <p class="user-library-page__loading">Loading...</p>
+    } @else if (entries().length === 0) {
+      <p class="user-library-page__empty">{{ username() }} hasn't added any games yet.</p>
+    } @else {
+      <app-library-grid [entries]="entries()" />
+    }
+  }
+</div>

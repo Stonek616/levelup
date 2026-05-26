@@ -1,11 +1,11 @@
-import { LibraryStatus } from "./enums";
+import { LibraryStatus, OwnershipStatus } from "./enums";
 import { GameSummary } from "./game.model";
 
 export interface LibraryEntry {
     id: string;
     game: GameSummary;
-    status: LibraryStatus;
-    isOwned: boolean;
+    status: LibraryStatus | null;
+    ownership: OwnershipStatus;
     platforms: string[];
     rating: number | null;
     createdAt: string;
@@ -23,20 +23,20 @@ export interface SharedGame {
 }
 
 export interface SharedGameEntry {
-    status: LibraryStatus;
-    isOwned: boolean;
+    status: LibraryStatus | null;
+    ownership: OwnershipStatus;
 }
 
 export interface CreateLibraryEntryRequest {
     gameId: string;
-    status: LibraryStatus;
-    isOwned: boolean;
+    status?: LibraryStatus;
+    ownership: OwnershipStatus;
     platforms?: string[];
 }
 
 export interface UpdateLibraryEntryRequest {
     status?: LibraryStatus;
-    isOwned?: boolean;
+    ownership?: OwnershipStatus;
     platforms?: string[];
     rating?: number;
 }

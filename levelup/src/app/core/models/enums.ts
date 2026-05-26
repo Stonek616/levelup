@@ -2,7 +2,6 @@ export class Enums {
 }
 
 export enum LibraryStatus {
-    Wishlist = 'WISHLIST',
     Backlog = 'BACKLOG',
     Playing = 'PLAYING',
     Played = 'PLAYED',
@@ -10,6 +9,8 @@ export enum LibraryStatus {
     Completed = 'COMPLETED',
     Abandoned = 'ABANDONED',
 }
+
+export type OwnershipStatus = 'NONE' | 'WISHLIST' | 'OWNED';
 
 export enum FriendshipStatus {
     Pending = 'PENDING',
@@ -38,11 +39,9 @@ export enum TimeAvailable {
 }
 
 export enum Mood {
-    Chill = 'CHILL',
-    Story = 'STORY',
-    Challenge = 'CHALLENGE',
-    Social = 'SOCIAL',
-    Anything = 'ANYTHING',
+    Familiar = 'FAMILIAR',
+    New = 'NEW',
+    Suprise = 'SUPRISE',
 }
 
 export enum Platform {
@@ -64,8 +63,27 @@ export enum SuggestionSource {
     NewSuggestion = 'NEW_SUGGESTION',
 }
 
+export enum GamePlatform {
+    PSN = 'PSN',
+    Xbox = 'XBOX',
+    Steam = 'STEAM',
+    Nintendo = 'NINTENDO',
+    Epic = 'EPIC',
+    BattleNet = 'BATTLENET',
+    Discord = 'DISCORD',
+}
+
+export const GamePlatformLabels: Record<GamePlatform, string> = {
+    [GamePlatform.PSN]: 'PlayStation Network',
+    [GamePlatform.Xbox]: 'Xbox',
+    [GamePlatform.Steam]: 'Steam',
+    [GamePlatform.Nintendo]: 'Nintendo',
+    [GamePlatform.Epic]: 'Epic Games',
+    [GamePlatform.BattleNet]: 'Battle.net',
+    [GamePlatform.Discord]: 'Discord',
+};
+
 export const LibraryStatusLabels: Record<LibraryStatus, string> = {
-    [LibraryStatus.Wishlist]: 'Wishlist',
     [LibraryStatus.Backlog]: 'Backlog',
     [LibraryStatus.Playing]: 'Playing',
     [LibraryStatus.Played]: 'Played',

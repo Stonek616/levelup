@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.levelup.model.enums.LibraryStatus;
+import com.levelup.model.enums.OwnershipStatus;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,11 +19,11 @@ public class CreateLibraryEntryRequest {
     @NotNull(message = "gameId is required")
     private UUID gameId;
 
-    @NotNull(message = "status is required")
+    // null is valid for WISHLIST entries
     private LibraryStatus status;
 
-    @NotNull(message = "isOwned is required")
-    private Boolean isOwned;
+    @NotNull(message = "ownership is required")
+    private OwnershipStatus ownership;
 
     private List<String> platforms;
 }

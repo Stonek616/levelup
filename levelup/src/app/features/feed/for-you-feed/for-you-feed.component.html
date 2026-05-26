@@ -8,7 +8,7 @@
 } @else {
   <div class="discovery__grid">
     @for (game of games(); track game.id) {
-      <a [routerLink]="['/game', game.id]" class="discovery-card">
+      <a [routerLink]="['/game', game.slug]" class="discovery-card">
         <div class="discovery-card__cover">
           @if (coverUrl(game)) {
             <img [src]="coverUrl(game)" [alt]="game.title" class="discovery-card__img" />

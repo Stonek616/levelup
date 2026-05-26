@@ -117,14 +117,6 @@ export const routes: Routes = [
   },
 
   {
-    path: 'challenge',
-    loadComponent: () =>
-      import('./features/challenge/challenge-page/challenge-page.component')
-        .then(m => m.ChallengePageComponent),
-    canActivate: [authGuard, onboardingGuard]
-  },
-
-  {
     path: 'onboarding',
     loadComponent: () =>
       import('./features/onboarding/onboarding-page/onboarding-page.component')

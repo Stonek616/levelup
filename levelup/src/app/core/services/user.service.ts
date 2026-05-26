@@ -1,13 +1,18 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { AuthUser, GameProfile, UpdateProfileRequest, UserProfile, UserSearchResult} from '../models/user.model';
+import {
+  AuthUser,
+  GameProfile,
+  UpdateProfileRequest,
+  UserProfile,
+  UserSearchResult,
+} from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { PagedResponse } from '../models/api-response.model';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private readonly http = inject(HttpClient);
@@ -23,7 +28,9 @@ export class UserService {
   }
 
   getProfile(username: string): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${environment.apiUrl}/users/${username}`);
+    return this.http.get<UserProfile>(
+      `${environment.apiUrl}/users/${username}`,
+    );
   }
 
   getMyProfile(): Observable<UserProfile> {
@@ -31,29 +38,37 @@ export class UserService {
   }
 
   updateProfile(request: UpdateProfileRequest): Observable<UserProfile> {
-    return this.http.patch<UserProfile>(`${environment.apiUrl}/users/me`, request);
+    return this.http.patch<UserProfile>(
+      `${environment.apiUrl}/users/me`,
+      request,
+    );
   }
 
   uploadAvatar(file: File): Observable<UserProfile> {
     const body = new FormData();
     body.append('file', file);
-    return this.http.post<UserProfile>(`${environment.apiUrl}/users/me/avatar`, body);
+    return this.http.post<UserProfile>(
+      `${environment.apiUrl}/users/me/avatar`,
+      body,
+    );
   }
 
   deleteAvatar(): Observable<UserProfile> {
-    return this.http.delete<UserProfile>(`${environment.apiUrl}/users/me/avatar`);
+    return this.http.delete<UserProfile>(
+      `${environment.apiUrl}/users/me/avatar`,
+    );
   }
 
   searchUsers(query: string): Observable<PagedResponse<UserSearchResult>> {
     return this.http.get<PagedResponse<UserSearchResult>>(
       `${environment.apiUrl}/users/search`,
-      { params: { q: query } }
+      { params: { q: query } },
     );
   }
 
   getGameProfiles(username: string): Observable<GameProfile[]> {
-    return this.http.get<GameProfile[]>(`${environment.apiUrl}/users/${username}/game-profiles`);
+    return this.http.get<GameProfile[]>(
+      `${environment.apiUrl}/users/${username}/game-profiles`,
+    );
   }
-
 }
-

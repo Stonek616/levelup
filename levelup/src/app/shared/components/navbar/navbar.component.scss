@@ -48,7 +48,9 @@
   font-weight: 500;
   color: var(--color-text-muted);
   text-decoration: none;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 
   &:hover {
     color: var(--color-text-primary);
@@ -59,7 +61,10 @@
   &--active {
     color: var(--color-accent);
 
-    &:hover { color: var(--color-accent-hover); background: transparent; }
+    &:hover {
+      color: var(--color-accent-hover);
+      background: transparent;
+    }
   }
 }
 
@@ -86,7 +91,10 @@
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s;
 
   &:hover {
     color: var(--color-text-primary);
@@ -105,7 +113,10 @@
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
   text-decoration: none;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s;
 
   &:hover {
     color: var(--color-text-primary);

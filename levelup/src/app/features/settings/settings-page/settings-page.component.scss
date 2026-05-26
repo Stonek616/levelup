@@ -39,7 +39,10 @@
     color: var(--color-text-secondary);
     transition: all 0.15s;
 
-    &:hover { background: var(--color-surface); color: var(--color-text-primary); }
+    &:hover {
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+    }
 
     &--active {
       background: var(--color-surface);
@@ -48,7 +51,10 @@
     }
 
     &--danger {
-      &:hover, &.settings-page__nav-item--active { color: var(--color-danger, #e55); }
+      &:hover,
+      &.settings-page__nav-item--active {
+        color: var(--color-danger, #e55);
+      }
     }
   }
 

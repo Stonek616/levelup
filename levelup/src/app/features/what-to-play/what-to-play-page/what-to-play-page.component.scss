@@ -47,7 +47,10 @@
     border-radius: var(--radius-md);
     cursor: pointer;
     text-align: left;
-    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    transition:
+      border-color 0.15s,
+      background 0.15s,
+      transform 0.15s;
     font-family: inherit;
 
     &:hover {
@@ -57,7 +60,10 @@
 
     &--active {
       border-color: var(--color-accent);
-      background: var(--color-accent-subtle, color-mix(in srgb, var(--color-accent) 10%, transparent));
+      background: var(
+        --color-accent-subtle,
+        color-mix(in srgb, var(--color-accent) 10%, transparent)
+      );
     }
   }
 
@@ -159,7 +165,9 @@
       background: var(--color-surface-raised);
       border: 1px solid var(--color-border-strong);
       flex-shrink: 0;
-      transition: background 0.18s, border-color 0.18s;
+      transition:
+        background 0.18s,
+        border-color 0.18s;
     }
 
     &-thumb {
@@ -170,7 +178,9 @@
       height: 0.75rem;
       border-radius: 50%;
       background: var(--color-text-muted);
-      transition: transform 0.18s, background 0.18s;
+      transition:
+        transform 0.18s,
+        background 0.18s;
     }
 
     &-label {
@@ -276,7 +286,9 @@
   border-radius: var(--radius-md);
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.15s, transform 0.15s;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
 
   &:hover {
     border-color: var(--color-border-strong);

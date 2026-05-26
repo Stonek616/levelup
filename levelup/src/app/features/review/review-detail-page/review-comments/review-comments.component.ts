@@ -1,5 +1,10 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CommentService } from '../../../../core/services/comment.service';
@@ -12,9 +17,16 @@ import { ReportModalComponent } from '../../../../shared/components/report-modal
 
 @Component({
   selector: 'app-review-comments',
-  imports: [ReactiveFormsModule, RouterLink, DatePipe, AvatarComponent, ConfirmDialogComponent, ReportModalComponent],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    DatePipe,
+    AvatarComponent,
+    ConfirmDialogComponent,
+    ReportModalComponent,
+  ],
   templateUrl: './review-comments.component.html',
-  styleUrl: './review-comments.component.scss'
+  styleUrl: './review-comments.component.scss',
 })
 export class ReviewCommentsComponent implements OnInit {
   @Input({ required: true }) reviewId!: string;
@@ -30,7 +42,7 @@ export class ReviewCommentsComponent implements OnInit {
   deletingCommentId = signal<string | null>(null);
 
   commentForm = new FormGroup({
-    body: new FormControl('', [Validators.required])
+    body: new FormControl('', [Validators.required]),
   });
 
   get isLoggedIn(): boolean {
@@ -43,8 +55,11 @@ export class ReviewCommentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.commentService.getComments(this.reviewId).subscribe({
-      next: (page) => { this.comments.set(page.content); this.loading.set(false); },
-      error: () => this.loading.set(false)
+      next: (page) => {
+        this.comments.set(page.content);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false),
     });
   }
 
@@ -56,11 +71,11 @@ export class ReviewCommentsComponent implements OnInit {
 
     this.commentService.addComment(this.reviewId, { body }).subscribe({
       next: (comment) => {
-        this.comments.update(list => [...list, comment]);
+        this.comments.update((list) => [...list, comment]);
         this.commentForm.reset();
         this.submitting.set(false);
       },
-      error: () => this.submitting.set(false)
+      error: () => this.submitting.set(false),
     });
   }
 
@@ -70,11 +85,17 @@ export class ReviewCommentsComponent implements OnInit {
     const wasLiked = comment.likedByMe;
     const prevCount = comment.likeCount;
 
-    this.comments.update(list => list.map(c =>
-      c.id === comment.id
-        ? { ...c, likedByMe: !wasLiked, likeCount: wasLiked ? prevCount - 1 : prevCount + 1 }
-        : c
-    ));
+    this.comments.update((list) =>
+      list.map((c) =>
+        c.id === comment.id
+          ? {
+              ...c,
+              likedByMe: !wasLiked,
+              likeCount: wasLiked ? prevCount - 1 : prevCount + 1,
+            }
+          : c,
+      ),
+    );
 
     const action$ = wasLiked
       ? this.commentService.unlikeComment(comment.id)
@@ -82,21 +103,30 @@ export class ReviewCommentsComponent implements OnInit {
 
     action$.subscribe({
       next: (res) => {
-        this.comments.update(list => list.map(c =>
-          c.id === comment.id ? { ...c, likedByMe: res.likedByMe, likeCount: res.likeCount } : c
-        ));
+        this.comments.update((list) =>
+          list.map((c) =>
+            c.id === comment.id
+              ? { ...c, likedByMe: res.likedByMe, likeCount: res.likeCount }
+              : c,
+          ),
+        );
       },
       error: () => {
-        this.comments.update(list => list.map(c =>
-          c.id === comment.id ? { ...c, likedByMe: wasLiked, likeCount: prevCount } : c
-        ));
-      }
+        this.comments.update((list) =>
+          list.map((c) =>
+            c.id === comment.id
+              ? { ...c, likedByMe: wasLiked, likeCount: prevCount }
+              : c,
+          ),
+        );
+      },
     });
   }
 
   deleteComment(commentId: string): void {
     this.commentService.deleteComment(commentId).subscribe({
-      next: () => this.comments.update(list => list.filter(c => c.id !== commentId))
+      next: () =>
+        this.comments.update((list) => list.filter((c) => c.id !== commentId)),
     });
   }
 }

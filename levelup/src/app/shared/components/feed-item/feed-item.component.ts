@@ -8,14 +8,16 @@ import { FeedEvent } from '../../../core/models/feed.model';
   selector: 'app-feed-item',
   imports: [RouterLink, DatePipe, AvatarComponent],
   templateUrl: './feed-item.component.html',
-  styleUrl: './feed-item.component.scss'
+  styleUrl: './feed-item.component.scss',
 })
 export class FeedItemComponent {
   @Input({ required: true }) event!: FeedEvent;
 
   get coverUrl(): string | null {
     const id = this.event.game.coverImageId;
-    return id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${id}.jpg` : null;
+    return id
+      ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${id}.jpg`
+      : null;
   }
 
   get description(): string {
@@ -39,12 +41,18 @@ export class FeedItemComponent {
   }
 
   private get parsedMetadata(): Record<string, any> {
-    try { return JSON.parse(this.event.metadata ?? '{}'); }
-    catch { return {}; }
+    try {
+      return JSON.parse(this.event.metadata ?? '{}');
+    } catch {
+      return {};
+    }
   }
 
   private formatStatus(status: string): string {
     if (!status) return '';
-    return status.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    return status
+      .replace(/_/g, ' ')
+      .toLowerCase()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
   }
 }

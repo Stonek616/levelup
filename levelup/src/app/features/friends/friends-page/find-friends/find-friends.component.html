@@ -1,8 +1,10 @@
 <div class="find-friends">
-  <input class="find-friends__input"
-         type="text"
-         placeholder="Search by username..."
-         [formControl]="searchControl" />
+  <input
+    class="find-friends__input"
+    type="text"
+    placeholder="Search by username..."
+    [formControl]="searchControl"
+  />
 
   @if (loading()) {
     <p class="find-friends__status">Searching...</p>

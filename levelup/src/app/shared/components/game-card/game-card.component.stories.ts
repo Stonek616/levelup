@@ -8,9 +8,7 @@ const meta: Meta<GameCardComponent> = {
   title: 'Shared/GameCard',
   component: GameCardComponent,
   tags: ['autodocs'],
-  decorators: [
-    applicationConfig({ providers: [provideRouter([])] }),
-  ],
+  decorators: [applicationConfig({ providers: [provideRouter([])] })],
 };
 export default meta;
 
@@ -155,7 +153,8 @@ export const LongTitle: Story = {
       kind: 'game',
       data: {
         ...baseSummary,
-        title: 'The Elder Scrolls V: Skyrim Anniversary Edition Special Remastered',
+        title:
+          'The Elder Scrolls V: Skyrim Anniversary Edition Special Remastered',
       },
     },
   },

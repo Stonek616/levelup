@@ -1,10 +1,19 @@
-import { Component, Input, Output, EventEmitter, signal, HostListener, ElementRef, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  signal,
+  HostListener,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { LibraryStatus, LibraryStatusLabels } from '../../../core/models/enums';
 
 @Component({
   selector: 'app-status-picker',
   templateUrl: './status-picker.component.html',
-  styleUrl: './status-picker.component.scss'
+  styleUrl: './status-picker.component.scss',
 })
 export class StatusPickerComponent {
   private readonly el = inject(ElementRef);
@@ -21,7 +30,7 @@ export class StatusPickerComponent {
   }
 
   toggle(): void {
-    this.isOpen.update(v => !v);
+    this.isOpen.update((v) => !v);
   }
 
   select(option: LibraryStatus): void {

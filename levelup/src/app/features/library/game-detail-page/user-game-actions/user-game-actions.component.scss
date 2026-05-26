@@ -15,7 +15,9 @@
     font-size: 0.82rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+    transition:
+      background 0.15s,
+      color 0.15s;
 
     &:hover {
       background: var(--status-wishlist);
@@ -30,7 +32,8 @@
     padding: 0.3rem 0.8rem;
     border-radius: var(--radius-pill);
     background: color-mix(in srgb, var(--status-wishlist) 15%, transparent);
-    border: 1px solid color-mix(in srgb, var(--status-wishlist) 40%, transparent);
+    border: 1px solid
+      color-mix(in srgb, var(--status-wishlist) 40%, transparent);
     color: var(--status-wishlist);
     font-family: var(--font-mono);
     font-size: 0.72rem;
@@ -39,7 +42,7 @@
     letter-spacing: 0.08em;
 
     &::before {
-      content: '★';
+      content: "★";
       font-size: 0.8rem;
     }
   }
@@ -53,7 +56,9 @@
     font-family: inherit;
     font-size: 0.82rem;
     cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
 
     &:hover {
       border-color: var(--color-error);

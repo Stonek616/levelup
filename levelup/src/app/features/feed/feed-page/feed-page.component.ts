@@ -9,9 +9,15 @@ type FeedTab = 'friends' | 'trending' | 'for-you' | 'similar' | 'new-notable';
 
 @Component({
   selector: 'app-feed-page',
-  imports: [FriendsFeedComponent, TrendingFeedComponent, ForYouFeedComponent, SimilarFeedComponent, NewNotableFeedComponent],
+  imports: [
+    FriendsFeedComponent,
+    TrendingFeedComponent,
+    ForYouFeedComponent,
+    SimilarFeedComponent,
+    NewNotableFeedComponent,
+  ],
   templateUrl: './feed-page.component.html',
-  styleUrl: './feed-page.component.scss'
+  styleUrl: './feed-page.component.scss',
 })
 export class FeedPageComponent {
   activeTab = signal<FeedTab>('friends');

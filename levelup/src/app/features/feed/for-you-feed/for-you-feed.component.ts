@@ -7,7 +7,7 @@ import { DiscoveryGame } from '../../../core/models/feed.model';
   selector: 'app-for-you-feed',
   imports: [RouterLink],
   templateUrl: './for-you-feed.component.html',
-  styleUrl: './for-you-feed.component.scss'
+  styleUrl: './for-you-feed.component.scss',
 })
 export class ForYouFeedComponent implements OnInit {
   private readonly feedService = inject(FeedService);
@@ -18,7 +18,9 @@ export class ForYouFeedComponent implements OnInit {
   loadingMore = signal(false);
   private page = 0;
 
-  ngOnInit(): void { this.loadPage(); }
+  ngOnInit(): void {
+    this.loadPage();
+  }
 
   loadMore(): void {
     if (this.loadingMore()) return;
@@ -35,7 +37,7 @@ export class ForYouFeedComponent implements OnInit {
   private loadPage(): void {
     this.feedService.getForYou(this.page).subscribe({
       next: (res) => {
-        this.games.update(list => [...list, ...res.content]);
+        this.games.update((list) => [...list, ...res.content]);
         this.hasMore.set(!res.last);
         this.page++;
         this.loading.set(false);
@@ -44,7 +46,7 @@ export class ForYouFeedComponent implements OnInit {
       error: () => {
         this.loading.set(false);
         this.loadingMore.set(false);
-      }
+      },
     });
   }
 }

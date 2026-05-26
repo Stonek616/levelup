@@ -3,7 +3,9 @@
 } @else if (events().length === 0) {
   <div class="feed__empty">
     <p>No activity yet.</p>
-    <p class="feed__empty-hint">Add friends and start tracking games to see their activity here.</p>
+    <p class="feed__empty-hint">
+      Add friends and start tracking games to see their activity here.
+    </p>
   </div>
 } @else {
   <div class="feed__list">
@@ -13,8 +15,12 @@
   </div>
 
   @if (hasMore()) {
-    <button class="feed__load-more" (click)="loadMore()" [disabled]="loadingMore()">
-      {{ loadingMore() ? 'Loading...' : 'Load more' }}
+    <button
+      class="feed__load-more"
+      (click)="loadMore()"
+      [disabled]="loadingMore()"
+    >
+      {{ loadingMore() ? "Loading..." : "Load more" }}
     </button>
   }
 }

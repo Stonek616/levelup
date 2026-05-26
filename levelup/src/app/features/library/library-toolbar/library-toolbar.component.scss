@@ -119,7 +119,10 @@
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    border-color 140ms ease;
 
   &:hover {
     color: var(--color-text-primary);
@@ -154,7 +157,10 @@
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    border-color 140ms ease;
 
   &:hover {
     color: var(--color-text-primary);

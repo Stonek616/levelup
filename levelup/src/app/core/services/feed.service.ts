@@ -12,42 +12,49 @@ export class FeedService {
   getFriendsFeed(page = 0, size = 20): Observable<PagedResponse<FeedEvent>> {
     return this.http.get<PagedResponse<FeedEvent>>(
       `${environment.apiUrl}/feed`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
   getTrending(page = 0, size = 20): Observable<PagedResponse<TrendingGame>> {
     return this.http.get<PagedResponse<TrendingGame>>(
       `${environment.apiUrl}/discover/trending`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
   getForYou(page = 0, size = 20): Observable<PagedResponse<DiscoveryGame>> {
     return this.http.get<PagedResponse<DiscoveryGame>>(
       `${environment.apiUrl}/discover/for-you`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
   getSimilar(page = 0, size = 20): Observable<PagedResponse<DiscoveryGame>> {
     return this.http.get<PagedResponse<DiscoveryGame>>(
       `${environment.apiUrl}/discover/similar`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
-  getNewAndNotable(page = 0, size = 20): Observable<PagedResponse<DiscoveryGame>> {
+  getNewAndNotable(
+    page = 0,
+    size = 20,
+  ): Observable<PagedResponse<DiscoveryGame>> {
     return this.http.get<PagedResponse<DiscoveryGame>>(
       `${environment.apiUrl}/discover/new`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
-  getUserActivity(username: string, page = 0, size = 10): Observable<PagedResponse<FeedEvent>> {
+  getUserActivity(
+    username: string,
+    page = 0,
+    size = 10,
+  ): Observable<PagedResponse<FeedEvent>> {
     return this.http.get<PagedResponse<FeedEvent>>(
       `${environment.apiUrl}/users/${username}/activity`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 }

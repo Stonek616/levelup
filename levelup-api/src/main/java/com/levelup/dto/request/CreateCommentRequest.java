@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCommentRequest {
-    @NotBlank(message = "Comment body is required")
-    private String body;
+  @NotBlank(message = "Comment body is required") private String body;
 }

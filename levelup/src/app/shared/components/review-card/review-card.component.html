@@ -6,11 +6,19 @@
       size="sm"
     />
     <div class="review-card__meta">
-      <a class="review-card__author" [routerLink]="['/profile', review.author.username]">
+      <a
+        class="review-card__author"
+        [routerLink]="['/profile', review.author.username]"
+      >
         {{ review.author.username }}
       </a>
       <span class="review-card__game-label">
-        on <a class="review-card__game" [routerLink]="['/game', review.game.slug]">{{ review.game.title }}</a>
+        on
+        <a
+          class="review-card__game"
+          [routerLink]="['/game', review.game.slug]"
+          >{{ review.game.title }}</a
+        >
       </span>
     </div>
     @if (review.rating) {
@@ -33,11 +41,16 @@
     </button>
 
     <span class="review-card__comments">
-      {{ review.commentCount }} {{ review.commentCount === 1 ? 'comment' : 'comments' }}
+      {{ review.commentCount }}
+      {{ review.commentCount === 1 ? "comment" : "comments" }}
     </span>
 
-    <span class="review-card__date">{{ review.createdAt | date:'mediumDate' }}</span>
+    <span class="review-card__date">{{
+      review.createdAt | date: "mediumDate"
+    }}</span>
 
-    <a class="review-card__link" [routerLink]="['/reviews', review.id]">View →</a>
+    <a class="review-card__link" [routerLink]="['/reviews', review.id]"
+      >View →</a
+    >
   </div>
 </div>

@@ -4,14 +4,25 @@
   <div class="danger-zone__card">
     <div class="danger-zone__info">
       <strong>Delete account</strong>
-      <p>Your account will be scheduled for permanent deletion after a 30-day grace period. This cannot be undone.</p>
+      <p>
+        Your account will be scheduled for permanent deletion after a 30-day
+        grace period. This cannot be undone.
+      </p>
     </div>
 
     @if (!confirming()) {
-      <button class="btn btn--danger" (click)="showConfirm()" type="button">Delete account</button>
+      <button class="btn btn--danger" (click)="showConfirm()" type="button">
+        Delete account
+      </button>
     } @else {
-      <form [formGroup]="form" (ngSubmit)="deleteAccount()" class="danger-zone__form">
-        <p class="danger-zone__confirm-text">Enter your password to confirm account deletion.</p>
+      <form
+        [formGroup]="form"
+        (ngSubmit)="deleteAccount()"
+        class="danger-zone__form"
+      >
+        <p class="danger-zone__confirm-text">
+          Enter your password to confirm account deletion.
+        </p>
         <input
           class="danger-zone__input"
           type="password"
@@ -19,11 +30,19 @@
           placeholder="Your password"
           autocomplete="current-password"
         />
-        @if (error()) { <p class="danger-zone__error">{{ error() }}</p> }
+        @if (error()) {
+          <p class="danger-zone__error">{{ error() }}</p>
+        }
         <div class="danger-zone__form-actions">
-          <button class="btn btn--ghost" type="button" (click)="cancel()">Cancel</button>
-          <button class="btn btn--danger" type="submit" [disabled]="form.invalid || deleting()">
-            {{ deleting() ? 'Deleting...' : 'Confirm delete' }}
+          <button class="btn btn--ghost" type="button" (click)="cancel()">
+            Cancel
+          </button>
+          <button
+            class="btn btn--danger"
+            type="submit"
+            [disabled]="form.invalid || deleting()"
+          >
+            {{ deleting() ? "Deleting..." : "Confirm delete" }}
           </button>
         </div>
       </form>

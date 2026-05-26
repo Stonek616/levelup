@@ -9,7 +9,7 @@ import { ReportService } from '../../../core/services/report.service';
   selector: 'app-admin-reports-page',
   imports: [DatePipe, LowerCasePipe, FormsModule, RouterLink],
   templateUrl: './admin-reports-page.component.html',
-  styleUrl: './admin-reports-page.component.scss'
+  styleUrl: './admin-reports-page.component.scss',
 })
 export class AdminReportsPageComponent implements OnInit {
   private reportService = inject(ReportService);
@@ -45,49 +45,63 @@ export class AdminReportsPageComponent implements OnInit {
   load(): void {
     if (this.loading() && this.page > 0) return;
     this.loading.set(true);
-    this.reportService.getReports(this.activeFilter(), this.page, 20).subscribe({
-      next: (res) => {
-        this.reports.update(existing => [...existing, ...res.content]);
-        this.hasMore.set(!res.last);
-        this.page++;
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false)
-    });
+    this.reportService
+      .getReports(this.activeFilter(), this.page, 20)
+      .subscribe({
+        next: (res) => {
+          this.reports.update((existing) => [...existing, ...res.content]);
+          this.hasMore.set(!res.last);
+          this.page++;
+          this.loading.set(false);
+        },
+        error: () => this.loading.set(false),
+      });
   }
 
   resolve(report: ReportItem): void {
-    this.reportService.updateReport(report.id, {
-      status: 'RESOLVED',
-      notes: this.notesInput[report.id] || undefined,
-      deleteContent: this.deleteContent[report.id] ?? false
-    }).subscribe({
-      next: (updated) => this.replaceReport(updated)
-    });
+    this.reportService
+      .updateReport(report.id, {
+        status: 'RESOLVED',
+        notes: this.notesInput[report.id] || undefined,
+        deleteContent: this.deleteContent[report.id] ?? false,
+      })
+      .subscribe({
+        next: (updated) => this.replaceReport(updated),
+      });
   }
 
   dismiss(report: ReportItem): void {
-    this.reportService.updateReport(report.id, {
-      status: 'DISMISSED',
-      notes: this.notesInput[report.id] || undefined
-    }).subscribe({
-      next: (updated) => this.replaceReport(updated)
-    });
+    this.reportService
+      .updateReport(report.id, {
+        status: 'DISMISSED',
+        notes: this.notesInput[report.id] || undefined,
+      })
+      .subscribe({
+        next: (updated) => this.replaceReport(updated),
+      });
   }
 
   private replaceReport(updated: ReportItem): void {
-    this.reports.update(list => list.map(r => r.id === updated.id ? updated : r));
+    this.reports.update((list) =>
+      list.map((r) => (r.id === updated.id ? updated : r)),
+    );
   }
 
   targetLink(report: ReportItem): string[] {
     switch (report.targetType) {
-      case 'REVIEW': return ['/reviews', report.targetId];
-      case 'USER': return ['/profile', report.targetId];
-      default: return ['/reviews', report.targetId];
+      case 'REVIEW':
+        return ['/reviews', report.targetId];
+      case 'USER':
+        return ['/profile', report.targetId];
+      default:
+        return ['/reviews', report.targetId];
     }
   }
 
   formatReason(reason: string): string {
-    return reason.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    return reason
+      .replace(/_/g, ' ')
+      .toLowerCase()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
   }
 }

@@ -12,17 +12,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.12s ease, transform 0.08s ease;
+    transition:
+      color 0.12s ease,
+      transform 0.08s ease;
     line-height: 0;
 
-    &:hover { transform: scale(1.2); }
+    &:hover {
+      transform: scale(1.2);
+    }
 
     &--active {
       color: var(--status-ring); // brass — the "earned affection" color
     }
 
-    &:disabled { cursor: default; }
-    &:disabled:hover { transform: none; }
+    &:disabled {
+      cursor: default;
+    }
+    &:disabled:hover {
+      transform: none;
+    }
 
     // Subtle glow on the rightmost active heart for a touch of arcade energy
     &--active + .rating__heart:not(.rating__heart--active),

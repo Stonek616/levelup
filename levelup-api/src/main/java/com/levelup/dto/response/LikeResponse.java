@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LikeResponse {
-    private int likeCount;
-    private boolean likedByMe;
+  private int likeCount;
+  private boolean likedByMe;
 }

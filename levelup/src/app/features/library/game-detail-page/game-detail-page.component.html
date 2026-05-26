@@ -6,7 +6,11 @@
 
     <div class="game-detail__header">
       @if (coverUrl) {
-        <img [src]="coverUrl" [alt]="game()!.title" class="game-detail__cover" />
+        <img
+          [src]="coverUrl"
+          [alt]="game()!.title"
+          class="game-detail__cover"
+        />
       }
 
       <div class="game-detail__meta">
@@ -14,13 +18,15 @@
 
         <div class="game-detail__byline">
           @if (game()!.firstReleaseDate) {
-            <span>{{ game()!.firstReleaseDate | date:'MMMM d, y':'UTC' }}</span>
+            <span>{{
+              game()!.firstReleaseDate | date: "MMMM d, y" : "UTC"
+            }}</span>
           }
           @if (game()!.firstReleaseDate && game()!.developers.length > 0) {
             <span class="game-detail__dot">·</span>
           }
           @if (game()!.developers.length > 0) {
-            <span>{{ game()!.developers.join(', ') }}</span>
+            <span>{{ game()!.developers.join(", ") }}</span>
           }
         </div>
 
@@ -36,25 +42,34 @@
           @if (game()!.platforms.length > 0) {
             <div class="game-detail__info-row">
               <span class="game-detail__info-label">Platforms</span>
-              <span class="game-detail__info-value">{{ game()!.platforms.join(' · ') }}</span>
+              <span class="game-detail__info-value">{{
+                game()!.platforms.join(" · ")
+              }}</span>
             </div>
           }
           @if (game()!.gameModes.length > 0) {
             <div class="game-detail__info-row">
               <span class="game-detail__info-label">Modes</span>
-              <span class="game-detail__info-value">{{ game()!.gameModes.join(' · ') }}</span>
+              <span class="game-detail__info-value">{{
+                game()!.gameModes.join(" · ")
+              }}</span>
             </div>
           }
           @if (game()!.playerPerspectives.length > 0) {
             <div class="game-detail__info-row">
               <span class="game-detail__info-label">Perspective</span>
-              <span class="game-detail__info-value">{{ game()!.playerPerspectives.join(' · ') }}</span>
+              <span class="game-detail__info-value">{{
+                game()!.playerPerspectives.join(" · ")
+              }}</span>
             </div>
           }
         </div>
 
         @if (authService.isAuthenticated()) {
-          <app-user-game-actions [gameId]="game()!.id" [gamePlatforms]="game()!.platforms" />
+          <app-user-game-actions
+            [gameId]="game()!.id"
+            [gamePlatforms]="game()!.platforms"
+          />
         }
       </div>
     </div>

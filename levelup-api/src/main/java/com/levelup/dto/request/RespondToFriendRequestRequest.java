@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RespondToFriendRequestRequest {
 
-    @NotBlank(message = "action is required")
-    @Pattern(regexp = "(?i)ACCEPT|DECLINE", message = "action must be ACCEPT or DECLINE")
-    private String action;
+  @NotBlank(message = "action is required") @Pattern(regexp = "(?i)ACCEPT|DECLINE", message = "action must be ACCEPT or DECLINE")
+  private String action;
 }

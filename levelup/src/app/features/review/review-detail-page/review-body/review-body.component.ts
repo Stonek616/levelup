@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,9 +20,16 @@ import { ReportModalComponent } from '../../../../shared/components/report-modal
 
 @Component({
   selector: 'app-review-body',
-  imports: [RouterLink, DatePipe, FormsModule, AvatarComponent, ConfirmDialogComponent, ReportModalComponent],
+  imports: [
+    RouterLink,
+    DatePipe,
+    FormsModule,
+    AvatarComponent,
+    ConfirmDialogComponent,
+    ReportModalComponent,
+  ],
   templateUrl: './review-body.component.html',
-  styleUrl: './review-body.component.scss'
+  styleUrl: './review-body.component.scss',
 })
 export class ReviewBodyComponent implements OnInit {
   @Input({ required: true }) review!: Review;
@@ -61,22 +76,24 @@ export class ReviewBodyComponent implements OnInit {
   saveEdit(): void {
     if (!this.editBody.trim() || this.saving()) return;
     this.saving.set(true);
-    this.reviewService.updateReview(this.review.id, {
-      body: this.editBody.trim(),
-      rating: this.editRating
-    }).subscribe({
-      next: (updated) => {
-        this.editing.set(false);
-        this.saving.set(false);
-        this.updated.emit(updated);
-      },
-      error: () => this.saving.set(false)
-    });
+    this.reviewService
+      .updateReview(this.review.id, {
+        body: this.editBody.trim(),
+        rating: this.editRating,
+      })
+      .subscribe({
+        next: (updated) => {
+          this.editing.set(false);
+          this.saving.set(false);
+          this.updated.emit(updated);
+        },
+        error: () => this.saving.set(false),
+      });
   }
 
   confirmDelete(): void {
     this.reviewService.deleteReview(this.review.id).subscribe({
-      next: () => this.deleted.emit()
+      next: () => this.deleted.emit(),
     });
   }
 
@@ -94,8 +111,14 @@ export class ReviewBodyComponent implements OnInit {
       : this.reviewService.likeReview(this.review.id);
 
     action$.subscribe({
-      next: (res) => { this.likeCount.set(res.likeCount); this.likedByMe.set(res.likedByMe); },
-      error: () => { this.likedByMe.set(wasLiked); this.likeCount.set(prevCount); }
+      next: (res) => {
+        this.likeCount.set(res.likeCount);
+        this.likedByMe.set(res.likedByMe);
+      },
+      error: () => {
+        this.likedByMe.set(wasLiked);
+        this.likeCount.set(prevCount);
+      },
     });
   }
 }

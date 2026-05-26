@@ -1,8 +1,5 @@
 package com.levelup.model;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +11,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.time.Instant;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,38 +23,38 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Review {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id", nullable = false)
-    private Game game;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-    @Column(nullable = false)
-    private String body;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "game_id", nullable = false)
+  private Game game;
 
-    @Column(name = "like_count")
-    private Integer likeCount = 0;
+  @Column(nullable = false)
+  private String body;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
+  @Column(name = "like_count")
+  private Integer likeCount = 0;
 
-    @Column(name = "updated_at")
-    private Instant updatedAt;
+  @Column(name = "created_at")
+  private Instant createdAt;
 
-    @PrePersist
-    private void prePersist() {
-        createdAt = Instant.now();
-        updatedAt = Instant.now();
-    }
+  @Column(name = "updated_at")
+  private Instant updatedAt;
 
-    @PreUpdate
-    private void preUpdate() {
-        updatedAt = Instant.now();
-    }
+  @PrePersist
+  private void prePersist() {
+    createdAt = Instant.now();
+    updatedAt = Instant.now();
+  }
 
+  @PreUpdate
+  private void preUpdate() {
+    updatedAt = Instant.now();
+  }
 }

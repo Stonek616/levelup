@@ -38,15 +38,17 @@ export class AccountDeletionComponent {
     if (this.form.invalid) return;
     this.deleting.set(true);
     this.error.set(null);
-    this.settingsService.deleteAccount({ password: this.form.value.password! }).subscribe({
-      next: () => {
-        this.authService.logout();
-        this.router.navigateByUrl('/');
-      },
-      error: (err) => {
-        this.error.set(err?.error?.message ?? 'Failed to delete account.');
-        this.deleting.set(false);
-      },
-    });
+    this.settingsService
+      .deleteAccount({ password: this.form.value.password! })
+      .subscribe({
+        next: () => {
+          this.authService.logout();
+          this.router.navigateByUrl('/');
+        },
+        error: (err) => {
+          this.error.set(err?.error?.message ?? 'Failed to delete account.');
+          this.deleting.set(false);
+        },
+      });
   }
 }

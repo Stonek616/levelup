@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { LibraryStatus, LibraryStatusLabels } from '../../../core/models/enums';
 
-
 @Component({
   selector: 'app-status-badge',
   imports: [],
   templateUrl: './status-badge.component.html',
-  styleUrl: './status-badge.component.scss'
+  styleUrl: './status-badge.component.scss',
 })
 export class StatusBadgeComponent {
   @Input() status!: LibraryStatus;

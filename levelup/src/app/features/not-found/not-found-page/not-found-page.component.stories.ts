@@ -8,9 +8,7 @@ const meta: Meta<NotFoundPageComponent> = {
   component: NotFoundPageComponent,
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },
-  decorators: [
-    applicationConfig({ providers: [provideRouter([])] }),
-  ],
+  decorators: [applicationConfig({ providers: [provideRouter([])] })],
 };
 export default meta;
 

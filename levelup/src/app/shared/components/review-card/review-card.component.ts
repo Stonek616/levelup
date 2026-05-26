@@ -10,7 +10,7 @@ import { AvatarComponent } from '../avatar/avatar.component';
   selector: 'app-review-card',
   imports: [RouterLink, DatePipe, AvatarComponent],
   templateUrl: './review-card.component.html',
-  styleUrl: './review-card.component.scss'
+  styleUrl: './review-card.component.scss',
 })
 export class ReviewCardComponent implements OnInit {
   @Input({ required: true }) review!: Review;
@@ -51,7 +51,7 @@ export class ReviewCardComponent implements OnInit {
       error: () => {
         this.likedByMe.set(wasLiked);
         this.likeCount.set(prevCount);
-      }
+      },
     });
   }
 }

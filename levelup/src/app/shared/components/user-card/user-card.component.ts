@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -9,7 +17,7 @@ import { FriendService } from '../../../core/services/friend.service';
   selector: 'app-user-card',
   imports: [RouterLink, AvatarComponent, ConfirmDialogComponent],
   templateUrl: './user-card.component.html',
-  styleUrl: './user-card.component.scss'
+  styleUrl: './user-card.component.scss',
 })
 export class UserCardComponent implements OnInit {
   @Input({ required: true }) user!: UserSummary;
@@ -34,7 +42,7 @@ export class UserCardComponent implements OnInit {
         this.requestStatus.set(res.status);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -45,7 +53,7 @@ export class UserCardComponent implements OnInit {
         this.friendRemoved.emit(this.user.id);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 }

@@ -5,8 +5,12 @@ import { PendingRequestsComponent } from './pending-requests/pending-requests.co
 
 @Component({
   selector: 'app-friends-page',
-  imports: [FindFriendsComponent, FriendListComponent, PendingRequestsComponent],
+  imports: [
+    FindFriendsComponent,
+    FriendListComponent,
+    PendingRequestsComponent,
+  ],
   templateUrl: './friends-page.component.html',
-  styleUrl: './friends-page.component.scss'
+  styleUrl: './friends-page.component.scss',
 })
 export class FriendsPageComponent {}

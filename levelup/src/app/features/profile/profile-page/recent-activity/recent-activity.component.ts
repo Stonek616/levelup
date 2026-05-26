@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  inject,
+  signal,
+} from '@angular/core';
 import { FeedItemComponent } from '../../../../shared/components/feed-item/feed-item.component';
 import { FeedEvent } from '../../../../core/models/feed.model';
 import { FeedService } from '../../../../core/services/feed.service';
@@ -7,7 +15,7 @@ import { FeedService } from '../../../../core/services/feed.service';
   selector: 'app-recent-activity',
   imports: [FeedItemComponent],
   templateUrl: './recent-activity.component.html',
-  styleUrl: './recent-activity.component.scss'
+  styleUrl: './recent-activity.component.scss',
 })
 export class RecentActivityComponent implements OnInit, OnChanges {
   @Input({ required: true }) username!: string;
@@ -37,12 +45,12 @@ export class RecentActivityComponent implements OnInit, OnChanges {
     this.loading.set(true);
     this.feedService.getUserActivity(this.username, this.page, 10).subscribe({
       next: (res) => {
-        this.events.update(existing => [...existing, ...res.content]);
+        this.events.update((existing) => [...existing, ...res.content]);
         this.hasMore.set(!res.last);
         this.page++;
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 }

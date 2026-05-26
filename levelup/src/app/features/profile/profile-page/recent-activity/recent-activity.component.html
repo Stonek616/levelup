@@ -13,8 +13,12 @@
     </div>
 
     @if (hasMore()) {
-      <button class="recent-activity__more" [disabled]="loading()" (click)="load()">
-        {{ loading() ? 'Loading...' : 'Load more' }}
+      <button
+        class="recent-activity__more"
+        [disabled]="loading()"
+        (click)="load()"
+      >
+        {{ loading() ? "Loading..." : "Load more" }}
       </button>
     }
   }

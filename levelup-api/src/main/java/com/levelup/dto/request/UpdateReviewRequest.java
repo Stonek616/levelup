@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateReviewRequest {
-    private String body;
-    private Integer rating;
+  private String body;
+  private Integer rating;
 }

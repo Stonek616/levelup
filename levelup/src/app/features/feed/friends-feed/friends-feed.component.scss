@@ -32,6 +32,11 @@
   cursor: pointer;
   font-size: 0.9rem;
 
-  &:hover:not(:disabled) { background: var(--color-surface); }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:hover:not(:disabled) {
+    background: var(--color-surface);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }

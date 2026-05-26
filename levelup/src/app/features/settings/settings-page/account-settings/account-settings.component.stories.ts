@@ -22,7 +22,11 @@ const mockProfile = {
 };
 
 const mockUserService = {
-  currentUser: signal({ id: 'user-1', username: 'gamer99', email: 'gamer@example.com' }),
+  currentUser: signal({
+    id: 'user-1',
+    username: 'gamer99',
+    email: 'gamer@example.com',
+  }),
   getMyProfile: () => of(mockProfile),
 };
 
@@ -31,7 +35,8 @@ const mockSettingsServiceSuccess = {
 };
 
 const mockSettingsServiceError = {
-  updateAccount: (_req: any) => throwError(() => ({ error: { message: 'Username already taken.' } })),
+  updateAccount: (_req: any) =>
+    throwError(() => ({ error: { message: 'Username already taken.' } })),
 };
 
 const meta: Meta<AccountSettingsComponent> = {

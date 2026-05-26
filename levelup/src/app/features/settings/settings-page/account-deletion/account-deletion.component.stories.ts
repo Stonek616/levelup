@@ -13,11 +13,13 @@ const mockAuthService = {
 };
 
 const mockSettingsServiceSuccess = {
-  deleteAccount: (_req: any) => of({ message: 'Account scheduled for deletion.' }),
+  deleteAccount: (_req: any) =>
+    of({ message: 'Account scheduled for deletion.' }),
 };
 
 const mockSettingsServiceError = {
-  deleteAccount: (_req: any) => throwError(() => ({ error: { message: 'Incorrect password.' } })),
+  deleteAccount: (_req: any) =>
+    throwError(() => ({ error: { message: 'Incorrect password.' } })),
 };
 
 const meta: Meta<DangerZoneComponent> = {

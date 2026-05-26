@@ -1,7 +1,11 @@
 <div class="feed-item">
   <a [routerLink]="['/game', event.game.slug]" class="feed-item__cover">
     @if (coverUrl) {
-      <img [src]="coverUrl" [alt]="event.game.title" class="feed-item__cover-img" />
+      <img
+        [src]="coverUrl"
+        [alt]="event.game.title"
+        class="feed-item__cover-img"
+      />
     } @else {
       <div class="feed-item__cover-placeholder"></div>
     }
@@ -9,17 +13,27 @@
 
   <div class="feed-item__body">
     <div class="feed-item__header">
-      <a [routerLink]="['/profile', event.user.username]" class="feed-item__user">
-        <app-avatar [avatarUrl]="event.user.avatarUrl"
-                    [username]="event.user.username"
-                    size="sm" />
+      <a
+        [routerLink]="['/profile', event.user.username]"
+        class="feed-item__user"
+      >
+        <app-avatar
+          [avatarUrl]="event.user.avatarUrl"
+          [username]="event.user.username"
+          size="sm"
+        />
         <span class="feed-item__username">{{ event.user.username }}</span>
       </a>
-      <span class="feed-item__time">{{ event.createdAt | date:'mediumDate' }}</span>
+      <span class="feed-item__time">{{
+        event.createdAt | date: "mediumDate"
+      }}</span>
     </div>
 
     <div class="feed-item__detail">
-      <a [routerLink]="['/game', event.game.slug]" class="feed-item__game-title">
+      <a
+        [routerLink]="['/game', event.game.slug]"
+        class="feed-item__game-title"
+      >
         {{ event.game.title }}
       </a>
       <span class="feed-item__description">{{ description }}</span>

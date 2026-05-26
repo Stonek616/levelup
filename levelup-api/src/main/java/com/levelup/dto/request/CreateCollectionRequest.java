@@ -8,11 +8,9 @@ import lombok.Data;
 @Data
 public class CreateCollectionRequest {
 
-    @NotBlank
-    @Size(max = 100)
-    private String name;
+  @NotBlank @Size(max = 100) private String name;
 
-    private String description;
+  private String description;
 
-    private VisibilityType visibility = VisibilityType.PUBLIC;
+  private VisibilityType visibility = VisibilityType.PUBLIC;
 }

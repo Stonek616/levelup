@@ -10,24 +10,22 @@ import org.springframework.stereotype.Component;
 @Profile("ingest")
 public class IgdbIngestionRunner implements CommandLineRunner {
 
-    private static final Logger log = LoggerFactory.getLogger(IgdbIngestionRunner.class);
+  private static final Logger log = LoggerFactory.getLogger(IgdbIngestionRunner.class);
 
-    private final IgdbGameIngestionService gameService;
+  private final IgdbGameIngestionService gameService;
 
-    public IgdbIngestionRunner(
-            IgdbGameIngestionService gameService) {
-        this.gameService = gameService;
-    }
+  public IgdbIngestionRunner(IgdbGameIngestionService gameService) {
+    this.gameService = gameService;
+  }
 
-    @Override
-    public void run(String... args) {
-        long start = System.currentTimeMillis();
-        log.info("=== Starting IGDB ingestion ===");
+  @Override
+  public void run(String... args) {
+    long start = System.currentTimeMillis();
+    log.info("=== Starting IGDB ingestion ===");
 
+    gameService.ingestGames(10000);
 
-        gameService.ingestGames(10000);
-
-        long elapsed = (System.currentTimeMillis() - start) / 1000;
-        log.info("=== Ingestion complete in {}s ===", elapsed);
-    }
+    long elapsed = (System.currentTimeMillis() - start) / 1000;
+    log.info("=== Ingestion complete in {}s ===", elapsed);
+  }
 }

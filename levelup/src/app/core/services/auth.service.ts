@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap, catchError, of, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest, RegisterRequest } from '../models/user.model';
+import {
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+} from '../models/user.model';
 import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly userService = inject(UserService);
@@ -22,40 +25,43 @@ export class AuthService {
 
   private _refreshInProgress: Observable<AuthResponse | null> | null = null;
 
-
   login(request: LoginRequest) {
     return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/login`, request,
-        { withCredentials: true })  // send/receive HttpOnly cookies
+      .post<AuthResponse>(`${environment.apiUrl}/auth/login`, request, {
+        withCredentials: true,
+      }) // send/receive HttpOnly cookies
       .pipe(
-        tap(response => {
+        tap((response) => {
           this._token.set(response.accessToken);
           this.userService.setUser(response.user);
-        })
+        }),
       );
   }
 
   register(request: RegisterRequest) {
     return this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/register`, request,
-        { withCredentials: true })
+      .post<AuthResponse>(`${environment.apiUrl}/auth/register`, request, {
+        withCredentials: true,
+      })
       .pipe(
-        tap(response => {
+        tap((response) => {
           this._token.set(response.accessToken);
           this.userService.setUser(response.user);
-        })
+        }),
       );
   }
-
 
   refreshSession(): Observable<AuthResponse | null> {
     if (this._refreshInProgress) return this._refreshInProgress;
 
     this._refreshInProgress = this.http
-      .post<AuthResponse>(`${environment.apiUrl}/auth/refresh`, {},
-        { withCredentials: true })
+      .post<AuthResponse>(
+        `${environment.apiUrl}/auth/refresh`,
+        {},
+        { withCredentials: true },
+      )
       .pipe(
-        tap(response => {
+        tap((response) => {
           this._token.set(response.accessToken);
           this.userService.setUser(response.user);
           this._initialized.set(true);
@@ -68,26 +74,32 @@ export class AuthService {
           this._refreshInProgress = null;
           return of(null);
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
 
     return this._refreshInProgress;
   }
 
   logout() {
-    this.http.post(`${environment.apiUrl}/auth/logout`, {},
-      { withCredentials: true }).subscribe();
+    this.http
+      .post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true })
+      .subscribe();
     this._token.set(null);
     this.userService.clearUser();
     this.router.navigate(['/']);
   }
 
   forgotPassword(email: string) {
-    return this.http.post<void>(`${environment.apiUrl}/auth/forgot-password`, { email });
+    return this.http.post<void>(`${environment.apiUrl}/auth/forgot-password`, {
+      email,
+    });
   }
 
   resetPassword(token: string, newPassword: string) {
-    return this.http.post<void>(`${environment.apiUrl}/auth/reset-password`, { token, newPassword });
+    return this.http.post<void>(`${environment.apiUrl}/auth/reset-password`, {
+      token,
+      newPassword,
+    });
   }
 
   getToken(): string | null {

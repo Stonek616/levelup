@@ -63,12 +63,13 @@ export const PrivateProfile: Story = {
           provide: UserService,
           useValue: {
             currentUser: signal({ id: 'user-1', username: 'ghost_user' }),
-            getMyProfile: () => of({
-              ...mockProfile,
-              libraryVisibility: VisibilityType.Private,
-              wishlistVisibility: VisibilityType.Private,
-              reviewsVisibility: VisibilityType.Private,
-            }),
+            getMyProfile: () =>
+              of({
+                ...mockProfile,
+                libraryVisibility: VisibilityType.Private,
+                wishlistVisibility: VisibilityType.Private,
+                reviewsVisibility: VisibilityType.Private,
+              }),
           },
         },
         { provide: SettingsService, useValue: mockSettingsService },

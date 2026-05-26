@@ -57,7 +57,9 @@
     padding: 4px;
     line-height: 1;
 
-    &:hover { color: var(--color-danger, #e55); }
+    &:hover {
+      color: var(--color-danger, #e55);
+    }
   }
 
   &__error {

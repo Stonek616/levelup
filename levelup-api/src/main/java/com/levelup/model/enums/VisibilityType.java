@@ -1,5 +1,7 @@
 package com.levelup.model.enums;
 
 public enum VisibilityType {
-    PUBLIC, FRIENDS, PRIVATE
+  PUBLIC,
+  FRIENDS,
+  PRIVATE
 }

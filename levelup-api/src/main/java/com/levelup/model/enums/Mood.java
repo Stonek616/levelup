@@ -8,7 +8,7 @@ package com.levelup.model.enums;
  * SURPRISE — pick something random for me, biased toward my backlog
  */
 public enum Mood {
-    FAMILIAR,
-    NEW,
-    SURPRISE
+  FAMILIAR,
+  NEW,
+  SURPRISE
 }

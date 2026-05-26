@@ -21,9 +21,13 @@
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 500;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 
-  &:hover { color: var(--color-text-primary); }
+  &:hover {
+    color: var(--color-text-primary);
+  }
 
   &--active {
     color: var(--color-text-primary);

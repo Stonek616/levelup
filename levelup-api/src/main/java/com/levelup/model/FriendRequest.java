@@ -1,10 +1,6 @@
 package com.levelup.model;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import com.levelup.model.enums.FriendshipStatus;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,6 +14,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.time.Instant;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,35 +26,36 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class FriendRequest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "requester_id", nullable = false)
-    private User requester;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id", nullable = false)
-    private User receiver;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "requester_id", nullable = false)
+  private User requester;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private FriendshipStatus status = FriendshipStatus.PENDING;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "receiver_id", nullable = false)
+  private User receiver;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private FriendshipStatus status = FriendshipStatus.PENDING;
 
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+  @Column(name = "created_at", nullable = false)
+  private Instant createdAt;
 
-    @PrePersist
-    private void prePersist() {
-        createdAt = Instant.now();
-        updatedAt = Instant.now();
-    }
+  @Column(name = "updated_at", nullable = false)
+  private Instant updatedAt;
 
-    @PreUpdate
-    private void preUpdate() {
-        updatedAt = Instant.now();
-    }
+  @PrePersist
+  private void prePersist() {
+    createdAt = Instant.now();
+    updatedAt = Instant.now();
+  }
+
+  @PreUpdate
+  private void preUpdate() {
+    updatedAt = Instant.now();
+  }
 }

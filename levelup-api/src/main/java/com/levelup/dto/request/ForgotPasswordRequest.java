@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ForgotPasswordRequest {
-    @NotBlank(message = "Email is required")
-    private String email;
+  @NotBlank(message = "Email is required") private String email;
 }

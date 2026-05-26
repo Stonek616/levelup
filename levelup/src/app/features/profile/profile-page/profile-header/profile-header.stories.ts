@@ -30,7 +30,11 @@ export const Default: Story = {
 
 export const Friend: Story = {
   args: {
-    profile: { ...mockProfile, isFriend: true, friendRequestStatus: 'ACCEPTED' },
+    profile: {
+      ...mockProfile,
+      isFriend: true,
+      friendRequestStatus: 'ACCEPTED',
+    },
   },
 };
 

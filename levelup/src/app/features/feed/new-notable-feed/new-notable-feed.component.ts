@@ -7,7 +7,7 @@ import { DiscoveryGame } from '../../../core/models/feed.model';
   selector: 'app-new-notable-feed',
   imports: [RouterLink],
   templateUrl: './new-notable-feed.component.html',
-  styleUrl: './new-notable-feed.component.scss'
+  styleUrl: './new-notable-feed.component.scss',
 })
 export class NewNotableFeedComponent implements OnInit {
   private readonly feedService = inject(FeedService);
@@ -18,7 +18,9 @@ export class NewNotableFeedComponent implements OnInit {
   loadingMore = signal(false);
   private page = 0;
 
-  ngOnInit(): void { this.loadPage(); }
+  ngOnInit(): void {
+    this.loadPage();
+  }
 
   loadMore(): void {
     if (this.loadingMore()) return;
@@ -35,7 +37,7 @@ export class NewNotableFeedComponent implements OnInit {
   private loadPage(): void {
     this.feedService.getNewAndNotable(this.page).subscribe({
       next: (res) => {
-        this.games.update(list => [...list, ...res.content]);
+        this.games.update((list) => [...list, ...res.content]);
         this.hasMore.set(!res.last);
         this.page++;
         this.loading.set(false);
@@ -44,7 +46,7 @@ export class NewNotableFeedComponent implements OnInit {
       error: () => {
         this.loading.set(false);
         this.loadingMore.set(false);
-      }
+      },
     });
   }
 }

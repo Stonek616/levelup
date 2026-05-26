@@ -9,7 +9,7 @@ import { AvatarComponent } from '../../../../shared/components/avatar/avatar.com
   selector: 'app-pending-requests',
   imports: [DatePipe, RouterLink, AvatarComponent],
   templateUrl: './pending-requests.component.html',
-  styleUrl: './pending-requests.component.scss'
+  styleUrl: './pending-requests.component.scss',
 })
 export class PendingRequestsComponent implements OnInit {
   private friendService = inject(FriendService);
@@ -23,15 +23,15 @@ export class PendingRequestsComponent implements OnInit {
         this.requests.set(res.content);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
   respond(requestId: string, action: 'ACCEPT' | 'DECLINE'): void {
     this.friendService.respondToRequest(requestId, action).subscribe({
       next: () => {
-        this.requests.update(list => list.filter(r => r.id !== requestId));
-      }
+        this.requests.update((list) => list.filter((r) => r.id !== requestId));
+      },
     });
   }
 }

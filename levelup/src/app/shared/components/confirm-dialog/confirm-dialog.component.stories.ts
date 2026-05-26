@@ -44,7 +44,8 @@ export const DeleteAccount: Story = {
   args: {
     open: true,
     title: 'Delete your account?',
-    message: 'Your account will be permanently deleted after 30 days. This action cannot be undone.',
+    message:
+      'Your account will be permanently deleted after 30 days. This action cannot be undone.',
     confirmLabel: 'Delete account',
     cancelLabel: 'Keep my account',
   },
@@ -55,7 +56,7 @@ export const RemoveFriend: Story = {
   args: {
     open: true,
     title: 'Remove friend?',
-    message: 'You will no longer see each other\'s activity in your feeds.',
+    message: "You will no longer see each other's activity in your feeds.",
     confirmLabel: 'Remove',
     cancelLabel: 'Cancel',
   },

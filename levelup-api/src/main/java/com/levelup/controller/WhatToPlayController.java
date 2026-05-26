@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class WhatToPlayController {
 
-    private final WhatToPlayService whatToPlayService;
+  private final WhatToPlayService whatToPlayService;
 
-    @PostMapping
-    public ResponseEntity<WhatToPlayResponse> getSuggestions(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody WhatToPlayRequest request) {
-        return ResponseEntity.ok(whatToPlayService.getSuggestions(userDetails.getId(), request));
-    }
+  @PostMapping
+  public ResponseEntity<WhatToPlayResponse> getSuggestions(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestBody WhatToPlayRequest request) {
+    return ResponseEntity.ok(whatToPlayService.getSuggestions(userDetails.getId(), request));
+  }
 }

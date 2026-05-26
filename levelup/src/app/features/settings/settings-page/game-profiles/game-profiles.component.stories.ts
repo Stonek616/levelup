@@ -11,13 +11,15 @@ const mockProfiles = [
 
 const mockSettingsServiceWithProfiles = {
   getGameProfiles: () => of(mockProfiles),
-  addGameProfile: (_req: any) => of({ id: 'prof-3', platform: 'XBOX', handle: 'newhandle' }),
+  addGameProfile: (_req: any) =>
+    of({ id: 'prof-3', platform: 'XBOX', handle: 'newhandle' }),
   removeGameProfile: (_id: string) => of(void 0),
 };
 
 const mockSettingsServiceEmpty = {
   getGameProfiles: () => of([]),
-  addGameProfile: (_req: any) => of({ id: 'prof-1', platform: 'PSN', handle: 'newhandle' }),
+  addGameProfile: (_req: any) =>
+    of({ id: 'prof-1', platform: 'PSN', handle: 'newhandle' }),
   removeGameProfile: (_id: string) => of(void 0),
 };
 
@@ -34,7 +36,9 @@ export const WithProfiles: Story = {
   name: 'Two linked profiles',
   decorators: [
     applicationConfig({
-      providers: [{ provide: SettingsService, useValue: mockSettingsServiceWithProfiles }],
+      providers: [
+        { provide: SettingsService, useValue: mockSettingsServiceWithProfiles },
+      ],
     }),
   ],
 };
@@ -43,7 +47,9 @@ export const Empty: Story = {
   name: 'No profiles linked yet',
   decorators: [
     applicationConfig({
-      providers: [{ provide: SettingsService, useValue: mockSettingsServiceEmpty }],
+      providers: [
+        { provide: SettingsService, useValue: mockSettingsServiceEmpty },
+      ],
     }),
   ],
 };

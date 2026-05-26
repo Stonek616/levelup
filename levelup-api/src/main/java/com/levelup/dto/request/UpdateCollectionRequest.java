@@ -7,10 +7,9 @@ import lombok.Data;
 @Data
 public class UpdateCollectionRequest {
 
-    @Size(max = 100)
-    private String name;
+  @Size(max = 100) private String name;
 
-    private String description;
+  private String description;
 
-    private VisibilityType visibility;
+  private VisibilityType visibility;
 }

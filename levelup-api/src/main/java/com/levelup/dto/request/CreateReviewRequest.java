@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateReviewRequest {
-    @NotBlank(message = "Review body is required")
-    private String body;
+  @NotBlank(message = "Review body is required") private String body;
 }

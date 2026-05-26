@@ -54,7 +54,7 @@ export const NoChallenges: Story = {
   name: 'No challenge history',
   args: {
     title: 'No challenges completed yet',
-    message: 'Complete today\'s daily challenge to start building your streak.',
+    message: "Complete today's daily challenge to start building your streak.",
     icon: '⚡',
   },
 };

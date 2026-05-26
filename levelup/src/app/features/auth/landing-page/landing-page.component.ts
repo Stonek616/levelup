@@ -6,7 +6,6 @@ import { TrendingFeedComponent } from '../../feed/trending-feed/trending-feed.co
   selector: 'app-landing-page',
   imports: [RouterLink, TrendingFeedComponent],
   templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.scss'
+  styleUrl: './landing-page.component.scss',
 })
-export class LandingPageComponent {
-}
+export class LandingPageComponent {}

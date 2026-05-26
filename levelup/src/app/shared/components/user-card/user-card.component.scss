@@ -24,7 +24,9 @@
 
     &:hover {
       text-decoration: none;
-      .user-card__username { color: var(--color-accent); }
+      .user-card__username {
+        color: var(--color-accent);
+      }
     }
   }
 
@@ -51,10 +53,16 @@
     font-family: inherit;
     font-size: 0.78rem;
     font-weight: 500;
-    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      background 0.15s;
     white-space: nowrap;
 
-    &:disabled { opacity: 0.5; cursor: default; }
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
 
     &--add {
       border-color: var(--color-accent);

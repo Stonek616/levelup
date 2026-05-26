@@ -1,13 +1,28 @@
-import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ReportReason, ReportTargetType } from '../../../core/models/report.model';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  signal,
+} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  ReportReason,
+  ReportTargetType,
+} from '../../../core/models/report.model';
 import { ReportService } from '../../../core/services/report.service';
 
 @Component({
   selector: 'app-report-modal',
   imports: [ReactiveFormsModule],
   templateUrl: './report-modal.component.html',
-  styleUrl: './report-modal.component.scss'
+  styleUrl: './report-modal.component.scss',
 })
 export class ReportModalComponent {
   @Input() open = false;
@@ -30,7 +45,7 @@ export class ReportModalComponent {
   ];
 
   form = new FormGroup({
-    reason: new FormControl<ReportReason | null>(null, Validators.required)
+    reason: new FormControl<ReportReason | null>(null, Validators.required),
   });
 
   submit(): void {
@@ -38,24 +53,26 @@ export class ReportModalComponent {
     this.submitting.set(true);
     this.error.set(null);
 
-    this.reportService.submitReport({
-      targetType: this.targetType,
-      targetId: this.targetId,
-      reason: this.form.value.reason!
-    }).subscribe({
-      next: () => {
-        this.submitted.set(true);
-        this.submitting.set(false);
-      },
-      error: (err) => {
-        this.error.set(
-          err.status === 409
-            ? 'You have already reported this content.'
-            : 'Failed to submit report. Please try again.'
-        );
-        this.submitting.set(false);
-      }
-    });
+    this.reportService
+      .submitReport({
+        targetType: this.targetType,
+        targetId: this.targetId,
+        reason: this.form.value.reason!,
+      })
+      .subscribe({
+        next: () => {
+          this.submitted.set(true);
+          this.submitting.set(false);
+        },
+        error: (err) => {
+          this.error.set(
+            err.status === 409
+              ? 'You have already reported this content.'
+              : 'Failed to submit report. Please try again.',
+          );
+          this.submitting.set(false);
+        },
+      });
   }
 
   close(): void {

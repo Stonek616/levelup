@@ -14,7 +14,9 @@
     text-transform: uppercase;
   }
 
-  &__error { color: var(--color-error); }
+  &__error {
+    color: var(--color-error);
+  }
 
   &__locked {
     color: var(--color-text-secondary);

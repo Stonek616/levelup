@@ -3,7 +3,7 @@
     <h2 class="collections-preview__title">Collections</h2>
     @if (isOwnProfile) {
       <button class="collections-preview__new-btn" (click)="toggleCreate()">
-        {{ showCreateForm() ? 'Cancel' : '+ New' }}
+        {{ showCreateForm() ? "Cancel" : "+ New" }}
       </button>
     }
   </div>
@@ -32,7 +32,7 @@
         (click)="submitCreate()"
         [disabled]="saving() || !newName().trim()"
       >
-        {{ saving() ? 'Creating…' : 'Create' }}
+        {{ saving() ? "Creating…" : "Create" }}
       </button>
     </div>
   }
@@ -46,15 +46,25 @@
       <a class="collection-card" [routerLink]="['/collections', col.id]">
         <div class="cover-grid">
           @for (coverId of col.previewCoverIds.slice(0, 4); track coverId) {
-            <img class="cover-grid__img" [src]="coverUrl(coverId)" [alt]="col.name" />
+            <img
+              class="cover-grid__img"
+              [src]="coverUrl(coverId)"
+              [alt]="col.name"
+            />
           }
-          @for (_ of [].constructor(4 - col.previewCoverIds.slice(0, 4).length); track $index) {
+          @for (
+            _ of [].constructor(4 - col.previewCoverIds.slice(0, 4).length);
+            track $index
+          ) {
             <div class="cover-grid__placeholder"></div>
           }
         </div>
         <div class="collection-card__info">
           <span class="collection-card__name">{{ col.name }}</span>
-          <span class="collection-card__count">{{ col.gameCount }} {{ col.gameCount === 1 ? 'game' : 'games' }}</span>
+          <span class="collection-card__count"
+            >{{ col.gameCount }}
+            {{ col.gameCount === 1 ? "game" : "games" }}</span
+          >
         </div>
       </a>
     }

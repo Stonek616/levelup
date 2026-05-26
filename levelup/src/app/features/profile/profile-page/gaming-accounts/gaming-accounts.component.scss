@@ -30,7 +30,9 @@
     padding: 0.55rem 0;
     border-bottom: 1px solid var(--color-border);
 
-    &:last-child { border-bottom: none; }
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   &__tag {
@@ -45,13 +47,34 @@
     color: var(--color-text-muted);
     flex-shrink: 0;
 
-    &--psn      { background: #00439c18; color: #4a90d9; }
-    &--xbox     { background: #10752218; color: #4caf6e; }
-    &--steam    { background: #1b263b18; color: #8fa8c8; }
-    &--nintendo { background: #e6001218; color: #e60012; }
-    &--epic     { background: #3a3a3a18; color: var(--color-text-secondary); }
-    &--battlenet{ background: #0078d718; color: #0078d7; }
-    &--discord  { background: #5865f218; color: #5865f2; }
+    &--psn {
+      background: #00439c18;
+      color: #4a90d9;
+    }
+    &--xbox {
+      background: #10752218;
+      color: #4caf6e;
+    }
+    &--steam {
+      background: #1b263b18;
+      color: #8fa8c8;
+    }
+    &--nintendo {
+      background: #e6001218;
+      color: #e60012;
+    }
+    &--epic {
+      background: #3a3a3a18;
+      color: var(--color-text-secondary);
+    }
+    &--battlenet {
+      background: #0078d718;
+      color: #0078d7;
+    }
+    &--discord {
+      background: #5865f218;
+      color: #5865f2;
+    }
   }
 
   &__handle {

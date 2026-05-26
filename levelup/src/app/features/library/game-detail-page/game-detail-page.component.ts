@@ -13,7 +13,7 @@ import { GameReviewsComponent } from './game-reviews/game-reviews.component';
   selector: 'app-game-detail-page',
   imports: [UserGameActionsComponent, GameReviewsComponent, DatePipe],
   templateUrl: './game-detail-page.component.html',
-  styleUrl: './game-detail-page.component.scss'
+  styleUrl: './game-detail-page.component.scss',
 })
 export class GameDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
@@ -25,17 +25,22 @@ export class GameDetailPageComponent {
   loading = signal(true);
 
   constructor() {
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        this.game.set(null);
-        this.loading.set(true);
-        return this.gameService.getGame(params.get('slug')!);
-      }),
-      takeUntilDestroyed()
-    ).subscribe({
-      next: (g) => { this.game.set(g); this.loading.set(false); },
-      error: () => this.loading.set(false)
-    });
+    this.route.paramMap
+      .pipe(
+        switchMap((params) => {
+          this.game.set(null);
+          this.loading.set(true);
+          return this.gameService.getGame(params.get('slug')!);
+        }),
+        takeUntilDestroyed(),
+      )
+      .subscribe({
+        next: (g) => {
+          this.game.set(g);
+          this.loading.set(false);
+        },
+        error: () => this.loading.set(false),
+      });
   }
 
   get coverUrl(): string | null {
@@ -44,5 +49,7 @@ export class GameDetailPageComponent {
     return `https://images.igdb.com/igdb/image/upload/t_cover_big/${id}.jpg`;
   }
 
-  goBack() { this.location.back(); }
+  goBack() {
+    this.location.back();
+  }
 }

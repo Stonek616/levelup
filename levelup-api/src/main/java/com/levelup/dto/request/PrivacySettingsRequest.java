@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class PrivacySettingsRequest {
-    private VisibilityType libraryVisibility;
-    private VisibilityType wishlistVisibility;
-    private VisibilityType reviewsVisibility;
+  private VisibilityType libraryVisibility;
+  private VisibilityType wishlistVisibility;
+  private VisibilityType reviewsVisibility;
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GenreBreakdown {
-    private String name;
-    private long count;
-    private int percentage;
+  private String name;
+  private long count;
+  private int percentage;
 }

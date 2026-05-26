@@ -6,19 +6,28 @@
   } @else {
     @for (req of requests(); track req.id) {
       <div class="pending-requests__item">
-        <a class="pending-requests__user" [routerLink]="['/profile', req.requester.username]">
-          <app-avatar [avatarUrl]="req.requester.avatarUrl"
-                      [username]="req.requester.username"
-                      size="sm" />
+        <a
+          class="pending-requests__user"
+          [routerLink]="['/profile', req.requester.username]"
+        >
+          <app-avatar
+            [avatarUrl]="req.requester.avatarUrl"
+            [username]="req.requester.username"
+            size="sm"
+          />
           <span>{{ req.requester.username }}</span>
         </a>
         <div class="pending-requests__actions">
-          <button class="pending-requests__btn pending-requests__btn--accept"
-                  (click)="respond(req.id, 'ACCEPT')">
+          <button
+            class="pending-requests__btn pending-requests__btn--accept"
+            (click)="respond(req.id, 'ACCEPT')"
+          >
             Accept
           </button>
-          <button class="pending-requests__btn pending-requests__btn--decline"
-                  (click)="respond(req.id, 'DECLINE')">
+          <button
+            class="pending-requests__btn pending-requests__btn--decline"
+            (click)="respond(req.id, 'DECLINE')"
+          >
             Decline
           </button>
         </div>

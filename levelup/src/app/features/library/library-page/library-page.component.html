@@ -1,5 +1,4 @@
 <div class="library-page">
-
   <header class="library-page__header">
     <div>
       <p class="library-page__eyebrow">LevelUp · Collection</p>
@@ -13,7 +12,8 @@
 
   <app-library-toolbar
     [availablePlatforms]="availablePlatforms()"
-    (filtersChanged)="onFiltersChanged($event)" />
+    (filtersChanged)="onFiltersChanged($event)"
+  />
 
   @if (loading()) {
     <p class="library-page__loading">Loading...</p>

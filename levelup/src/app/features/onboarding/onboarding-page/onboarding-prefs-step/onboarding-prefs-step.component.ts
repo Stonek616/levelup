@@ -1,9 +1,21 @@
 import { Component, EventEmitter, Output, signal } from '@angular/core';
 
 const GENRES = [
-  'Action', 'Adventure', 'RPG', 'Strategy', 'Simulation',
-  'Sports', 'Racing', 'Fighting', 'Shooter', 'Puzzle',
-  'Horror', 'Platform', 'Indie', 'MMORPG', 'Stealth',
+  'Action',
+  'Adventure',
+  'RPG',
+  'Strategy',
+  'Simulation',
+  'Sports',
+  'Racing',
+  'Fighting',
+  'Shooter',
+  'Puzzle',
+  'Horror',
+  'Platform',
+  'Indie',
+  'MMORPG',
+  'Stealth',
 ];
 
 const PLATFORMS = ['PC', 'PlayStation', 'Xbox', 'Switch', 'Mobile'];
@@ -14,7 +26,10 @@ const PLATFORMS = ['PC', 'PlayStation', 'Xbox', 'Switch', 'Mobile'];
   styleUrl: './onboarding-prefs-step.component.scss',
 })
 export class OnboardingPrefsStepComponent {
-  @Output() completed = new EventEmitter<{ genres: string[]; platforms: string[] }>();
+  @Output() completed = new EventEmitter<{
+    genres: string[];
+    platforms: string[];
+  }>();
 
   readonly genres = GENRES;
   readonly platforms = PLATFORMS;

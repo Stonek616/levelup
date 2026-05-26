@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { GameCardInput, isLibraryEntry } from '../../../core/models/game-card.model';
+import {
+  GameCardInput,
+  isLibraryEntry,
+} from '../../../core/models/game-card.model';
 import { GameSummary } from '../../../core/models/game.model';
 import { LibraryEntry } from '../../../core/models/library-entry.model';
 import { StatusGlyphComponent } from '../status-glyph/status-glyph.component';
@@ -9,7 +12,7 @@ import { StatusGlyphComponent } from '../status-glyph/status-glyph.component';
   selector: 'app-game-card',
   imports: [RouterLink, StatusGlyphComponent],
   templateUrl: './game-card.component.html',
-  styleUrl: './game-card.component.scss'
+  styleUrl: './game-card.component.scss',
 })
 export class GameCardComponent {
   @Input({ required: true }) card!: GameCardInput;

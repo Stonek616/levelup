@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserProfile } from '../../../../core/models/user.model';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar.component';
@@ -10,9 +17,14 @@ import { VisibilityType } from '../../../../core/models/enums';
 
 @Component({
   selector: 'app-profile-header',
-  imports: [AvatarComponent, RouterLink, ConfirmDialogComponent, ReportModalComponent],
+  imports: [
+    AvatarComponent,
+    RouterLink,
+    ConfirmDialogComponent,
+    ReportModalComponent,
+  ],
   templateUrl: './profile-header.component.html',
-  styleUrl: './profile-header.component.scss'
+  styleUrl: './profile-header.component.scss',
 })
 export class ProfileHeaderComponent implements OnInit {
   @Input({ required: true }) profile!: UserProfile;
@@ -30,8 +42,8 @@ export class ProfileHeaderComponent implements OnInit {
   uploading = signal(false);
   uploadError = signal<string | null>(null);
 
-  isOwnProfile = computed(() =>
-    this.userService.currentUser()?.username === this.profile?.username
+  isOwnProfile = computed(
+    () => this.userService.currentUser()?.username === this.profile?.username,
   );
 
   canSeeLibrary = computed(() => {
@@ -71,7 +83,11 @@ export class ProfileHeaderComponent implements OnInit {
       next: (updated) => {
         this.avatarUrl.set(updated.avatarUrl);
         const current = this.userService.currentUser();
-        if (current) this.userService.setUser({ ...current, avatarUrl: updated.avatarUrl });
+        if (current)
+          this.userService.setUser({
+            ...current,
+            avatarUrl: updated.avatarUrl,
+          });
         this.uploading.set(false);
       },
       error: () => {
@@ -105,7 +121,7 @@ export class ProfileHeaderComponent implements OnInit {
         this.requestStatus.set(res.status);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -117,7 +133,7 @@ export class ProfileHeaderComponent implements OnInit {
         this.requestStatus.set(null);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 }

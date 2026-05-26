@@ -108,7 +108,10 @@
     font-family: inherit;
     font-size: inherit;
     letter-spacing: inherit;
-    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      background 0.15s;
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
@@ -121,7 +124,10 @@
     &--liked {
       border-color: var(--status-wishlist);
       color: var(--status-wishlist);
-      background: var(--status-wishlist-subtle, color-mix(in srgb, var(--status-wishlist) 12%, transparent));
+      background: var(
+        --status-wishlist-subtle,
+        color-mix(in srgb, var(--status-wishlist) 12%, transparent)
+      );
     }
 
     &:disabled {

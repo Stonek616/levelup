@@ -8,6 +8,8 @@
     padding: 4rem 0;
     color: var(--color-text-secondary);
 
-    &--error { color: var(--color-error); }
+    &--error {
+      color: var(--color-error);
+    }
   }
 }

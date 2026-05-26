@@ -7,7 +7,8 @@
     @for (friend of friends(); track friend.id) {
       <app-user-card
         [user]="toUserSummary(friend)"
-        (friendRemoved)="onFriendRemoved($event)" />
+        (friendRemoved)="onFriendRemoved($event)"
+      />
     }
   }
 </div>

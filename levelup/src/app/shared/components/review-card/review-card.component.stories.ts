@@ -96,7 +96,12 @@ export const FriendReview: Story = {
 export const ManyLikes: Story = {
   name: 'Popular review — many likes',
   args: {
-    review: { ...baseReview, likeCount: 1204, commentCount: 93, id: 'review-5' },
+    review: {
+      ...baseReview,
+      likeCount: 1204,
+      commentCount: 93,
+      id: 'review-5',
+    },
   },
 };
 

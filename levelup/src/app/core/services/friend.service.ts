@@ -7,11 +7,11 @@ import {
   FriendshipEntry,
   FriendRequest,
   FriendRequestAction,
-  UserSearchResult
+  UserSearchResult,
 } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FriendService {
   private readonly http = inject(HttpClient);
@@ -19,28 +19,34 @@ export class FriendService {
   getFriends(page = 0, size = 20): Observable<PagedResponse<FriendshipEntry>> {
     return this.http.get<PagedResponse<FriendshipEntry>>(
       `${environment.apiUrl}/friends`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
-  getPendingRequests(page = 0, size = 20): Observable<PagedResponse<FriendRequest>> {
+  getPendingRequests(
+    page = 0,
+    size = 20,
+  ): Observable<PagedResponse<FriendRequest>> {
     return this.http.get<PagedResponse<FriendRequest>>(
       `${environment.apiUrl}/friends/requests`,
-      { params: { page, size } }
+      { params: { page, size } },
     );
   }
 
   sendFriendRequest(targetUserId: string): Observable<FriendRequestAction> {
     return this.http.post<FriendRequestAction>(
       `${environment.apiUrl}/friends/requests`,
-      { targetUserId }
+      { targetUserId },
     );
   }
 
-  respondToRequest(requestId: string, action: 'ACCEPT' | 'DECLINE'): Observable<FriendRequestAction> {
+  respondToRequest(
+    requestId: string,
+    action: 'ACCEPT' | 'DECLINE',
+  ): Observable<FriendRequestAction> {
     return this.http.patch<FriendRequestAction>(
       `${environment.apiUrl}/friends/requests/${requestId}`,
-      { action }
+      { action },
     );
   }
 

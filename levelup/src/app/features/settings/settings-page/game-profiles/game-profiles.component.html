@@ -6,9 +6,17 @@
     <ul class="game-profiles__list">
       @for (profile of profiles(); track profile.id) {
         <li class="game-profiles__item">
-          <span class="game-profiles__platform">{{ platformLabel(profile.platform) }}</span>
+          <span class="game-profiles__platform">{{
+            platformLabel(profile.platform)
+          }}</span>
           <span class="game-profiles__handle">{{ profile.handle }}</span>
-          <button class="game-profiles__remove" (click)="remove(profile.id)" type="button">Remove</button>
+          <button
+            class="game-profiles__remove"
+            (click)="remove(profile.id)"
+            type="button"
+          >
+            Remove
+          </button>
         </li>
       }
     </ul>
@@ -22,10 +30,21 @@
         <option [value]="p">{{ platformLabel(p) }}</option>
       }
     </select>
-    <input class="settings-form__input" type="text" formControlName="handle" placeholder="Your handle / gamertag" />
-    @if (error()) { <p class="settings-form__error">{{ error() }}</p> }
-    <button class="btn btn--secondary" type="submit" [disabled]="form.invalid || adding()">
-      {{ adding() ? 'Adding...' : 'Link profile' }}
+    <input
+      class="settings-form__input"
+      type="text"
+      formControlName="handle"
+      placeholder="Your handle / gamertag"
+    />
+    @if (error()) {
+      <p class="settings-form__error">{{ error() }}</p>
+    }
+    <button
+      class="btn btn--secondary"
+      type="submit"
+      [disabled]="form.invalid || adding()"
+    >
+      {{ adding() ? "Adding..." : "Link profile" }}
     </button>
   </form>
 </div>

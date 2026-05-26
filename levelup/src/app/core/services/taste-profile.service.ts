@@ -6,11 +6,11 @@ import { TasteProfile } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class TasteProfileService {
-
   private readonly http = inject(HttpClient);
 
   getTasteProfile(username: string): Observable<TasteProfile> {
-    return this.http.get<TasteProfile>(`${environment.apiUrl}/users/${username}/taste-profile`);
+    return this.http.get<TasteProfile>(
+      `${environment.apiUrl}/users/${username}/taste-profile`,
+    );
   }
-
 }

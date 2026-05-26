@@ -7,7 +7,7 @@ import { FeedItemComponent } from '../../../shared/components/feed-item/feed-ite
   selector: 'app-friends-feed',
   imports: [FeedItemComponent],
   templateUrl: './friends-feed.component.html',
-  styleUrl: './friends-feed.component.scss'
+  styleUrl: './friends-feed.component.scss',
 })
 export class FriendsFeedComponent implements OnInit {
   private readonly feedService = inject(FeedService);
@@ -32,7 +32,7 @@ export class FriendsFeedComponent implements OnInit {
   private loadPage(): void {
     this.feedService.getFriendsFeed(this.page).subscribe({
       next: (res) => {
-        this.events.update(list => [...list, ...res.content]);
+        this.events.update((list) => [...list, ...res.content]);
         this.hasMore.set(!res.last);
         this.page++;
         this.loading.set(false);
@@ -41,7 +41,7 @@ export class FriendsFeedComponent implements OnInit {
       error: () => {
         this.loading.set(false);
         this.loadingMore.set(false);
-      }
+      },
     });
   }
 }

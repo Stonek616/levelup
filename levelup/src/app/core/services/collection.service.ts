@@ -9,18 +9,27 @@ export class CollectionService {
   private base = '/api/v1';
 
   getUserCollections(username: string): Observable<CollectionSummary[]> {
-    return this.http.get<CollectionSummary[]>(`${this.base}/users/${username}/collections`);
+    return this.http.get<CollectionSummary[]>(
+      `${this.base}/users/${username}/collections`,
+    );
   }
 
   getCollection(id: string): Observable<Collection> {
     return this.http.get<Collection>(`${this.base}/collections/${id}`);
   }
 
-  createCollection(body: { name: string; description?: string; visibility: string }): Observable<Collection> {
+  createCollection(body: {
+    name: string;
+    description?: string;
+    visibility: string;
+  }): Observable<Collection> {
     return this.http.post<Collection>(`${this.base}/collections`, body);
   }
 
-  updateCollection(id: string, body: { name?: string; description?: string; visibility?: string }): Observable<Collection> {
+  updateCollection(
+    id: string,
+    body: { name?: string; description?: string; visibility?: string },
+  ): Observable<Collection> {
     return this.http.patch<Collection>(`${this.base}/collections/${id}`, body);
   }
 
@@ -29,10 +38,15 @@ export class CollectionService {
   }
 
   addGame(collectionId: string, gameId: string): Observable<Collection> {
-    return this.http.post<Collection>(`${this.base}/collections/${collectionId}/games`, { gameId });
+    return this.http.post<Collection>(
+      `${this.base}/collections/${collectionId}/games`,
+      { gameId },
+    );
   }
 
   removeGame(collectionId: string, gameId: string): Observable<void> {
-    return this.http.delete<void>(`${this.base}/collections/${collectionId}/games/${gameId}`);
+    return this.http.delete<void>(
+      `${this.base}/collections/${collectionId}/games/${gameId}`,
+    );
   }
 }

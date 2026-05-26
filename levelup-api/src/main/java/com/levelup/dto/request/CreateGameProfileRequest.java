@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateGameProfileRequest {
-    private String platform;
-    private String handle;
+  private String platform;
+  private String handle;
 }

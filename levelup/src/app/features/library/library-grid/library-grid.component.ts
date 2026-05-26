@@ -8,7 +8,7 @@ import { PLATFORM_LABELS } from '../../../core/utils/platform-labels';
   selector: 'app-library-grid',
   imports: [GameCardComponent],
   templateUrl: './library-grid.component.html',
-  styleUrl: './library-grid.component.scss'
+  styleUrl: './library-grid.component.scss',
 })
 export class LibraryGridComponent {
   @Input() entries: LibraryEntry[] = [];

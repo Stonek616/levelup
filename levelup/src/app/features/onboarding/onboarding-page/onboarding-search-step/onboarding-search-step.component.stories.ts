@@ -7,9 +7,7 @@ const meta: Meta<OnboardingSearchStepComponent> = {
   title: 'Features/Onboarding/SearchStep',
   component: OnboardingSearchStepComponent,
   tags: ['autodocs'],
-  decorators: [
-    applicationConfig({ providers: [provideHttpClient()] }),
-  ],
+  decorators: [applicationConfig({ providers: [provideHttpClient()] })],
   argTypes: {
     submitting: { control: 'boolean' },
     error: { control: 'text' },

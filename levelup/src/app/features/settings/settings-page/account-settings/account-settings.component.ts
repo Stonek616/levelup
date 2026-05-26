@@ -19,7 +19,10 @@ export class AccountSettingsComponent implements OnInit {
   error = signal<string | null>(null);
 
   form = this.fb.group({
-    username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    username: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+    ],
     email: ['', [Validators.required, Validators.email]],
     bio: [''],
     currentPassword: [''],
@@ -27,7 +30,7 @@ export class AccountSettingsComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.userService.getMyProfile().subscribe(profile => {
+    this.userService.getMyProfile().subscribe((profile) => {
       this.form.patchValue({
         username: profile.username,
         email: profile.email ?? this.userService.currentUser()?.email ?? '',

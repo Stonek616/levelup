@@ -1,9 +1,5 @@
 <div class="search-container">
-  <input
-    type="text"
-    placeholder="Search games..."
-    (input)="onInput($event)"
-  />
+  <input type="text" placeholder="Search games..." (input)="onInput($event)" />
 
   @if (loading()) {
     <p>Searching...</p>
@@ -16,7 +12,11 @@
           <button type="button" (click)="selectGame(game)">
             <span class="result-cover">
               @if (coverUrl(game)) {
-                <img [src]="coverUrl(game)!" [alt]="game.title" class="result-cover__img" />
+                <img
+                  [src]="coverUrl(game)!"
+                  [alt]="game.title"
+                  class="result-cover__img"
+                />
               } @else {
                 <span class="result-cover__placeholder"></span>
               }

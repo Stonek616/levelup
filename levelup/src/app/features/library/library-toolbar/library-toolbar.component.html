@@ -1,12 +1,24 @@
 <div class="toolbar" [class.toolbar--expanded]="expanded()">
-
   <!-- Collapsed trigger row (always visible) -->
-  <button class="toolbar__trigger" (click)="expanded.set(!expanded())" type="button">
-    <svg class="toolbar__trigger-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="4" y1="6" x2="20" y2="6"/>
-      <line x1="8" y1="12" x2="20" y2="12"/>
-      <line x1="12" y1="18" x2="20" y2="18"/>
+  <button
+    class="toolbar__trigger"
+    (click)="expanded.set(!expanded())"
+    type="button"
+  >
+    <svg
+      class="toolbar__trigger-icon"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="8" y1="12" x2="20" y2="12" />
+      <line x1="12" y1="18" x2="20" y2="18" />
     </svg>
     <span class="toolbar__trigger-label">Filters</span>
 
@@ -19,32 +31,48 @@
       }
     </div>
 
-    <svg class="toolbar__chevron" [class.toolbar__chevron--open]="expanded()"
-         width="14" height="14" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"/>
+    <svg
+      class="toolbar__chevron"
+      [class.toolbar__chevron--open]="expanded()"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="6 9 12 15 18 9" />
     </svg>
   </button>
 
   <!-- Expandable filter rows -->
   @if (expanded()) {
     <div class="toolbar__body">
-
       <!-- Status -->
       <div class="toolbar__row">
         <span class="toolbar__label">Status</span>
         <div class="toolbar__pills">
-          <button class="toolbar__pill" [ngClass]="{ 'toolbar__pill--active': activeStatus === null }"
-                  (click)="selectStatus(null)">All</button>
+          <button
+            class="toolbar__pill"
+            [ngClass]="{ 'toolbar__pill--active': activeStatus === null }"
+            (click)="selectStatus(null)"
+          >
+            All
+          </button>
           @for (status of allStatuses; track status) {
             <button
               class="toolbar__pill"
               [ngClass]="{
                 'toolbar__pill--active': activeStatus === status,
-                'toolbar__pill--status': activeStatus === status
+                'toolbar__pill--status': activeStatus === status,
               }"
-              [attr.data-status]="activeStatus === status ? status.toLowerCase() : null"
-              (click)="selectStatus(status)">
+              [attr.data-status]="
+                activeStatus === status ? status.toLowerCase() : null
+              "
+              (click)="selectStatus(status)"
+            >
               {{ labels[status] }}
             </button>
           }
@@ -56,12 +84,21 @@
         <div class="toolbar__row">
           <span class="toolbar__label">Platform</span>
           <div class="toolbar__pills">
-            <button class="toolbar__pill" [ngClass]="{ 'toolbar__pill--active': activePlatform === null }"
-                    (click)="selectPlatform(null)">All</button>
+            <button
+              class="toolbar__pill"
+              [ngClass]="{ 'toolbar__pill--active': activePlatform === null }"
+              (click)="selectPlatform(null)"
+            >
+              All
+            </button>
             @for (platform of availablePlatforms; track platform) {
-              <button class="toolbar__pill"
-                      [ngClass]="{ 'toolbar__pill--active': activePlatform === platform }"
-                      (click)="selectPlatform(platform)">
+              <button
+                class="toolbar__pill"
+                [ngClass]="{
+                  'toolbar__pill--active': activePlatform === platform,
+                }"
+                (click)="selectPlatform(platform)"
+              >
                 {{ platformLabel(platform) }}
               </button>
             }
@@ -72,14 +109,15 @@
       <!-- Owned -->
       <div class="toolbar__row">
         <span class="toolbar__label">Owned</span>
-        <button class="toolbar__owned-btn" [ngClass]="{ 'toolbar__owned-btn--active': ownedOnly }"
-                (click)="toggleOwned()">
+        <button
+          class="toolbar__owned-btn"
+          [ngClass]="{ 'toolbar__owned-btn--active': ownedOnly }"
+          (click)="toggleOwned()"
+        >
           <span class="toolbar__owned-pip"></span>
           Owned only
         </button>
       </div>
-
     </div>
   }
-
 </div>

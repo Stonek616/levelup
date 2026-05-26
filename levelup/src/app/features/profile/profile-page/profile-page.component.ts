@@ -20,7 +20,7 @@ import { GamingAccountsComponent } from './gaming-accounts/gaming-accounts.compo
     GamingAccountsComponent,
   ],
   templateUrl: './profile-page.component.html',
-  styleUrl: './profile-page.component.scss'
+  styleUrl: './profile-page.component.scss',
 })
 export class ProfilePageComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -32,23 +32,23 @@ export class ProfilePageComponent implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  isOwnProfile = computed(() =>
-    this.userService.currentUser()?.username === this.profile()?.username
+  isOwnProfile = computed(
+    () => this.userService.currentUser()?.username === this.profile()?.username,
   );
 
-  canSeeFriendContent = computed(() =>
-    this.isOwnProfile() || this.profile()?.isFriend === true
+  canSeeFriendContent = computed(
+    () => this.isOwnProfile() || this.profile()?.isFriend === true,
   );
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const username = params.get('username')!;
       this.loading.set(true);
       this.error.set(null);
 
       forkJoin({
         profile: this.userService.getProfile(username),
-        tasteProfile: this.tasteProfileService.getTasteProfile(username)
+        tasteProfile: this.tasteProfileService.getTasteProfile(username),
       }).subscribe({
         next: ({ profile, tasteProfile }) => {
           this.profile.set(profile);
@@ -58,7 +58,7 @@ export class ProfilePageComponent implements OnInit {
         error: () => {
           this.error.set('Could not load this profile.');
           this.loading.set(false);
-        }
+        },
       });
     });
   }

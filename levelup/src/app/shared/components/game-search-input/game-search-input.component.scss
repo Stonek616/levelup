@@ -12,9 +12,13 @@
     border-radius: var(--radius-lg);
     color: var(--color-text-primary);
     outline: none;
-    transition: border-color 0.15s, background 0.15s;
+    transition:
+      border-color 0.15s,
+      background 0.15s;
 
-    &::placeholder { color: var(--color-text-muted); }
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
     &:focus {
       border-color: var(--color-accent);
       background: var(--color-surface);
@@ -39,7 +43,9 @@
 
   li {
     border-bottom: 1px solid var(--color-border);
-    &:last-child { border-bottom: none; }
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   button {
@@ -54,7 +60,9 @@
     cursor: pointer;
     transition: background 0.12s;
 
-    &:hover { background: var(--color-surface-raised); }
+    &:hover {
+      background: var(--color-surface-raised);
+    }
   }
 }
 

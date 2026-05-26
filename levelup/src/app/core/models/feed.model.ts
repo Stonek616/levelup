@@ -1,6 +1,12 @@
 export interface FeedEvent {
   id: string;
-  type: 'STATUS_CHANGE' | 'RATING_ADDED' | 'REVIEW_POSTED' | 'COLLECTION_CREATED' | 'GAME_ADDED' | 'COMMENT_POSTED';
+  type:
+    | 'STATUS_CHANGE'
+    | 'RATING_ADDED'
+    | 'REVIEW_POSTED'
+    | 'COLLECTION_CREATED'
+    | 'GAME_ADDED'
+    | 'COMMENT_POSTED';
   user: {
     id: string;
     username: string;

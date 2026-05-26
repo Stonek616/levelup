@@ -1,5 +1,4 @@
 <div class="wtp">
-
   <!-- Header -->
   <header class="wtp__header">
     <h1 class="wtp__title">What to play next</h1>
@@ -13,7 +12,8 @@
         class="wtp__mood"
         [class.wtp__mood--active]="mood() === opt.value"
         (click)="selectMood(opt.value)"
-        type="button">
+        type="button"
+      >
         <span class="wtp__mood-label">{{ opt.label }}</span>
         <span class="wtp__mood-desc">{{ opt.description }}</span>
       </button>
@@ -28,7 +28,8 @@
         id="platform-select"
         class="wtp__platform-select"
         [value]="platform()"
-        (change)="platform.set($any($event.target).value)">
+        (change)="platform.set($any($event.target).value)"
+      >
         @for (group of platformGroups; track group.label) {
           @if (group.label === null) {
             @for (opt of group.options; track opt.value) {
@@ -50,8 +51,11 @@
         <input
           type="checkbox"
           [checked]="multiplayer()"
-          (change)="multiplayer.set(!multiplayer())" />
-        <span class="wtp__toggle-track"><span class="wtp__toggle-thumb"></span></span>
+          (change)="multiplayer.set(!multiplayer())"
+        />
+        <span class="wtp__toggle-track"
+          ><span class="wtp__toggle-thumb"></span
+        ></span>
         <span class="wtp__toggle-label">Multiplayer only</span>
       </label>
 
@@ -60,8 +64,11 @@
           <input
             type="checkbox"
             [checked]="includeAlreadyPlayed()"
-            (change)="includeAlreadyPlayed.set(!includeAlreadyPlayed())" />
-          <span class="wtp__toggle-track"><span class="wtp__toggle-thumb"></span></span>
+            (change)="includeAlreadyPlayed.set(!includeAlreadyPlayed())"
+          />
+          <span class="wtp__toggle-track"
+            ><span class="wtp__toggle-thumb"></span
+          ></span>
           <span class="wtp__toggle-label">Include games I've played</span>
         </label>
       }
@@ -74,14 +81,14 @@
       class="wtp__action-btn"
       (click)="findGames()"
       [disabled]="loading()"
-      type="button">
+      type="button"
+    >
       {{ primaryActionLabel() }}
     </button>
   </div>
 
   <!-- Results -->
   @if (hasFetched() && !loading()) {
-
     @if (error()) {
       <div class="wtp__error">
         Something went wrong fetching suggestions. Try again?
@@ -90,10 +97,12 @@
       <div class="wtp__empty">
         <p class="wtp__empty-title">Nothing matches those filters.</p>
         <p class="wtp__empty-hint">
-          @if (mood() === 'FAMILIAR') {
-            Try turning off some filters, or switch to "New" to look outside your library.
-          } @else if (mood() === 'NEW') {
-            Add some games to your library first — recommendations get better with more to go on.
+          @if (mood() === "FAMILIAR") {
+            Try turning off some filters, or switch to "New" to look outside
+            your library.
+          } @else if (mood() === "NEW") {
+            Add some games to your library first — recommendations get better
+            with more to go on.
           } @else {
             No surprises available with those filters. Try loosening them.
           }
@@ -116,7 +125,9 @@
                 <span class="wtp-card__badge">{{ sourceLabel(s.source) }}</span>
               </div>
               @if (s.game.genres.length) {
-                <p class="wtp-card__genres">{{ s.game.genres.slice(0, 3).join(' · ') }}</p>
+                <p class="wtp-card__genres">
+                  {{ s.game.genres.slice(0, 3).join(" · ") }}
+                </p>
               }
               <p class="wtp-card__reason">{{ s.reason }}</p>
             </div>
@@ -125,5 +136,4 @@
       </section>
     }
   }
-
 </div>

@@ -1,6 +1,4 @@
 <a class="game-card" [routerLink]="['/game', game.slug]">
-
-
   <!-- Cover -->
   <div class="game-card__cover-wrap">
     @if (coverUrl) {
@@ -10,12 +8,34 @@
     }
 
     <!-- Wishlist bookmark: purple triangular corner mark -->
-    @if (libraryEntry?.ownership === 'WISHLIST') {
+    @if (libraryEntry?.ownership === "WISHLIST") {
       <div class="game-card__bookmark" aria-label="Wishlist">
-        <svg class="game-card__bookmark-icon" viewBox="0 0 36 36" width="36" height="36" aria-hidden="true">
+        <svg
+          class="game-card__bookmark-icon"
+          viewBox="0 0 36 36"
+          width="36"
+          height="36"
+          aria-hidden="true"
+        >
           <polygon points="0,0 36,0 36,36" fill="#ff5fae" />
-          <line x1="17" y1="9" x2="27" y2="9" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <line x1="22" y1="4"  x2="22" y2="14" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <line
+            x1="17"
+            y1="9"
+            x2="27"
+            y2="9"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <line
+            x1="22"
+            y1="4"
+            x2="22"
+            y2="14"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
         </svg>
       </div>
     }
@@ -38,5 +58,4 @@
       <app-status-glyph [status]="libraryEntry!.status" />
     }
   </div>
-
 </a>

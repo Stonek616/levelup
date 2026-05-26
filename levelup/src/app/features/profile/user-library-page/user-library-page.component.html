@@ -16,12 +16,15 @@
   } @else {
     <app-library-toolbar
       [availablePlatforms]="availablePlatforms()"
-      (filtersChanged)="onFiltersChanged($event)" />
+      (filtersChanged)="onFiltersChanged($event)"
+    />
 
     @if (loading()) {
       <p class="user-library-page__loading">Loading...</p>
     } @else if (entries().length === 0) {
-      <p class="user-library-page__empty">{{ username() }} hasn't added any games yet.</p>
+      <p class="user-library-page__empty">
+        {{ username() }} hasn't added any games yet.
+      </p>
     } @else {
       <app-library-grid [entries]="entries()" />
     }

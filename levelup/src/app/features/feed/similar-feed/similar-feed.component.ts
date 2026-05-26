@@ -7,7 +7,7 @@ import { DiscoveryGame } from '../../../core/models/feed.model';
   selector: 'app-similar-feed',
   imports: [RouterLink],
   templateUrl: './similar-feed.component.html',
-  styleUrl: './similar-feed.component.scss'
+  styleUrl: './similar-feed.component.scss',
 })
 export class SimilarFeedComponent implements OnInit {
   private readonly feedService = inject(FeedService);
@@ -18,7 +18,9 @@ export class SimilarFeedComponent implements OnInit {
   loadingMore = signal(false);
   private page = 0;
 
-  ngOnInit(): void { this.loadPage(); }
+  ngOnInit(): void {
+    this.loadPage();
+  }
 
   loadMore(): void {
     if (this.loadingMore()) return;
@@ -35,7 +37,7 @@ export class SimilarFeedComponent implements OnInit {
   private loadPage(): void {
     this.feedService.getSimilar(this.page).subscribe({
       next: (res) => {
-        this.games.update(list => [...list, ...res.content]);
+        this.games.update((list) => [...list, ...res.content]);
         this.hasMore.set(!res.last);
         this.page++;
         this.loading.set(false);
@@ -44,7 +46,7 @@ export class SimilarFeedComponent implements OnInit {
       error: () => {
         this.loading.set(false);
         this.loadingMore.set(false);
-      }
+      },
     });
   }
 }

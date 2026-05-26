@@ -1,5 +1,4 @@
 <div class="game-reviews">
-
   @if (isLoggedIn && !userHasReviewed) {
     <div class="game-reviews__write">
       <h3 class="game-reviews__write-title">Write a Review</h3>
@@ -18,7 +17,7 @@
           type="submit"
           [disabled]="reviewForm.invalid || submitting()"
         >
-          {{ submitting() ? 'Posting...' : 'Post Review' }}
+          {{ submitting() ? "Posting..." : "Post Review" }}
         </button>
       </form>
     </div>

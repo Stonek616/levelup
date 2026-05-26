@@ -10,14 +10,14 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class RestClientConfig {
 
-    @Value("${igdb.base-url}")
-    private String igdbBaseUrl;
+  @Value("${igdb.base-url}")
+  private String igdbBaseUrl;
 
-    @Bean
-    public RestClient igdbRestClient() {
-        return RestClient.builder()
-            .baseUrl(igdbBaseUrl)
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
-            .build();
-    }
+  @Bean
+  public RestClient igdbRestClient() {
+    return RestClient.builder()
+        .baseUrl(igdbBaseUrl)
+        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+        .build();
+  }
 }

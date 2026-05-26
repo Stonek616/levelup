@@ -4,12 +4,24 @@
 
   // Status families: each status sets currentColor which drives fill/stroke
   // in the SVG. This means the glyph is theme-aware automatically.
-  &[data-status="backlog"]   { color: var(--status-quiet); }
-  &[data-status="playing"]   { color: var(--status-engaged); }
-  &[data-status="played"]    { color: var(--status-engaged); }
-  &[data-status="finished"]  { color: var(--status-done); }
-  &[data-status="completed"] { color: var(--status-done); }
-  &[data-status="abandoned"] { color: var(--status-quiet); }
+  &[data-status="backlog"] {
+    color: var(--status-quiet);
+  }
+  &[data-status="playing"] {
+    color: var(--status-engaged);
+  }
+  &[data-status="played"] {
+    color: var(--status-engaged);
+  }
+  &[data-status="finished"] {
+    color: var(--status-done);
+  }
+  &[data-status="completed"] {
+    color: var(--status-done);
+  }
+  &[data-status="abandoned"] {
+    color: var(--status-quiet);
+  }
 
   // The checkmark inside Finished/Completed needs to be readable against
   // the bright fill — use the inverse text color which is dark in both themes.

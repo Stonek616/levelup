@@ -36,7 +36,9 @@
   padding: 0;
   transition: color 0.15s;
 
-  &:hover { color: var(--color-accent); }
+  &:hover {
+    color: var(--color-accent);
+  }
 }
 
 /* ── Compact view ───────────────────────────── */
@@ -164,7 +166,11 @@
 
 .taste-profile__bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    var(--color-accent-hover) 100%
+  );
   border-radius: var(--radius-pill);
   transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 0 8px var(--color-accent-glow);
@@ -195,7 +201,9 @@
   font-size: 0.72rem;
   color: var(--color-text-secondary);
   letter-spacing: 0.04em;
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
 
   &:hover {
     border-color: var(--color-border-strong);

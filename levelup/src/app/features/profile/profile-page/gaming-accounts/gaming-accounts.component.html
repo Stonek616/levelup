@@ -9,7 +9,10 @@
     <ul class="gaming-accounts__list">
       @for (profile of profiles(); track profile.id) {
         <li class="gaming-accounts__item">
-          <span class="gaming-accounts__tag" [class]="platformClass(profile.platform)">
+          <span
+            class="gaming-accounts__tag"
+            [class]="platformClass(profile.platform)"
+          >
             {{ platformLabel(profile.platform) }}
           </span>
           <span class="gaming-accounts__handle">{{ profile.handle }}</span>

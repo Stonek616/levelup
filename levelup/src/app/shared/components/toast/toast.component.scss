@@ -19,12 +19,23 @@
   font-size: 0.9rem;
   animation: slide-in 0.2s ease;
 
-  &--success { background: var(--color-success); color: var(--color-text-inverse); }
-  &--error   { background: var(--color-error);   color: var(--color-text-inverse); }
-  &--info    { background: #3b82f6; color: #fff; }
+  &--success {
+    background: var(--color-success);
+    color: var(--color-text-inverse);
+  }
+  &--error {
+    background: var(--color-error);
+    color: var(--color-text-inverse);
+  }
+  &--info {
+    background: #3b82f6;
+    color: #fff;
+  }
 }
 
-.toast__message { flex: 1; }
+.toast__message {
+  flex: 1;
+}
 
 .toast__close {
   background: none;
@@ -35,10 +46,18 @@
   opacity: 0.8;
   padding: 0;
 
-  &:hover { opacity: 1; }
+  &:hover {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-in {
-  from { transform: translateX(100%); opacity: 0; }
-  to   { transform: translateX(0);   opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

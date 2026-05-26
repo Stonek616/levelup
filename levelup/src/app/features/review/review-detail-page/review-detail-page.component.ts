@@ -10,7 +10,7 @@ import { ReviewCommentsComponent } from './review-comments/review-comments.compo
   selector: 'app-review-detail-page',
   imports: [ReviewBodyComponent, ReviewCommentsComponent],
   templateUrl: './review-detail-page.component.html',
-  styleUrl: './review-detail-page.component.scss'
+  styleUrl: './review-detail-page.component.scss',
 })
 export class ReviewDetailPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -21,13 +21,21 @@ export class ReviewDetailPageComponent implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  goBack() { this.location.back(); }
+  goBack() {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.reviewService.getReview(id).subscribe({
-      next: (r) => { this.review.set(r); this.loading.set(false); },
-      error: () => { this.error.set('Review not found.'); this.loading.set(false); }
+      next: (r) => {
+        this.review.set(r);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Review not found.');
+        this.loading.set(false);
+      },
     });
   }
 }

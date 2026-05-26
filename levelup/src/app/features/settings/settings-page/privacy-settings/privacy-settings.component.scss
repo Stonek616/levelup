@@ -42,8 +42,14 @@
     cursor: pointer;
   }
 
-  &__error { color: var(--color-danger, #e55); font-size: 0.85rem; }
-  &__success { color: var(--color-success, #4caf50); font-size: 0.85rem; }
+  &__error {
+    color: var(--color-danger, #e55);
+    font-size: 0.85rem;
+  }
+  &__success {
+    color: var(--color-success, #4caf50);
+    font-size: 0.85rem;
+  }
 
   &__actions {
     display: flex;

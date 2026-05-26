@@ -7,7 +7,7 @@ import { TrendingGame } from '../../../core/models/feed.model';
   selector: 'app-trending-feed',
   imports: [RouterLink],
   templateUrl: './trending-feed.component.html',
-  styleUrl: './trending-feed.component.scss'
+  styleUrl: './trending-feed.component.scss',
 })
 export class TrendingFeedComponent implements OnInit {
   private readonly feedService = inject(FeedService);
@@ -38,7 +38,7 @@ export class TrendingFeedComponent implements OnInit {
   private loadPage(): void {
     this.feedService.getTrending(this.page).subscribe({
       next: (res) => {
-        this.games.update(list => [...list, ...res.content]);
+        this.games.update((list) => [...list, ...res.content]);
         this.hasMore.set(!res.last);
         this.page++;
         this.loading.set(false);
@@ -47,7 +47,7 @@ export class TrendingFeedComponent implements OnInit {
       error: () => {
         this.loading.set(false);
         this.loadingMore.set(false);
-      }
+      },
     });
   }
 }

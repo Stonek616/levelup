@@ -1,6 +1,5 @@
 <div class="game-actions">
   @if (!loading()) {
-
     @if (!entry()) {
       <!-- No library entry: offer wishlist OR status tracking -->
       <button class="game-actions__wishlist-btn" (click)="addToWishlist()">
@@ -8,37 +7,47 @@
       </button>
       <app-status-picker
         [status]="null"
-        (statusChange)="onStatusSelected($event)" />
-    } @else if (entry()!.ownership === 'WISHLIST') {
+        (statusChange)="onStatusSelected($event)"
+      />
+    } @else if (entry()!.ownership === "WISHLIST") {
       <!-- Wishlisted: show state + let user pick a status to start tracking -->
       <span class="game-actions__wishlist-badge">Wishlisted</span>
       <app-status-picker
         [status]="null"
-        (statusChange)="onStatusSelected($event)" />
-      <button class="game-actions__remove" (click)="showRemoveConfirm.set(true)">
+        (statusChange)="onStatusSelected($event)"
+      />
+      <button
+        class="game-actions__remove"
+        (click)="showRemoveConfirm.set(true)"
+      >
         Remove
       </button>
     } @else {
       <!-- Active library entry -->
       <app-status-picker
         [status]="entry()!.status"
-        (statusChange)="onStatusSelected($event)" />
+        (statusChange)="onStatusSelected($event)"
+      />
 
       <app-owned-toggle
         [isOwned]="entry()!.ownership === 'OWNED'"
         [ownedPlatforms]="entry()!.platforms"
         [availablePlatforms]="gamePlatforms"
-        (ownedChange)="onOwnedChanged($event)" />
+        (ownedChange)="onOwnedChanged($event)"
+      />
 
       <app-rating-stars
         [rating]="entry()!.rating"
-        (ratingChange)="onRatingChanged($event)" />
+        (ratingChange)="onRatingChanged($event)"
+      />
 
-      <button class="game-actions__remove" (click)="showRemoveConfirm.set(true)">
+      <button
+        class="game-actions__remove"
+        (click)="showRemoveConfirm.set(true)"
+      >
         Remove from library
       </button>
     }
-
   }
 </div>
 
@@ -49,4 +58,5 @@
   confirmLabel="Remove"
   cancelLabel="Keep it"
   (confirmed)="removeFromLibrary(); showRemoveConfirm.set(false)"
-  (cancelled)="showRemoveConfirm.set(false)" />
+  (cancelled)="showRemoveConfirm.set(false)"
+/>

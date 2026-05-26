@@ -10,7 +10,7 @@ import { UserCardComponent } from '../../../../shared/components/user-card/user-
   selector: 'app-find-friends',
   imports: [ReactiveFormsModule, UserCardComponent],
   templateUrl: './find-friends.component.html',
-  styleUrl: './find-friends.component.scss'
+  styleUrl: './find-friends.component.scss',
 })
 export class FindFriendsComponent {
   private userService = inject(UserService);
@@ -21,26 +21,28 @@ export class FindFriendsComponent {
   searched = signal(false);
 
   constructor() {
-    this.searchControl.valueChanges.pipe(
-      debounceTime(400),
-      distinctUntilChanged(),
-      switchMap(query => {
-        const q = query?.trim() ?? '';
-        if (!q) {
-          this.results.set([]);
-          this.searched.set(false);
-          return EMPTY;
-        }
-        this.loading.set(true);
-        return this.userService.searchUsers(q);
-      })
-    ).subscribe({
-      next: (res) => {
-        this.results.set(res.content);
-        this.loading.set(false);
-        this.searched.set(true);
-      },
-      error: () => this.loading.set(false)
-    });
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((query) => {
+          const q = query?.trim() ?? '';
+          if (!q) {
+            this.results.set([]);
+            this.searched.set(false);
+            return EMPTY;
+          }
+          this.loading.set(true);
+          return this.userService.searchUsers(q);
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.results.set(res.content);
+          this.loading.set(false);
+          this.searched.set(true);
+        },
+        error: () => this.loading.set(false),
+      });
   }
 }

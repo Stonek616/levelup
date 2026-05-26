@@ -6,7 +6,7 @@ import { DecimalPipe } from '@angular/common';
   selector: 'app-taste-profile',
   imports: [DecimalPipe],
   templateUrl: './taste-profile.component.html',
-  styleUrl: './taste-profile.component.scss'
+  styleUrl: './taste-profile.component.scss',
 })
 export class TasteProfileComponent {
   @Input({ required: true }) tasteProfile!: TasteProfile;
@@ -16,7 +16,7 @@ export class TasteProfileComponent {
   get topGenres(): string {
     return this.tasteProfile.genres
       .slice(0, 3)
-      .map(g => g.name)
+      .map((g) => g.name)
       .join(' · ');
   }
 

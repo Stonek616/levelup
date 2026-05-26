@@ -1,4 +1,11 @@
-import { Component, ElementRef, HostListener, inject, computed, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  computed,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -10,7 +17,7 @@ import { GameSummary } from '../../../core/models/game.model';
   selector: 'app-navbar',
   imports: [RouterLink, RouterLinkActive, GameSearchInputComponent],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
   private readonly router = inject(Router);

@@ -1,4 +1,12 @@
-import { Component, Output, EventEmitter, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  signal,
+  inject,
+  OnInit,
+  DestroyRef,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject, of } from 'rxjs';
 import { catchError, debounceTime, switchMap, tap } from 'rxjs';
@@ -9,10 +17,9 @@ import { GameSummary } from '../../../core/models/game.model';
   selector: 'app-game-search-input',
   imports: [],
   templateUrl: './game-search-input.component.html',
-  styleUrl: './game-search-input.component.scss'
+  styleUrl: './game-search-input.component.scss',
 })
 export class GameSearchInputComponent implements OnInit {
-
   private readonly gameService = inject(GameService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -24,20 +31,22 @@ export class GameSearchInputComponent implements OnInit {
   @Output() gameSelected = new EventEmitter<GameSummary>();
 
   ngOnInit() {
-    this.searchSubject.pipe(
-      debounceTime(300),
-      tap(() => this.loading.set(true)),
-      switchMap(query => this.gameService.searchGames(query).pipe(
-        catchError(() => of([]))
-      )),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: results => {
-        this.results.set(results);
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false)
-    });
+    this.searchSubject
+      .pipe(
+        debounceTime(300),
+        tap(() => this.loading.set(true)),
+        switchMap((query) =>
+          this.gameService.searchGames(query).pipe(catchError(() => of([]))),
+        ),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (results) => {
+          this.results.set(results);
+          this.loading.set(false);
+        },
+        error: () => this.loading.set(false),
+      });
   }
 
   onInput(event: Event) {

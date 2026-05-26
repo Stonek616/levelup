@@ -18,25 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DiscoveryController {
 
-    private final DiscoveryService discoveryService;
+  private final DiscoveryService discoveryService;
 
-    @GetMapping("/for-you")
-    public ResponseEntity<Page<DiscoveryGameResponse>> getForYou(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(discoveryService.getForYou(userDetails.getId(), pageable));
-    }
+  @GetMapping("/for-you")
+  public ResponseEntity<Page<DiscoveryGameResponse>> getForYou(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ResponseEntity.ok(discoveryService.getForYou(userDetails.getId(), pageable));
+  }
 
-    @GetMapping("/similar")
-    public ResponseEntity<Page<DiscoveryGameResponse>> getSimilar(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(discoveryService.getSimilar(userDetails.getId(), pageable));
-    }
+  @GetMapping("/similar")
+  public ResponseEntity<Page<DiscoveryGameResponse>> getSimilar(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ResponseEntity.ok(discoveryService.getSimilar(userDetails.getId(), pageable));
+  }
 
-    @GetMapping("/new")
-    public ResponseEntity<Page<DiscoveryGameResponse>> getNewAndNotable(
-            @PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(discoveryService.getNewAndNotable(pageable));
-    }
+  @GetMapping("/new")
+  public ResponseEntity<Page<DiscoveryGameResponse>> getNewAndNotable(
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ResponseEntity.ok(discoveryService.getNewAndNotable(pageable));
+  }
 }

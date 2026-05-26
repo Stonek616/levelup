@@ -3,10 +3,20 @@
     class="owned-toggle__btn"
     [class.owned-toggle__btn--active]="isOwned"
     (click)="open()"
-    type="button">
+    type="button"
+  >
     @if (isOwned) {
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="2,6 5,9 10,3"/>
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="2,6 5,9 10,3" />
       </svg>
       Owned
       @if (ownedPlatforms.length) {
@@ -19,23 +29,36 @@
 
   @if (showPicker()) {
     <div class="owned-toggle__picker">
-      <p class="owned-toggle__picker-label">Which platforms do you own it on?</p>
+      <p class="owned-toggle__picker-label">
+        Which platforms do you own it on?
+      </p>
       <div class="owned-toggle__chips">
         @for (p of availablePlatforms; track p) {
           <button
             type="button"
             class="owned-toggle__chip"
             [class.owned-toggle__chip--selected]="selected().includes(p)"
-            (click)="togglePlatform(p)">
+            (click)="togglePlatform(p)"
+          >
             {{ label(p) }}
           </button>
         }
       </div>
       <div class="owned-toggle__picker-actions">
-        <button type="button" class="btn btn--primary btn--sm" (click)="save()">Save</button>
-        <button type="button" class="btn btn--ghost btn--sm" (click)="close()">Cancel</button>
+        <button type="button" class="btn btn--primary btn--sm" (click)="save()">
+          Save
+        </button>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="close()">
+          Cancel
+        </button>
         @if (isOwned) {
-          <button type="button" class="btn btn--ghost btn--sm" (click)="unmark()">Remove</button>
+          <button
+            type="button"
+            class="btn btn--ghost btn--sm"
+            (click)="unmark()"
+          >
+            Remove
+          </button>
         }
       </div>
     </div>

@@ -74,7 +74,13 @@ export const LightTheme: Story = {
         provideRouter([]),
         provideHttpClient(),
         { provide: UserService, useValue: mockUserServiceLoggedIn },
-        { provide: ThemeService, useValue: { theme: signal<'dark' | 'light'>('light'), toggle: () => {} } },
+        {
+          provide: ThemeService,
+          useValue: {
+            theme: signal<'dark' | 'light'>('light'),
+            toggle: () => {},
+          },
+        },
       ],
     }),
   ],

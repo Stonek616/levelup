@@ -1,22 +1,25 @@
 <div class="taste-profile">
-
   <div class="taste-profile__head">
     <span class="taste-profile__label">Taste</span>
-    <button class="taste-profile__toggle" type="button" (click)="showDetail = !showDetail">
-      {{ showDetail ? 'Less' : 'Details' }}
+    <button
+      class="taste-profile__toggle"
+      type="button"
+      (click)="showDetail = !showDetail"
+    >
+      {{ showDetail ? "Less" : "Details" }}
     </button>
   </div>
 
   @if (!showDetail) {
-
     <!-- Compact view -->
     <div class="taste-profile__compact">
-
       @if (topGenres) {
         <div class="taste-profile__genres-row">
           <span class="taste-profile__genre-names">{{ topGenres }}</span>
           @if (tasteProfile.averageRating) {
-            <span class="taste-profile__avg">&#9733; {{ tasteProfile.averageRating | number:'1.1-1' }}</span>
+            <span class="taste-profile__avg"
+              >&#9733; {{ tasteProfile.averageRating | number: "1.1-1" }}</span
+            >
           }
         </div>
       }
@@ -28,18 +31,17 @@
           }
         </div>
       }
-
     </div>
-
   } @else {
-
     <!-- Detail view -->
     <div class="taste-profile__detail">
-
       @if (tasteProfile.averageRating) {
         <p class="taste-profile__rating">
-          <strong>{{ tasteProfile.averageRating | number:'1.1-1' }}</strong>/10
-          <span class="taste-profile__rating-count">{{ tasteProfile.totalRated }} rated</span>
+          <strong>{{ tasteProfile.averageRating | number: "1.1-1" }}</strong
+          >/10
+          <span class="taste-profile__rating-count"
+            >{{ tasteProfile.totalRated }} rated</span
+          >
         </p>
       }
 
@@ -50,9 +52,14 @@
             <div class="taste-profile__genre-row">
               <span class="taste-profile__genre-name">{{ genre.name }}</span>
               <div class="taste-profile__bar-track">
-                <div class="taste-profile__bar-fill" [style.width.%]="genre.percentage"></div>
+                <div
+                  class="taste-profile__bar-fill"
+                  [style.width.%]="genre.percentage"
+                ></div>
               </div>
-              <span class="taste-profile__genre-pct">{{ genre.percentage }}%</span>
+              <span class="taste-profile__genre-pct"
+                >{{ genre.percentage }}%</span
+              >
             </div>
           }
         </section>
@@ -79,9 +86,6 @@
           </div>
         </section>
       }
-
     </div>
-
   }
-
 </div>

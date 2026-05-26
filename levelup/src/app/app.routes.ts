@@ -4,14 +4,14 @@ import { guestGuard } from './core/guards/guest.guard';
 import { onboardingGuard } from './core/guards/onboarding.guard';
 import { adminGuard } from './core/guards/admin.guard';
 
-
 export const routes: Routes = [
   {
     path: '',
     canActivate: [guestGuard],
     loadComponent: () =>
-      import('./features/auth/landing-page/landing-page.component')
-        .then(m => m.LandingPageComponent),
+      import('./features/auth/landing-page/landing-page.component').then(
+        (m) => m.LandingPageComponent,
+      ),
   },
 
   {
@@ -72,85 +72,95 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/library/game-detail-page/game-detail-page.component').then(
         (m) => m.GameDetailPageComponent,
-      )
+      ),
   },
   {
     path: 'profile/:username',
     loadComponent: () =>
-      import('./features/profile/profile-page/profile-page.component')
-        .then(m => m.ProfilePageComponent)
+      import('./features/profile/profile-page/profile-page.component').then(
+        (m) => m.ProfilePageComponent,
+      ),
   },
   {
     path: 'profile/:username/library',
     loadComponent: () =>
-      import('./features/profile/user-library-page/user-library-page.component')
-        .then(m => m.UserLibraryPageComponent)
+      import('./features/profile/user-library-page/user-library-page.component').then(
+        (m) => m.UserLibraryPageComponent,
+      ),
   },
   {
     path: 'reviews/:id',
     loadComponent: () =>
       import('./features/review/review-detail-page/review-detail-page.component').then(
         (m) => m.ReviewDetailPageComponent,
-      )
+      ),
   },
   {
     path: 'collections/:id',
     loadComponent: () =>
-      import('./features/collections/collection-detail-page/collection-detail-page.component')
-        .then(m => m.CollectionDetailPageComponent)
+      import('./features/collections/collection-detail-page/collection-detail-page.component').then(
+        (m) => m.CollectionDetailPageComponent,
+      ),
   },
 
   {
     path: 'friends',
     loadComponent: () =>
-      import('./features/friends/friends-page/friends-page.component')
-        .then(m => m.FriendsPageComponent),
-    canActivate: [authGuard, onboardingGuard]
+      import('./features/friends/friends-page/friends-page.component').then(
+        (m) => m.FriendsPageComponent,
+      ),
+    canActivate: [authGuard, onboardingGuard],
   },
 
   {
     path: 'what-to-play',
     loadComponent: () =>
-      import('./features/what-to-play/what-to-play-page/what-to-play-page.component')
-        .then(m => m.WhatToPlayPageComponent),
-    canActivate: [authGuard, onboardingGuard]
+      import('./features/what-to-play/what-to-play-page/what-to-play-page.component').then(
+        (m) => m.WhatToPlayPageComponent,
+      ),
+    canActivate: [authGuard, onboardingGuard],
   },
 
   {
     path: 'onboarding',
     loadComponent: () =>
-      import('./features/onboarding/onboarding-page/onboarding-page.component')
-        .then(m => m.OnboardingPageComponent),
-    canActivate: [authGuard]
+      import('./features/onboarding/onboarding-page/onboarding-page.component').then(
+        (m) => m.OnboardingPageComponent,
+      ),
+    canActivate: [authGuard],
   },
 
   {
     path: 'settings',
     loadComponent: () =>
-      import('./features/settings/settings-page/settings-page.component')
-        .then(m => m.SettingsPageComponent),
-    canActivate: [authGuard, onboardingGuard]
+      import('./features/settings/settings-page/settings-page.component').then(
+        (m) => m.SettingsPageComponent,
+      ),
+    canActivate: [authGuard, onboardingGuard],
   },
 
   {
     path: 'admin/reports',
     loadComponent: () =>
-      import('./features/admin/admin-reports-page/admin-reports-page.component')
-        .then(m => m.AdminReportsPageComponent),
-    canActivate: [authGuard, adminGuard]
+      import('./features/admin/admin-reports-page/admin-reports-page.component').then(
+        (m) => m.AdminReportsPageComponent,
+      ),
+    canActivate: [authGuard, adminGuard],
   },
 
   {
     path: 'not-found',
     loadComponent: () =>
-      import('./features/not-found/not-found-page/not-found-page.component')
-        .then(m => m.NotFoundPageComponent)
+      import('./features/not-found/not-found-page/not-found-page.component').then(
+        (m) => m.NotFoundPageComponent,
+      ),
   },
 
   {
     path: '**',
     loadComponent: () =>
-      import('./features/not-found/not-found-page/not-found-page.component')
-        .then(m => m.NotFoundPageComponent)
+      import('./features/not-found/not-found-page/not-found-page.component').then(
+        (m) => m.NotFoundPageComponent,
+      ),
   },
 ];

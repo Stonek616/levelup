@@ -32,7 +32,7 @@ export class PrivacySettingsComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.userService.getMyProfile().subscribe(profile => {
+    this.userService.getMyProfile().subscribe((profile) => {
       this.form.patchValue({
         libraryVisibility: profile.libraryVisibility ?? VisibilityType.Public,
         wishlistVisibility: profile.wishlistVisibility ?? VisibilityType.Public,
@@ -46,8 +46,14 @@ export class PrivacySettingsComponent implements OnInit {
     this.success.set(false);
     this.error.set(null);
     this.settingsService.updatePrivacy(this.form.value as any).subscribe({
-      next: () => { this.saving.set(false); this.success.set(true); },
-      error: () => { this.saving.set(false); this.error.set('Failed to save privacy settings.'); },
+      next: () => {
+        this.saving.set(false);
+        this.success.set(true);
+      },
+      error: () => {
+        this.saving.set(false);
+        this.error.set('Failed to save privacy settings.');
+      },
     });
   }
 }

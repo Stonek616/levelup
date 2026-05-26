@@ -1,5 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 
@@ -7,7 +12,7 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
   selector: 'app-login-page',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss'
+  styleUrl: './login-page.component.scss',
 })
 export class LoginPageComponent {
   private readonly authService = inject(AuthService);
@@ -15,7 +20,10 @@ export class LoginPageComponent {
   private route = inject(ActivatedRoute);
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)])
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
   });
   errorMessage = '';
   isLoading = false;
@@ -24,16 +32,21 @@ export class LoginPageComponent {
       return;
     }
     this.isLoading = true;
-    const { email, password } = this.loginForm.value as { email: string, password: string };
+    const { email, password } = this.loginForm.value as {
+      email: string;
+      password: string;
+    };
     this.authService.login({ email, password }).subscribe({
       next: () => {
-        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/feed';
+        const returnUrl =
+          this.route.snapshot.queryParamMap.get('returnUrl') ?? '/feed';
         this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'An error occurred during login.';
+        this.errorMessage =
+          err.error?.message || 'An error occurred during login.';
         this.isLoading = false;
-      }
+      },
     });
   }
 }

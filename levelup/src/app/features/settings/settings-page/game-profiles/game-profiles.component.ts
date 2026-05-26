@@ -2,7 +2,10 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SettingsService } from '../../../../core/services/settings.service';
 import { GameProfile } from '../../../../core/models/user.model';
-import { GamePlatform, GamePlatformLabels } from '../../../../core/models/enums';
+import {
+  GamePlatform,
+  GamePlatformLabels,
+} from '../../../../core/models/enums';
 
 @Component({
   selector: 'app-game-profiles',
@@ -31,7 +34,9 @@ export class GameProfilesComponent implements OnInit {
   }
 
   private load() {
-    this.settingsService.getGameProfiles().subscribe(profiles => this.profiles.set(profiles));
+    this.settingsService
+      .getGameProfiles()
+      .subscribe((profiles) => this.profiles.set(profiles));
   }
 
   add() {
@@ -39,8 +44,8 @@ export class GameProfilesComponent implements OnInit {
     this.adding.set(true);
     this.error.set(null);
     this.settingsService.addGameProfile(this.form.value as any).subscribe({
-      next: profile => {
-        this.profiles.update(list => [...list, profile]);
+      next: (profile) => {
+        this.profiles.update((list) => [...list, profile]);
         this.form.reset({ platform: GamePlatform.PSN, handle: '' });
         this.adding.set(false);
       },
@@ -53,7 +58,8 @@ export class GameProfilesComponent implements OnInit {
 
   remove(profileId: string) {
     this.settingsService.removeGameProfile(profileId).subscribe({
-      next: () => this.profiles.update(list => list.filter(p => p.id !== profileId)),
+      next: () =>
+        this.profiles.update((list) => list.filter((p) => p.id !== profileId)),
     });
   }
 

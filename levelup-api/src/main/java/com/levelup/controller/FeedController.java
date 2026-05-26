@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FeedController {
 
-    private final FeedService feedService;
+  private final FeedService feedService;
 
-    @GetMapping("/api/v1/feed")
-    public ResponseEntity<Page<FeedEventResponse>> getFriendsFeed(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(feedService.getFriendsFeed(userDetails.getId(), pageable));
-    }
+  @GetMapping("/api/v1/feed")
+  public ResponseEntity<Page<FeedEventResponse>> getFriendsFeed(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ResponseEntity.ok(feedService.getFriendsFeed(userDetails.getId(), pageable));
+  }
 
-    @GetMapping("/api/v1/discover/trending")
-    public ResponseEntity<Page<TrendingGameResponse>> getTrending(
-            @PageableDefault(size = 20) Pageable pageable) {
-        return ResponseEntity.ok(feedService.getTrending(pageable));
-    }
+  @GetMapping("/api/v1/discover/trending")
+  public ResponseEntity<Page<TrendingGameResponse>> getTrending(
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ResponseEntity.ok(feedService.getTrending(pageable));
+  }
 }

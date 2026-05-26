@@ -71,7 +71,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2023-12-04T00:00:00Z',
     updatedAt: '2024-01-04T00:00:00Z',
-  },{
+  },
+  {
     id: 'e6',
     game: mockGame('6', 'Dark Souls', 'co1x78'),
     status: LibraryStatus.Finished,
@@ -80,7 +81,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2021-12-01T00:00:00Z',
     updatedAt: '2026-01-01T00:00:00Z',
-  },{
+  },
+  {
     id: 'e7',
     game: mockGame('7', 'Portal', 'coay61'),
     status: LibraryStatus.Finished,
@@ -89,7 +91,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2023-12-09T00:00:00Z',
     updatedAt: '2024-01-09T00:00:00Z',
-  },{
+  },
+  {
     id: 'e8',
     game: mockGame('8', 'Bioshock', 'co2mli'),
     status: LibraryStatus.Finished,
@@ -98,7 +101,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2023-12-11T00:00:00Z',
     updatedAt: '2024-01-11T00:00:00Z',
-  },{
+  },
+  {
     id: 'e9',
     game: mockGame('9', 'Firewatch', 'cob1ts'),
     status: LibraryStatus.Finished,
@@ -107,7 +111,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2023-12-12T00:00:00Z',
     updatedAt: '2024-01-12T00:00:00Z',
-  },{
+  },
+  {
     id: 'e10',
     game: mockGame('10', 'Helldivers 2', 'coabbf'),
     status: LibraryStatus.Finished,
@@ -116,7 +121,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2023-12-13T00:00:00Z',
     updatedAt: '2024-01-14T00:00:00Z',
-  },{
+  },
+  {
     id: 'e11',
     game: mockGame('11', 'Doom', 'co5rav'),
     status: LibraryStatus.Finished,
@@ -125,7 +131,8 @@ const mockEntries: LibraryEntry[] = [
     rating: 8,
     createdAt: '2023-11-21T00:00:00Z',
     updatedAt: '2024-11-01T00:00:00Z',
-  },{
+  },
+  {
     id: 'e12',
     game: mockGame('12', 'Stardew Valley', 'coa93h'),
     status: LibraryStatus.Finished,

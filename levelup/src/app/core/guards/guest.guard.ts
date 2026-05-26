@@ -9,13 +9,13 @@ export const guestGuard: CanActivateFn = (_route, _state) => {
   const router = inject(Router);
 
   return toObservable(authService.initialized).pipe(
-    filter(initialized => initialized === true),
+    filter((initialized) => initialized === true),
     take(1),
     map(() => {
       if (authService.isAuthenticated()) {
         return router.parseUrl('/feed');
       }
-      return true
-    })
+      return true;
+    }),
   );
 };

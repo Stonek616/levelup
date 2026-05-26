@@ -1,6 +1,17 @@
-import { Component, Input, Output, EventEmitter, signal, computed } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  signal,
+  computed,
+} from '@angular/core';
 import { NgClass } from '@angular/common';
-import { LibraryStatus, LibraryStatusLabels, OwnershipStatus } from '../../../core/models/enums';
+import {
+  LibraryStatus,
+  LibraryStatusLabels,
+  OwnershipStatus,
+} from '../../../core/models/enums';
 import { PLATFORM_LABELS } from '../../../core/utils/platform-labels';
 
 export interface LibraryFilters {
@@ -13,7 +24,7 @@ export interface LibraryFilters {
   selector: 'app-library-toolbar',
   imports: [NgClass],
   templateUrl: './library-toolbar.component.html',
-  styleUrl: './library-toolbar.component.scss'
+  styleUrl: './library-toolbar.component.scss',
 })
 export class LibraryToolbarComponent {
   @Input() availablePlatforms: string[] = [];
@@ -31,7 +42,8 @@ export class LibraryToolbarComponent {
   activeChips = computed(() => {
     const chips: string[] = [];
     if (this.activeStatus) chips.push(this.labels[this.activeStatus]);
-    if (this.activePlatform) chips.push(this.platformLabel(this.activePlatform));
+    if (this.activePlatform)
+      chips.push(this.platformLabel(this.activePlatform));
     if (this.ownedOnly) chips.push('Owned only');
     return chips;
   });

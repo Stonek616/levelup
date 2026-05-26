@@ -7,9 +7,7 @@ const meta: Meta<FeedItemComponent> = {
   title: 'Shared/FeedItem',
   component: FeedItemComponent,
   tags: ['autodocs'],
-  decorators: [
-    applicationConfig({ providers: [provideRouter([])] }),
-  ],
+  decorators: [applicationConfig({ providers: [provideRouter([])] })],
 };
 export default meta;
 
@@ -49,8 +47,15 @@ export const StatusChangeToCompleted: Story = {
       id: 'evt-2',
       type: 'STATUS_CHANGE',
       user: { ...baseUser, username: 'mari0_fan' },
-      game: { ...baseGame, title: 'Super Mario Odyssey', slug: 'super-mario-odyssey' },
-      metadata: JSON.stringify({ oldStatus: 'PLAYING', newStatus: 'COMPLETED' }),
+      game: {
+        ...baseGame,
+        title: 'Super Mario Odyssey',
+        slug: 'super-mario-odyssey',
+      },
+      metadata: JSON.stringify({
+        oldStatus: 'PLAYING',
+        newStatus: 'COMPLETED',
+      }),
       createdAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(),
     },
   },
@@ -91,7 +96,12 @@ export const ReviewPosted: Story = {
       id: 'evt-5',
       type: 'REVIEW_POSTED',
       user: { ...baseUser, username: 'critic_sam' },
-      game: { id: 'game-2', slug: 'disco-elysium', title: 'Disco Elysium', coverImageId: null },
+      game: {
+        id: 'game-2',
+        slug: 'disco-elysium',
+        title: 'Disco Elysium',
+        coverImageId: null,
+      },
       metadata: null,
       createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
     },

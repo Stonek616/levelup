@@ -17,12 +17,12 @@ export class OnboardingSearchStepComponent {
   seededGames = signal<GameSummary[]>([]);
 
   onGameSelected(game: GameSummary) {
-    if (this.seededGames().some(g => g.id === game.id)) return;
-    this.seededGames.update(list => [...list, game]);
+    if (this.seededGames().some((g) => g.id === game.id)) return;
+    this.seededGames.update((list) => [...list, game]);
   }
 
   removeGame(id: string) {
-    this.seededGames.update(list => list.filter(g => g.id !== id));
+    this.seededGames.update((list) => list.filter((g) => g.id !== id));
   }
 
   coverUrl(game: GameSummary): string | null {
@@ -31,6 +31,6 @@ export class OnboardingSearchStepComponent {
   }
 
   finish() {
-    this.completed.emit(this.seededGames().map(g => g.id));
+    this.completed.emit(this.seededGames().map((g) => g.id));
   }
 }

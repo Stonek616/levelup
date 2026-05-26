@@ -34,7 +34,9 @@
     letter-spacing: 0.08em;
     transition: color 0.15s;
 
-    &:hover { color: var(--color-accent-hover); }
+    &:hover {
+      color: var(--color-accent-hover);
+    }
   }
 
   &__empty {
@@ -88,8 +90,13 @@
     cursor: pointer;
     transition: background 0.15s;
 
-    &:disabled { opacity: 0.5; cursor: not-allowed; }
-    &:not(:disabled):hover { background: var(--color-accent-hover); }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    &:not(:disabled):hover {
+      background: var(--color-accent-hover);
+    }
   }
 }
 
@@ -105,11 +112,15 @@
   color: inherit;
   transition: transform 0.15s;
 
-  &:last-child { border-bottom: none; }
+  &:last-child {
+    border-bottom: none;
+  }
   &:hover {
     text-decoration: none;
     transform: translateX(2px);
-    .collection-card__name { color: var(--color-accent); }
+    .collection-card__name {
+      color: var(--color-accent);
+    }
   }
 
   &__info {

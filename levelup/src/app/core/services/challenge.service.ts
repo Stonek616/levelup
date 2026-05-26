@@ -19,7 +19,10 @@ export class ChallengeService {
   }
 
   submit(request: SubmitChallengeRequest): Observable<ChallengeResult> {
-    return this.http.post<ChallengeResult>(`${this.base}/today/submit`, request);
+    return this.http.post<ChallengeResult>(
+      `${this.base}/today/submit`,
+      request,
+    );
   }
 
   getHistory(page = 0, size = 30): Observable<ChallengeHistory> {

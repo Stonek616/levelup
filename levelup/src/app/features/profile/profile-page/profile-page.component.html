@@ -12,13 +12,17 @@
           <app-taste-profile [tasteProfile]="tasteProfile()!" />
         } @else {
           <p class="profile-page__locked">
-            Add {{ profile()!.username }} as a friend to see their taste profile.
+            Add {{ profile()!.username }} as a friend to see their taste
+            profile.
           </p>
         }
         <app-recent-activity [username]="profile()!.username" />
       </div>
       <aside class="profile-page__side">
-        <app-collections-preview [username]="profile()!.username" [isOwnProfile]="isOwnProfile()" />
+        <app-collections-preview
+          [username]="profile()!.username"
+          [isOwnProfile]="isOwnProfile()"
+        />
         @if (canSeeFriendContent()) {
           <app-gaming-accounts [username]="profile()!.username" />
         }

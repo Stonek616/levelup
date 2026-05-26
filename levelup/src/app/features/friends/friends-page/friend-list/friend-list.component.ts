@@ -1,5 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FriendshipEntry, UserSummary } from '../../../../core/models/user.model';
+import {
+  FriendshipEntry,
+  UserSummary,
+} from '../../../../core/models/user.model';
 import { FriendService } from '../../../../core/services/friend.service';
 import { UserCardComponent } from '../../../../shared/components/user-card/user-card.component';
 
@@ -7,7 +10,7 @@ import { UserCardComponent } from '../../../../shared/components/user-card/user-
   selector: 'app-friend-list',
   imports: [UserCardComponent],
   templateUrl: './friend-list.component.html',
-  styleUrl: './friend-list.component.scss'
+  styleUrl: './friend-list.component.scss',
 })
 export class FriendListComponent implements OnInit {
   private friendService = inject(FriendService);
@@ -21,7 +24,7 @@ export class FriendListComponent implements OnInit {
         this.friends.set(res.content);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -31,11 +34,11 @@ export class FriendListComponent implements OnInit {
       username: friend.username,
       avatarUrl: friend.avatarUrl,
       isFriend: true,
-      friendRequestStatus: null
+      friendRequestStatus: null,
     };
   }
 
   onFriendRemoved(userId: string): void {
-    this.friends.update(list => list.filter(f => f.id !== userId));
+    this.friends.update((list) => list.filter((f) => f.id !== userId));
   }
 }

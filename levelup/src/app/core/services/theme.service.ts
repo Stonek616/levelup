@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly _theme = signal<'dark' | 'light'>(
-    (localStorage.getItem('theme') as 'dark' | 'light') ?? 'dark'
+    (localStorage.getItem('theme') as 'dark' | 'light') ?? 'dark',
   );
 
   readonly theme = this._theme.asReadonly();

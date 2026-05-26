@@ -1,7 +1,10 @@
 <div class="onboarding">
   <div class="onboarding__card">
     <div class="onboarding__progress">
-      <div class="onboarding__progress-bar" [style.width.%]="step() === 1 ? 50 : 100"></div>
+      <div
+        class="onboarding__progress-bar"
+        [style.width.%]="step() === 1 ? 50 : 100"
+      ></div>
     </div>
 
     @if (step() === 1) {

@@ -22,7 +22,10 @@
   // Engaged family — Playing, Played
   &--playing,
   &--played {
-    background: var(--status-engaged-subtle, color-mix(in srgb, var(--status-engaged) 14%, transparent));
+    background: var(
+      --status-engaged-subtle,
+      color-mix(in srgb, var(--status-engaged) 14%, transparent)
+    );
     border-color: color-mix(in srgb, var(--status-engaged) 40%, transparent);
     color: var(--status-engaged);
   }
@@ -30,14 +33,20 @@
   // Done family — Finished, Completed
   &--finished,
   &--completed {
-    background: var(--status-done-subtle, color-mix(in srgb, var(--status-done) 14%, transparent));
+    background: var(
+      --status-done-subtle,
+      color-mix(in srgb, var(--status-done) 14%, transparent)
+    );
     border-color: color-mix(in srgb, var(--status-done) 40%, transparent);
     color: var(--status-done);
   }
 
   // Wishlist — its own thing (matches the bookmark)
   &--wishlist {
-    background: var(--status-wishlist-subtle, color-mix(in srgb, var(--status-wishlist) 14%, transparent));
+    background: var(
+      --status-wishlist-subtle,
+      color-mix(in srgb, var(--status-wishlist) 14%, transparent)
+    );
     border-color: color-mix(in srgb, var(--status-wishlist) 40%, transparent);
     color: var(--status-wishlist);
   }

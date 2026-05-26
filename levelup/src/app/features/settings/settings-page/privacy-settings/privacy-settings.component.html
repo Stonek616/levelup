@@ -1,6 +1,8 @@
 <div class="privacy-settings">
   <h2 class="settings-section__title">Privacy</h2>
-  <p class="privacy-settings__desc">Control who can see parts of your profile.</p>
+  <p class="privacy-settings__desc">
+    Control who can see parts of your profile.
+  </p>
 
   <form [formGroup]="form" (ngSubmit)="save()" class="settings-form">
     <div class="settings-form__group">
@@ -30,12 +32,16 @@
       </select>
     </div>
 
-    @if (error()) { <p class="settings-form__error">{{ error() }}</p> }
-    @if (success()) { <p class="settings-form__success">Privacy settings saved.</p> }
+    @if (error()) {
+      <p class="settings-form__error">{{ error() }}</p>
+    }
+    @if (success()) {
+      <p class="settings-form__success">Privacy settings saved.</p>
+    }
 
     <div class="settings-form__actions">
       <button class="btn btn--primary" type="submit" [disabled]="saving()">
-        {{ saving() ? 'Saving...' : 'Save changes' }}
+        {{ saving() ? "Saving..." : "Save changes" }}
       </button>
     </div>
   </form>

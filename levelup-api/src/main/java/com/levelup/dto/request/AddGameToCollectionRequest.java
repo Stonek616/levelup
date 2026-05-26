@@ -1,13 +1,11 @@
 package com.levelup.dto.request;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
 import java.util.UUID;
+import lombok.Data;
 
 @Data
 public class AddGameToCollectionRequest {
 
-    @NotNull
-    private UUID gameId;
+  @NotNull private UUID gameId;
 }

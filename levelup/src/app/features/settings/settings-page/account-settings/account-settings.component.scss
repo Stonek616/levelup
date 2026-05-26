@@ -35,7 +35,9 @@
     box-sizing: border-box;
     outline: none;
 
-    &:focus { border-color: var(--color-primary); }
+    &:focus {
+      border-color: var(--color-primary);
+    }
 
     &--textarea {
       resize: vertical;
@@ -56,8 +58,14 @@
     margin-bottom: -4px;
   }
 
-  &__error { color: var(--color-danger, #e55); font-size: 0.85rem; }
-  &__success { color: var(--color-success, #4caf50); font-size: 0.85rem; }
+  &__error {
+    color: var(--color-danger, #e55);
+    font-size: 0.85rem;
+  }
+  &__success {
+    color: var(--color-success, #4caf50);
+    font-size: 0.85rem;
+  }
 
   &__actions {
     display: flex;

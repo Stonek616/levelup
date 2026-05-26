@@ -41,5 +41,9 @@ export const WithAvatar: Story = {
 
 export const LongUsername: Story = {
   name: 'Long username (truncation)',
-  args: { size: 'md', avatarUrl: null, username: 'superlongusernamethatislong' },
+  args: {
+    size: 'md',
+    avatarUrl: null,
+    username: 'superlongusernamethatislong',
+  },
 };

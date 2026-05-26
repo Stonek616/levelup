@@ -17,27 +17,29 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SettingsController {
 
-    private final SettingsService settingsService;
+  private final SettingsService settingsService;
 
-    @PatchMapping("/account")
-    public ResponseEntity<UserResponse> updateAccountSettings(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody UpdateAccountSettingsRequest request) {
-        return ResponseEntity.ok(settingsService.updateAccountSettings(userDetails.getId(), request));
-    }
+  @PatchMapping("/account")
+  public ResponseEntity<UserResponse> updateAccountSettings(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestBody UpdateAccountSettingsRequest request) {
+    return ResponseEntity.ok(settingsService.updateAccountSettings(userDetails.getId(), request));
+  }
 
-    @PatchMapping("/privacy")
-    public ResponseEntity<UserResponse> updatePrivacySettings(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody PrivacySettingsRequest request) {
-        return ResponseEntity.ok(settingsService.updatePrivacySettings(userDetails.getId(), request));
-    }
+  @PatchMapping("/privacy")
+  public ResponseEntity<UserResponse> updatePrivacySettings(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestBody PrivacySettingsRequest request) {
+    return ResponseEntity.ok(settingsService.updatePrivacySettings(userDetails.getId(), request));
+  }
 
-    @DeleteMapping("/account")
-    public ResponseEntity<MessageResponse> deleteAccount(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody DeleteAccountRequest request) {
-        settingsService.softDeleteAccount(userDetails.getId(), request);
-        return ResponseEntity.ok(new MessageResponse("Account scheduled for deletion. You have 30 days to recover it by contacting support."));
-    }
+  @DeleteMapping("/account")
+  public ResponseEntity<MessageResponse> deleteAccount(
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestBody DeleteAccountRequest request) {
+    settingsService.softDeleteAccount(userDetails.getId(), request);
+    return ResponseEntity.ok(
+        new MessageResponse(
+            "Account scheduled for deletion. You have 30 days to recover it by contacting support."));
+  }
 }

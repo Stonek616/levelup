@@ -5,7 +5,7 @@ import { NgFor, NgClass } from '@angular/common';
   selector: 'app-rating-stars',
   imports: [NgFor, NgClass],
   templateUrl: './rating-stars.component.html',
-  styleUrl: './rating-stars.component.scss'
+  styleUrl: './rating-stars.component.scss',
 })
 export class RatingStarsComponent {
   @Input() rating: number | null = null;
@@ -19,7 +19,7 @@ export class RatingStarsComponent {
     return this.hovered ?? this.rating;
   }
   setRating(value: number): void {
-    if(!this.readonly) {
+    if (!this.readonly) {
       this.ratingChange.emit(value);
     }
   }

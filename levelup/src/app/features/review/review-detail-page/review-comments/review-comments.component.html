@@ -9,13 +9,22 @@
     <div class="review-comments__list">
       @for (comment of comments(); track comment.id) {
         <div class="review-comments__item">
-          <app-avatar [avatarUrl]="comment.author.avatarUrl" [username]="comment.author.username" size="sm" />
+          <app-avatar
+            [avatarUrl]="comment.author.avatarUrl"
+            [username]="comment.author.username"
+            size="sm"
+          />
           <div class="review-comments__content">
             <div class="review-comments__meta">
-              <a class="review-comments__author" [routerLink]="['/profile', comment.author.username]">
+              <a
+                class="review-comments__author"
+                [routerLink]="['/profile', comment.author.username]"
+              >
                 {{ comment.author.username }}
               </a>
-              <span class="review-comments__date">{{ comment.createdAt | date:'mediumDate' }}</span>
+              <span class="review-comments__date">{{
+                comment.createdAt | date: "mediumDate"
+              }}</span>
             </div>
             <p class="review-comments__body">{{ comment.body }}</p>
             <div class="review-comments__actions">
@@ -28,11 +37,17 @@
                 ♥ {{ comment.likeCount }}
               </button>
               @if (comment.author.id === currentUserId()) {
-                <button class="review-comments__delete-btn" (click)="deletingCommentId.set(comment.id)">
+                <button
+                  class="review-comments__delete-btn"
+                  (click)="deletingCommentId.set(comment.id)"
+                >
                   Delete
                 </button>
               } @else if (isLoggedIn) {
-                <button class="review-comments__report-btn" (click)="reportingCommentId.set(comment.id)">
+                <button
+                  class="review-comments__report-btn"
+                  (click)="reportingCommentId.set(comment.id)"
+                >
                   Report
                 </button>
               }
@@ -49,25 +64,37 @@
     message="This will permanently delete your comment."
     confirmLabel="Delete"
     cancelLabel="Keep it"
-    (confirmed)="deleteComment(deletingCommentId()!); deletingCommentId.set(null)"
-    (cancelled)="deletingCommentId.set(null)" />
+    (confirmed)="
+      deleteComment(deletingCommentId()!); deletingCommentId.set(null)
+    "
+    (cancelled)="deletingCommentId.set(null)"
+  />
 
   <app-report-modal
     [open]="reportingCommentId() !== null"
     targetType="COMMENT"
     [targetId]="reportingCommentId()!"
-    (closed)="reportingCommentId.set(null)" />
+    (closed)="reportingCommentId.set(null)"
+  />
 
   @if (isLoggedIn) {
-    <form class="review-comments__form" [formGroup]="commentForm" (ngSubmit)="submit()">
+    <form
+      class="review-comments__form"
+      [formGroup]="commentForm"
+      (ngSubmit)="submit()"
+    >
       <textarea
         class="review-comments__textarea"
         formControlName="body"
         placeholder="Add a comment..."
         rows="3"
       ></textarea>
-      <button class="review-comments__submit" type="submit" [disabled]="commentForm.invalid || submitting()">
-        {{ submitting() ? 'Posting...' : 'Post Comment' }}
+      <button
+        class="review-comments__submit"
+        type="submit"
+        [disabled]="commentForm.invalid || submitting()"
+      >
+        {{ submitting() ? "Posting..." : "Post Comment" }}
       </button>
     </form>
   }

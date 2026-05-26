@@ -58,7 +58,10 @@
     width: 100%;
     box-sizing: border-box;
 
-    &:focus { outline: none; border-color: var(--color-danger, #e55); }
+    &:focus {
+      outline: none;
+      border-color: var(--color-danger, #e55);
+    }
   }
 
   &__error {

@@ -17,15 +17,21 @@ export class ToastService {
 
   show(message: string, type: ToastType = 'info', duration = 3500): void {
     const id = this.nextId++;
-    this._toasts.update(list => [...list, { id, message, type }]);
+    this._toasts.update((list) => [...list, { id, message, type }]);
     setTimeout(() => this.dismiss(id), duration);
   }
 
-  success(message: string): void { this.show(message, 'success'); }
-  error(message: string): void { this.show(message, 'error'); }
-  info(message: string): void { this.show(message, 'info'); }
+  success(message: string): void {
+    this.show(message, 'success');
+  }
+  error(message: string): void {
+    this.show(message, 'error');
+  }
+  info(message: string): void {
+    this.show(message, 'info');
+  }
 
   dismiss(id: number): void {
-    this._toasts.update(list => list.filter(t => t.id !== id));
+    this._toasts.update((list) => list.filter((t) => t.id !== id));
   }
 }

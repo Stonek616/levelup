@@ -28,7 +28,6 @@ export interface UserProfile {
   reviewsVisibility?: VisibilityType;
 }
 
-
 export interface UserSummary {
   id: string;
   username: string;

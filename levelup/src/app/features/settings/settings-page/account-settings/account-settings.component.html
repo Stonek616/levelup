@@ -3,8 +3,9 @@
 
   <form [formGroup]="form" (ngSubmit)="save()" class="settings-form">
     <div class="settings-form__group">
-      <label class="settings-form__label">Username</label>
+      <label class="settings-form__label" for="username">Username</label>
       <input
+        id="username"
         class="settings-form__input"
         type="text"
         formControlName="username"
@@ -13,8 +14,9 @@
     </div>
 
     <div class="settings-form__group">
-      <label class="settings-form__label">Email</label>
+      <label class="settings-form__label" for="email">Email</label>
       <input
+        id="email"
         class="settings-form__input"
         type="email"
         formControlName="email"
@@ -23,8 +25,9 @@
     </div>
 
     <div class="settings-form__group">
-      <label class="settings-form__label">Bio</label>
+      <label class="settings-form__label" for="bio">Bio</label>
       <textarea
+        id="bio"
         class="settings-form__input settings-form__input--textarea"
         formControlName="bio"
         rows="3"
@@ -35,8 +38,9 @@
     <h3 class="settings-form__subheading">Change password</h3>
 
     <div class="settings-form__group">
-      <label class="settings-form__label">Current password</label>
+      <label class="settings-form__label" for="currentPassword">Current password</label>
       <input
+        id="currentPassword"
         class="settings-form__input"
         type="password"
         formControlName="currentPassword"
@@ -45,8 +49,9 @@
     </div>
 
     <div class="settings-form__group">
-      <label class="settings-form__label">New password</label>
+      <label class="settings-form__label" for="newPassword">New password</label>
       <input
+        id="newPassword"
         class="settings-form__input"
         type="password"
         formControlName="newPassword"

@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-confirm-dialog',
   template: `
     @if (open) {
-      <div class="overlay" (click)="onOverlayClick($event)">
+      <div class="overlay" (click)="onOverlayClick($event)" (keyup.escape)="cancelled.emit()" tabindex="0">
         <div class="dialog" role="dialog" aria-modal="true">
           <h3 class="dialog__title">{{ title }}</h3>
           <p class="dialog__message">{{ message }}</p>

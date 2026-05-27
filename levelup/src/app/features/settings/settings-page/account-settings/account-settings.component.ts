@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SettingsService } from '../../../../core/services/settings.service';
 import { UserService } from '../../../../core/services/user.service';
+import { UpdateAccountSettingsRequest } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-account-settings',
@@ -46,16 +47,16 @@ export class AccountSettingsComponent implements OnInit {
     this.error.set(null);
 
     const val = this.form.value;
-    const request: Record<string, string> = {};
-    if (val.username) request['username'] = val.username;
-    if (val.email) request['email'] = val.email;
-    if (val.bio !== null && val.bio !== undefined) request['bio'] = val.bio;
+    const request: UpdateAccountSettingsRequest = {};
+    if (val.username) request.username = val.username;
+    if (val.email) request.email = val.email;
+    if (val.bio !== null && val.bio !== undefined) request.bio = val.bio;
     if (val.newPassword) {
-      request['currentPassword'] = val.currentPassword ?? '';
-      request['newPassword'] = val.newPassword;
+      request.currentPassword = val.currentPassword ?? '';
+      request.newPassword = val.newPassword;
     }
 
-    this.settingsService.updateAccount(request as any).subscribe({
+    this.settingsService.updateAccount(request).subscribe({
       next: () => {
         this.saving.set(false);
         this.success.set(true);

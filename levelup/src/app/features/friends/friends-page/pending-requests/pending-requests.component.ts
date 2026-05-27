@@ -1,5 +1,4 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FriendRequest } from '../../../../core/models/user.model';
 import { FriendService } from '../../../../core/services/friend.service';
@@ -7,7 +6,7 @@ import { AvatarComponent } from '../../../../shared/components/avatar/avatar.com
 
 @Component({
   selector: 'app-pending-requests',
-  imports: [DatePipe, RouterLink, AvatarComponent],
+  imports: [RouterLink, AvatarComponent],
   templateUrl: './pending-requests.component.html',
   styleUrl: './pending-requests.component.scss',
 })

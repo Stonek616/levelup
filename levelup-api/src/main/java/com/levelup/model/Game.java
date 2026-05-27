@@ -86,7 +86,7 @@ public class Game {
   private Set<Theme> themes = new HashSet<>();
 
   @PrePersist
-  private void prePersist() {
+  void prePersist() {
     cachedAt = Instant.now();
   }
 }

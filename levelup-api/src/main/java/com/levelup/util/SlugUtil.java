@@ -1,6 +1,7 @@
 package com.levelup.util;
 
 import java.text.Normalizer;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public final class SlugUtil {
@@ -18,7 +19,7 @@ public final class SlugUtil {
     String normalized =
         Normalizer.normalize(input, Normalizer.Form.NFD)
             .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-    String lower = normalized.toLowerCase();
+    String lower = normalized.toLowerCase(Locale.ROOT);
     String collapsed = WHITESPACE_AND_DASHES.matcher(lower).replaceAll("-");
     String stripped = NON_LATIN.matcher(collapsed).replaceAll("");
     return LEADING_TRAILING_DASHES.matcher(stripped).replaceAll("");

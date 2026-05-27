@@ -1,5 +1,3 @@
-export class Enums {}
-
 export enum LibraryStatus {
   Backlog = 'BACKLOG',
   Playing = 'PLAYING',

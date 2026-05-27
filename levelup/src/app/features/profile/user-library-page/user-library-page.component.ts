@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LibraryService } from '../../../core/services/library.service';
 import { LibraryEntry } from '../../../core/models/library-entry.model';
 import { PLATFORM_LABELS } from '../../../core/utils/platform-labels';
@@ -11,7 +11,7 @@ import {
 
 @Component({
   selector: 'app-user-library-page',
-  imports: [LibraryGridComponent, LibraryToolbarComponent, RouterLink],
+  imports: [LibraryGridComponent, LibraryToolbarComponent],
   templateUrl: './user-library-page.component.html',
   styleUrl: './user-library-page.component.scss',
 })

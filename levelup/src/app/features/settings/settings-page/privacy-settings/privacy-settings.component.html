@@ -6,8 +6,8 @@
 
   <form [formGroup]="form" (ngSubmit)="save()" class="settings-form">
     <div class="settings-form__group">
-      <label class="settings-form__label">Library visibility</label>
-      <select class="settings-form__input" formControlName="libraryVisibility">
+      <label class="settings-form__label" for="libraryVisibility">Library visibility</label>
+      <select id="libraryVisibility" class="settings-form__input" formControlName="libraryVisibility">
         @for (opt of visibilityOptions; track opt.value) {
           <option [value]="opt.value">{{ opt.label }}</option>
         }
@@ -15,8 +15,8 @@
     </div>
 
     <div class="settings-form__group">
-      <label class="settings-form__label">Wishlist visibility</label>
-      <select class="settings-form__input" formControlName="wishlistVisibility">
+      <label class="settings-form__label" for="wishlistVisibility">Wishlist visibility</label>
+      <select id="wishlistVisibility" class="settings-form__input" formControlName="wishlistVisibility">
         @for (opt of visibilityOptions; track opt.value) {
           <option [value]="opt.value">{{ opt.label }}</option>
         }
@@ -24,8 +24,8 @@
     </div>
 
     <div class="settings-form__group">
-      <label class="settings-form__label">Reviews visibility</label>
-      <select class="settings-form__input" formControlName="reviewsVisibility">
+      <label class="settings-form__label" for="reviewsVisibility">Reviews visibility</label>
+      <select id="reviewsVisibility" class="settings-form__input" formControlName="reviewsVisibility">
         @for (opt of visibilityOptions; track opt.value) {
           <option [value]="opt.value">{{ opt.label }}</option>
         }

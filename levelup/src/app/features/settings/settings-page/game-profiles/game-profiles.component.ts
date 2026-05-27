@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SettingsService } from '../../../../core/services/settings.service';
-import { GameProfile } from '../../../../core/models/user.model';
+import { GameProfile, CreateGameProfileRequest } from '../../../../core/models/user.model';
 import {
   GamePlatform,
   GamePlatformLabels,
@@ -43,7 +43,7 @@ export class GameProfilesComponent implements OnInit {
     if (this.form.invalid) return;
     this.adding.set(true);
     this.error.set(null);
-    this.settingsService.addGameProfile(this.form.value as any).subscribe({
+    this.settingsService.addGameProfile(this.form.value as CreateGameProfileRequest).subscribe({
       next: (profile) => {
         this.profiles.update((list) => [...list, profile]);
         this.form.reset({ platform: GamePlatform.PSN, handle: '' });
@@ -64,6 +64,6 @@ export class GameProfilesComponent implements OnInit {
   }
 
   platformLabel(platform: string): string {
-    return (this.platformLabels as any)[platform] ?? platform;
+    return this.platformLabels[platform as GamePlatform] ?? platform;
   }
 }

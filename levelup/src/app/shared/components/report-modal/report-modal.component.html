@@ -1,5 +1,5 @@
 @if (open) {
-  <div class="report-overlay" (click)="onOverlayClick($event)">
+  <div class="report-overlay" (click)="onOverlayClick($event)" (keyup.escape)="close()" tabindex="0">
     <div class="report-dialog" role="dialog" aria-modal="true">
       <div class="report-dialog__header">
         <h3 class="report-dialog__title">Report content</h3>

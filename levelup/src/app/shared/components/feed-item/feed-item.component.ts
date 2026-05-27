@@ -24,11 +24,11 @@ export class FeedItemComponent {
     const meta = this.parsedMetadata;
     switch (this.event.type) {
       case 'STATUS_CHANGE':
-        return `changed ${this.formatStatus(meta['oldStatus'])} → ${this.formatStatus(meta['newStatus'])}`;
+        return `changed ${this.formatStatus(String(meta['oldStatus']))} → ${this.formatStatus(String(meta['newStatus']))}`;
       case 'RATING_ADDED':
-        return `rated ${meta['rating']}/10`;
+        return `rated ${String(meta['rating'])}/10`;
       case 'GAME_ADDED':
-        return `added to library · ${this.formatStatus(meta['status'])}`;
+        return `added to library · ${this.formatStatus(String(meta['status']))}`;
       case 'REVIEW_POSTED':
         return 'posted a review';
       case 'COMMENT_POSTED':
@@ -40,7 +40,7 @@ export class FeedItemComponent {
     }
   }
 
-  private get parsedMetadata(): Record<string, any> {
+  private get parsedMetadata(): Record<string, unknown> {
     try {
       return JSON.parse(this.event.metadata ?? '{}');
     } catch {

@@ -164,10 +164,10 @@ public class ReviewService {
       if (vis == VisibilityType.PRIVATE) {
         throw new ForbiddenException("This user's reviews are private");
       }
-      if (vis == VisibilityType.FRIENDS) {
-        if (currentUserId == null || !friendService.areUsersFriends(currentUserId, user.getId())) {
-          throw new ForbiddenException("This user's reviews are only visible to friends");
-        }
+      if (vis == VisibilityType.FRIENDS
+          && (currentUserId == null
+              || !friendService.areUsersFriends(currentUserId, user.getId()))) {
+        throw new ForbiddenException("This user's reviews are only visible to friends");
       }
     }
     return reviewRepository

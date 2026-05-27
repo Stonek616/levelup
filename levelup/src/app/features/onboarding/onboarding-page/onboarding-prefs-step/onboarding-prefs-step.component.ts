@@ -39,13 +39,21 @@ export class OnboardingPrefsStepComponent {
 
   toggleGenre(genre: string) {
     const next = new Set(this.selectedGenres());
-    next.has(genre) ? next.delete(genre) : next.add(genre);
+    if (next.has(genre)) {
+      next.delete(genre);
+    } else {
+      next.add(genre);
+    }
     this.selectedGenres.set(next);
   }
 
   togglePlatform(platform: string) {
     const next = new Set(this.selectedPlatforms());
-    next.has(platform) ? next.delete(platform) : next.add(platform);
+    if (next.has(platform)) {
+      next.delete(platform);
+    } else {
+      next.add(platform);
+    }
     this.selectedPlatforms.set(next);
   }
 

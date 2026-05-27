@@ -48,13 +48,13 @@ public class Review {
   private Instant updatedAt;
 
   @PrePersist
-  private void prePersist() {
+  void prePersist() {
     createdAt = Instant.now();
     updatedAt = Instant.now();
   }
 
   @PreUpdate
-  private void preUpdate() {
+  void preUpdate() {
     updatedAt = Instant.now();
   }
 }

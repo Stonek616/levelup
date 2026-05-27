@@ -1,28 +1,27 @@
 package com.levelup.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
 import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "keywords")
+@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
-public class Keyword {
+public abstract class TaxonomyBase {
+
   @Id private Integer id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String name;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String slug;
 
   @Column(name = "created_at", nullable = false)

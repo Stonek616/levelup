@@ -24,8 +24,12 @@
       <li
         class="status-picker__option"
         [class.status-picker__option--active]="status === null"
+        [attr.aria-selected]="status === null"
         (click)="selectNull()"
+        (keyup.enter)="selectNull()"
+        (keyup.space)="selectNull()"
         role="option"
+        tabindex="0"
       >
         Add to library…
       </li>
@@ -33,8 +37,12 @@
         <li
           class="status-picker__option"
           [class.status-picker__option--active]="option === status"
+          [attr.aria-selected]="option === status"
           (click)="select(option)"
+          (keyup.enter)="select(option)"
+          (keyup.space)="select(option)"
           role="option"
+          tabindex="0"
         >
           {{ labels[option] }}
         </li>

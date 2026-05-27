@@ -6,8 +6,8 @@ import { UserCardComponent } from './user-card.component';
 import { FriendService } from '../../../core/services/friend.service';
 
 const mockFriendService = {
-  sendFriendRequest: (userId: string) => of({ status: 'PENDING' }),
-  removeFriend: (userId: string) => of(void 0),
+  sendFriendRequest: (_userId: string) => of({ status: 'PENDING' }),
+  removeFriend: (_userId: string) => of(void 0),
 };
 
 const meta: Meta<UserCardComponent> = {

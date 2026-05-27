@@ -50,7 +50,7 @@ public class Report {
   private Instant resolvedAt;
 
   @PrePersist
-  private void prePersist() {
+  void prePersist() {
     createdAt = Instant.now();
   }
 }

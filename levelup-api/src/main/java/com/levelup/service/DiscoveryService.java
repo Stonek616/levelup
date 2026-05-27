@@ -4,7 +4,6 @@ import com.levelup.dto.response.DiscoveryGameResponse;
 import com.levelup.model.Game;
 import com.levelup.repository.FeedEventRepository;
 import com.levelup.repository.GameRepository;
-import com.levelup.repository.LibraryEntryRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,6 @@ public class DiscoveryService {
    */
   private static final int SIMILAR_THRESHOLD = 6;
 
-  private final LibraryEntryRepository libraryEntryRepository;
   private final GameRepository gameRepository;
   private final FeedEventRepository feedEventRepository;
 

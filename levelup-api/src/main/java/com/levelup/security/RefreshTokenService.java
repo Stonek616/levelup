@@ -1,5 +1,6 @@
 package com.levelup.security;
 
+import com.levelup.exception.InvalidTokenException;
 import com.levelup.model.RefreshToken;
 import com.levelup.model.User;
 import com.levelup.repository.RefreshTokenRepository;
@@ -27,15 +28,15 @@ public class RefreshTokenService {
     RefreshToken refreshToken =
         refreshTokenRepository
             .findByToken(tokenString)
-            .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+            .orElseThrow(() -> new InvalidTokenException("Invalid refresh token"));
 
     if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
-      throw new RuntimeException("Refresh token is expired or revoked");
+      throw new InvalidTokenException("Refresh token is expired or revoked");
     }
 
     if (refreshToken.isRevoked()) {
       refreshTokenRepository.delete(refreshToken);
-      throw new RuntimeException("Refresh token has been revoked");
+      throw new InvalidTokenException("Refresh token has been revoked");
     }
 
     // Revoke the old token
@@ -52,7 +53,7 @@ public class RefreshTokenService {
   public User getUserFromToken(String tokenString) {
     return refreshTokenRepository
         .findByToken(tokenString)
-        .orElseThrow(() -> new RuntimeException("Invalid refresh token"))
+        .orElseThrow(() -> new InvalidTokenException("Invalid refresh token"))
         .getUser();
   }
 }

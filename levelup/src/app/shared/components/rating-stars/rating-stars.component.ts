@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgFor, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-rating-stars',
-  imports: [NgFor, NgClass],
+  imports: [],
   templateUrl: './rating-stars.component.html',
   styleUrl: './rating-stars.component.scss',
 })

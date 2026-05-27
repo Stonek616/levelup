@@ -43,7 +43,7 @@ public class PasswordResetToken {
   private Instant createdAt;
 
   @PrePersist
-  private void prePersist() {
+  void prePersist() {
     createdAt = Instant.now();
   }
 }

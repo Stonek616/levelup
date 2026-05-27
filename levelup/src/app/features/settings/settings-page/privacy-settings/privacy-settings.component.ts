@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SettingsService } from '../../../../core/services/settings.service';
 import { UserService } from '../../../../core/services/user.service';
 import { VisibilityType } from '../../../../core/models/enums';
+import { PrivacySettingsRequest } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-privacy-settings',
@@ -45,7 +46,7 @@ export class PrivacySettingsComponent implements OnInit {
     this.saving.set(true);
     this.success.set(false);
     this.error.set(null);
-    this.settingsService.updatePrivacy(this.form.value as any).subscribe({
+    this.settingsService.updatePrivacy(this.form.value as PrivacySettingsRequest).subscribe({
       next: () => {
         this.saving.set(false);
         this.success.set(true);

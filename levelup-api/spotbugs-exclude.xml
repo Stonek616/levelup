@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+  <!--
+    Spring-managed beans are intentionally stored by reference (singletons shared across
+    the application context). SpotBugs cannot see the Spring IoC lifecycle and flags these
+    constructor injections as "storing mutable external objects", which is a false positive here.
+  -->
+  <Match>
+    <Class name="com.levelup.igdb.IgdbGameIngestionService"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+  <Match>
+    <Class name="com.levelup.igdb.IgdbIngestionRunner"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+  <Match>
+    <Class name="com.levelup.igdb.IgdbTaxonomyIngestionService"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+
+  <!--
+    Spring Security's SecurityFilterChain API requires `throws Exception` on the @Bean
+    method — the interface contract cannot be narrowed, so a more specific throws clause
+    is not possible here.
+  -->
+  <Match>
+    <Class name="com.levelup.config.SecurityConfig"/>
+    <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION"/>
+  </Match>
+
+  <!--
+    IGDB ingestion methods intentionally throw RuntimeException for unrecoverable fatal
+    errors during a one-off data ingestion run. There is no meaningful recovery path, and
+    the ingestion runner is not part of the normal request lifecycle.
+  -->
+  <Match>
+    <Class name="com.levelup.igdb.IgdbGameIngestionService"/>
+    <Bug pattern="THROWS_METHOD_THROWS_RUNTIMEEXCEPTION"/>
+  </Match>
+  <Match>
+    <Class name="com.levelup.igdb.IgdbTaxonomyIngestionService"/>
+    <Bug pattern="THROWS_METHOD_THROWS_RUNTIMEEXCEPTION"/>
+  </Match>
+
+</FindBugsFilter>

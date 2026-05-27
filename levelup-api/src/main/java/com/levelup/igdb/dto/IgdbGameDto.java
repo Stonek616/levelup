@@ -36,6 +36,19 @@ public record IgdbGameDto(
     @JsonProperty("game_modes") List<IgdbNamed> gameModes,
     @JsonProperty("franchises") List<IgdbNamed> franchises,
     @JsonProperty("involved_companies") List<IgdbInvolvedCompany> involvedCompanies) {
+
+  public IgdbGameDto {
+    genreIds = genreIds != null ? List.copyOf(genreIds) : null;
+    themeIds = themeIds != null ? List.copyOf(themeIds) : null;
+    keywordIds = keywordIds != null ? List.copyOf(keywordIds) : null;
+    similarGameIds = similarGameIds != null ? List.copyOf(similarGameIds) : null;
+    platforms = platforms != null ? List.copyOf(platforms) : null;
+    playerPerspectives = playerPerspectives != null ? List.copyOf(playerPerspectives) : null;
+    gameModes = gameModes != null ? List.copyOf(gameModes) : null;
+    franchises = franchises != null ? List.copyOf(franchises) : null;
+    involvedCompanies = involvedCompanies != null ? List.copyOf(involvedCompanies) : null;
+  }
+
   /** A simple {id, name} object that many IGDB endpoints return when expanded. */
   @JsonIgnoreProperties(ignoreUnknown = true)
   public record IgdbNamed(@JsonProperty("id") Integer id, @JsonProperty("name") String name) {}

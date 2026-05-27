@@ -1,10 +1,7 @@
 import { Component, Input, OnChanges, inject, signal } from '@angular/core';
 import { UserService } from '../../../../core/services/user.service';
 import { GameProfile } from '../../../../core/models/user.model';
-import {
-  GamePlatformLabels,
-  GamePlatform,
-} from '../../../../core/models/enums';
+import { GamePlatformLabels } from '../../../../core/models/enums';
 
 @Component({
   selector: 'app-gaming-accounts',

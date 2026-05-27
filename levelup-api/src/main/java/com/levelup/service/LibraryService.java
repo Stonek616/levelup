@@ -67,10 +67,10 @@ public class LibraryService {
       if (vis == VisibilityType.PRIVATE) {
         throw new ForbiddenException("This library is private");
       }
-      if (vis == VisibilityType.FRIENDS) {
-        if (currentUserId == null || !friendService.areUsersFriends(currentUserId, user.getId())) {
-          throw new ForbiddenException("This library is only visible to friends");
-        }
+      if (vis == VisibilityType.FRIENDS
+          && (currentUserId == null
+              || !friendService.areUsersFriends(currentUserId, user.getId()))) {
+        throw new ForbiddenException("This library is only visible to friends");
       }
     }
     return getUserLibrary(user.getId(), status, ownership, platform, pageable);

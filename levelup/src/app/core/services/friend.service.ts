@@ -7,7 +7,6 @@ import {
   FriendshipEntry,
   FriendRequest,
   FriendRequestAction,
-  UserSearchResult,
 } from '../models/user.model';
 
 @Injectable({

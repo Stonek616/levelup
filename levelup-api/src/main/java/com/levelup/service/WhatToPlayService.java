@@ -13,6 +13,7 @@ import com.levelup.model.enums.OwnershipStatus;
 import com.levelup.repository.GameRepository;
 import com.levelup.repository.LibraryEntryRepository;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -146,7 +147,7 @@ public class WhatToPlayService {
       for (int i = 0; i < weight; i++) weighted.add(e);
     }
 
-    LibraryEntry pick = weighted.get(new Random().nextInt(weighted.size()));
+    LibraryEntry pick = weighted.get(ThreadLocalRandom.current().nextInt(weighted.size()));
     return List.of(
         new GameSuggestion(
             mapGame(pick.getGame()),

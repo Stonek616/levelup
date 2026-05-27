@@ -2,116 +2,109 @@
   <svg
     class="status-glyph"
     [attr.data-status]="status.toLowerCase()"
-    [ngSwitch]="status"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 32 32"
     width="22"
     height="22"
     aria-hidden="true"
   >
-    <!-- Backlog: hex outline only -->
-    <ng-container *ngSwitchCase="LibraryStatus.Backlog">
-      <polygon
-        points="16,4 26,10 26,22 16,28 6,22 6,10"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-      />
-    </ng-container>
-
-    <!-- Playing: outer outline + filled inner hex -->
-    <ng-container *ngSwitchCase="LibraryStatus.Playing">
-      <polygon
-        points="16,4 26,10 26,22 16,28 6,22 6,10"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-      />
-      <polygon
-        points="16,11 22,14.5 22,21.5 16,25 10,21.5 10,14.5"
-        fill="currentColor"
-      />
-    </ng-container>
-
-    <!-- Played: outline + bottom-half fill via clipPath -->
-    <ng-container *ngSwitchCase="LibraryStatus.Played">
-      <defs>
-        <clipPath id="played-bottom-half">
-          <rect x="0" y="16" width="32" height="12" />
-        </clipPath>
-      </defs>
-      <polygon
-        points="16,4 26,10 26,22 16,28 6,22 6,10"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-      />
-      <polygon
-        points="16,4 26,10 26,22 16,28 6,22 6,10"
-        fill="currentColor"
-        clip-path="url(#played-bottom-half)"
-      />
-    </ng-container>
-
-    <!-- Finished: filled hex + dark checkmark -->
-    <ng-container *ngSwitchCase="LibraryStatus.Finished">
-      <polygon points="16,4 26,10 26,22 16,28 6,22 6,10" fill="currentColor" />
-      <polyline
-        points="11,16 14.5,19.5 21,13"
-        fill="none"
-        class="status-glyph__check"
-        stroke-width="2.2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </ng-container>
-
-    <!-- Completed: filled hex + dark checkmark + outer brass ring -->
-    <ng-container *ngSwitchCase="LibraryStatus.Completed">
-      <!-- outer brass ring -->
-      <polygon
-        points="16,1 28,8 28,24 16,31 4,24 4,8"
-        fill="none"
-        class="status-glyph__ring"
-        stroke-width="1.5"
-      />
-      <!-- inner filled hex -->
-      <polygon
-        points="16,5 25,10.5 25,21.5 16,27 7,21.5 7,10.5"
-        fill="currentColor"
-      />
-      <polyline
-        points="11,16 14.5,19.5 21,13"
-        fill="none"
-        class="status-glyph__check"
-        stroke-width="2.2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </ng-container>
-
-    <!-- Abandoned: right half solid, left half dashed + faded -->
-    <ng-container *ngSwitchCase="LibraryStatus.Abandoned">
-      <polyline
-        points="16,4 26,10 26,22 16,28"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <polyline
-        points="16,28 6,22 6,10 16,4"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-dasharray="1.5 3"
-        opacity="0.5"
-      />
-    </ng-container>
-
-    <ng-container *ngSwitchDefault />
+    @switch (status) {
+      @case (LibraryStatus.Backlog) {
+        <!-- Backlog: hex outline only -->
+        <polygon
+          points="16,4 26,10 26,22 16,28 6,22 6,10"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+      }
+      @case (LibraryStatus.Playing) {
+        <!-- Playing: outer outline + filled inner hex -->
+        <polygon
+          points="16,4 26,10 26,22 16,28 6,22 6,10"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+        <polygon
+          points="16,11 22,14.5 22,21.5 16,25 10,21.5 10,14.5"
+          fill="currentColor"
+        />
+      }
+      @case (LibraryStatus.Played) {
+        <!-- Played: outline + bottom-half fill via clipPath -->
+        <defs>
+          <clipPath id="played-bottom-half">
+            <rect x="0" y="16" width="32" height="12" />
+          </clipPath>
+        </defs>
+        <polygon
+          points="16,4 26,10 26,22 16,28 6,22 6,10"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+        <polygon
+          points="16,4 26,10 26,22 16,28 6,22 6,10"
+          fill="currentColor"
+          clip-path="url(#played-bottom-half)"
+        />
+      }
+      @case (LibraryStatus.Finished) {
+        <!-- Finished: filled hex + dark checkmark -->
+        <polygon points="16,4 26,10 26,22 16,28 6,22 6,10" fill="currentColor" />
+        <polyline
+          points="11,16 14.5,19.5 21,13"
+          fill="none"
+          class="status-glyph__check"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      }
+      @case (LibraryStatus.Completed) {
+        <!-- Completed: filled hex + dark checkmark + outer brass ring -->
+        <polygon
+          points="16,1 28,8 28,24 16,31 4,24 4,8"
+          fill="none"
+          class="status-glyph__ring"
+          stroke-width="1.5"
+        />
+        <polygon
+          points="16,5 25,10.5 25,21.5 16,27 7,21.5 7,10.5"
+          fill="currentColor"
+        />
+        <polyline
+          points="11,16 14.5,19.5 21,13"
+          fill="none"
+          class="status-glyph__check"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      }
+      @case (LibraryStatus.Abandoned) {
+        <!-- Abandoned: right half solid, left half dashed + faded -->
+        <polyline
+          points="16,4 26,10 26,22 16,28"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <polyline
+          points="16,28 6,22 6,10 16,4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-dasharray="1.5 3"
+          opacity="0.5"
+        />
+      }
+      @default {}
+    }
   </svg>
 }

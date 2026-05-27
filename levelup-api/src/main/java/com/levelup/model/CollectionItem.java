@@ -28,7 +28,7 @@ public class CollectionItem {
   private Instant addedAt;
 
   @PrePersist
-  private void prePersist() {
+  void prePersist() {
     addedAt = Instant.now();
   }
 }

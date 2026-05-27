@@ -3,6 +3,7 @@ package com.levelup.controller;
 import com.levelup.exception.ConflictException;
 import com.levelup.exception.ErrorResponse;
 import com.levelup.exception.ForbiddenException;
+import com.levelup.exception.InvalidTokenException;
 import com.levelup.exception.ResourceNotFoundException;
 import com.levelup.exception.ValidationErrorResponse;
 import java.util.HashMap;
@@ -17,6 +18,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
   private static final org.slf4j.Logger logger =
       org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+  @ExceptionHandler(InvalidTokenException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidToken(InvalidTokenException ex) {
+    return ResponseEntity.status(401)
+        .body(new ErrorResponse("UNAUTHORIZED", 401, ex.getMessage()));
+  }
 
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {

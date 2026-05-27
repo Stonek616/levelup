@@ -23,7 +23,7 @@ export class ReportService {
     page = 0,
     size = 20,
   ): Observable<PagedResponse<ReportItem>> {
-    const params: Record<string, any> = { page, size };
+    const params: Record<string, string | number> = { page, size };
     if (status) params['status'] = status;
     return this.http.get<PagedResponse<ReportItem>>(
       `${environment.apiUrl}/admin/reports`,

@@ -8,8 +8,8 @@ import { ReviewService } from '../../../core/services/review.service';
 import { AuthService } from '../../../core/services/auth.service';
 
 const mockReviewService = {
-  likeReview: (id: string) => of({ likeCount: 1, likedByMe: true }),
-  unlikeReview: (id: string) => of({ likeCount: 0, likedByMe: false }),
+  likeReview: (_id: string) => of({ likeCount: 1, likedByMe: true }),
+  unlikeReview: (_id: string) => of({ likeCount: 0, likedByMe: false }),
 };
 
 const mockAuthServiceLoggedIn = {

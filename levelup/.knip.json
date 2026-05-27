@@ -1,0 +1,6 @@
+{
+  "ignoreDependencies": ["@compodoc/compodoc"],
+  "ignoreExportsUsedInFile": true,
+  "ignore": ["**/*.stories.ts", "src/environments/**"],
+  "ignoreBinaries": ["ng", "compodoc"]
+}

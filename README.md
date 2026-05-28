@@ -4,13 +4,9 @@
 
 LevelUp lets users catalogue their game library with nuanced status tracking, follow what friends are playing, write reviews, build collections, and find their next game through a conversational recommendation flow. Built as a full-stack portfolio project demonstrating Angular and Spring Boot in an enterprise-relevant stack.
 
----
+## Data
 
-## Live Demo
-
-> Coming soon — deploying to Railway + Vercel
-
----
+All game related data is from IGDB.  
 
 ## Features
 

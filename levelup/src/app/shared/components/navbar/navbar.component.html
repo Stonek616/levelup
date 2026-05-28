@@ -90,7 +90,15 @@
         <div class="navbar__menu">
           <button class="navbar__profile" (click)="menuOpen.set(!menuOpen())">
             <div class="navbar__avatar">
-              {{ currentUser()!.username.charAt(0).toUpperCase() }}
+              @if (currentUser()!.avatarUrl) {
+                <img
+                  [src]="currentUser()!.avatarUrl"
+                  [alt]="currentUser()!.username"
+                  class="navbar__avatar-img"
+                />
+              } @else {
+                {{ currentUser()!.username.charAt(0).toUpperCase() }}
+              }
             </div>
             <span class="navbar__username">{{ currentUser()!.username }}</span>
             <svg

@@ -16,6 +16,7 @@ services:
   adminer:
     image: adminer
     container_name: levelup_adminer
+    command: php -d upload_max_filesize=64M -d post_max_size=64M -S [::]:8080 -t /var/www/html
     ports:
       - "8081:8080"
     depends_on:

@@ -1,11 +1,4 @@
---
--- PostgreSQL database dump
---
 
-\restrict GpfA41yIK1uNB5g1DiBUFLJIjbZMSlZ92yMOWOVrjO8i46FXmqUeZX8FzTh20Lt
-
--- Dumped from database version 16.13 (Debian 16.13-1.pgdg13+1)
--- Dumped by pg_dump version 16.13 (Debian 16.13-1.pgdg13+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -157760,10 +157753,4 @@ bbe71c7f-e3be-4b25-b00b-486d9c12b763	18
 99066d50-2b41-4a6a-87c7-f460bb29ac90	27
 \.
 
-
---
--- PostgreSQL database dump complete
---
-
-\unrestrict GpfA41yIK1uNB5g1DiBUFLJIjbZMSlZ92yMOWOVrjO8i46FXmqUeZX8FzTh20Lt
 

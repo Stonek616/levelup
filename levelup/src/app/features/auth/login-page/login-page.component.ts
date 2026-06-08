@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -25,8 +25,13 @@ export class LoginPageComponent {
       Validators.minLength(8),
     ]),
   });
+  showPassword = signal(false);
   errorMessage = '';
   isLoading = false;
+
+  togglePassword() {
+    this.showPassword.update((v) => !v);
+  }
   onSubmit() {
     if (this.loginForm.invalid) {
       return;

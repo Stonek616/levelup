@@ -83,3 +83,33 @@
     font-size: 0.95rem;
   }
 }
+
+.password-wrapper {
+  position: relative;
+
+  input {
+    padding-right: 2.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.peek-btn {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}

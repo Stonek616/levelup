@@ -67,12 +67,14 @@ export class GameReviewsComponent implements OnInit {
         this.submitting.set(false);
       },
       error: (err) => {
-        const msg =
-          err.status === 409
-            ? 'You have already reviewed this game.'
-            : err.status === 403
-              ? 'Add this game to your library before writing a review.'
-              : 'Something went wrong. Please try again.';
+        let msg = 'Something went wrong. Please try again.';
+        if (err.status === 409) {
+          msg = 'You have already reviewed this game.';
+        } else if (err.status === 403) {
+          msg = 'You need this game in your library to review it.';
+        } else if (err.status === 401) {
+          msg = 'Your session expired. Please refresh the page and try again.';
+        }
         this.submitError.set(msg);
         this.submitting.set(false);
       },

@@ -1,5 +1,5 @@
 <div class="search-container">
-  <input type="text" placeholder="Search games..." (input)="onInput($event)" />
+  <input type="text" placeholder="Search games..." [value]="query()" (input)="onInput($event)" />
 
   @if (loading()) {
     <p>Searching...</p>

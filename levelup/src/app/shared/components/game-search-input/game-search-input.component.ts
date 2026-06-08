@@ -27,6 +27,7 @@ export class GameSearchInputComponent implements OnInit {
 
   results = signal<GameSummary[]>([]);
   loading = signal(false);
+  query = signal('');
 
   @Output() gameSelected = new EventEmitter<GameSummary>();
 
@@ -51,6 +52,7 @@ export class GameSearchInputComponent implements OnInit {
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
+    this.query.set(value);
     if (value.trim().length === 0) {
       this.results.set([]);
       return;
@@ -66,5 +68,6 @@ export class GameSearchInputComponent implements OnInit {
   selectGame(game: GameSummary) {
     this.gameSelected.emit(game);
     this.results.set([]);
+    this.query.set('');
   }
 }

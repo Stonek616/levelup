@@ -1,5 +1,7 @@
 <app-navbar />
 <main>
-  <router-outlet />
+  @if (initialized()) {
+    <router-outlet />
+  }
 </main>
 <app-toast />

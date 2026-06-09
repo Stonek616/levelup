@@ -18,6 +18,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +65,7 @@ public class AuthService {
     refreshTokenService.revokeAllUserTokens(refreshTokenService.getUserFromToken(refreshToken));
   }
 
+  @Transactional
   public AuthResponse refresh(String refreshToken) {
     RefreshToken newToken = refreshTokenService.validateAndRotate(refreshToken);
     User user = newToken.getUser();

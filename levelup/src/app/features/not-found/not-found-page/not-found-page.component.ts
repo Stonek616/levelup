@@ -81,7 +81,7 @@ import { RouterLink } from '@angular/router';
       <h1 class="not-found__title">How did you get here?</h1>
 
       <p class="not-found__message">
-        We weren't expecting visitors. This page doesn't exist — or maybe it
+        We weren't expecting visitors. This page doesn't exist — or maybe YOU
         never did.
       </p>
 

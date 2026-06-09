@@ -21,10 +21,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LibraryService {
 
   private final LibraryEntryRepository libraryEntryRepository;
@@ -76,6 +78,7 @@ public class LibraryService {
     return getUserLibrary(user.getId(), status, ownership, platform, pageable);
   }
 
+  @Transactional
   public LibraryEntryResponse addToLibrary(UUID userId, CreateLibraryEntryRequest request) {
     Game game =
         gameRepository
@@ -112,6 +115,7 @@ public class LibraryService {
     return LibraryEntryResponse.from(saved);
   }
 
+  @Transactional
   public LibraryEntryResponse updateEntry(
       UUID entryId, UUID requestingUserId, UpdateLibraryEntryRequest request) {
     LibraryEntry entry =
@@ -175,6 +179,7 @@ public class LibraryService {
     return LibraryEntryResponse.from(saved);
   }
 
+  @Transactional
   public void deleteEntry(UUID entryId, UUID requestingUserId) {
     LibraryEntry entry =
         libraryEntryRepository

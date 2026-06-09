@@ -10,6 +10,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { GameSearchInputComponent } from '../game-search-input/game-search-input.component';
 import { GameSummary } from '../../../core/models/game.model';
 
@@ -26,6 +27,7 @@ export class NavbarComponent {
   private readonly elRef = inject(ElementRef);
   readonly themeService = inject(ThemeService);
 
+  readonly notificationService = inject(NotificationService);
   readonly currentUser = this.userService.currentUser;
   readonly isDark = computed(() => this.themeService.theme() === 'dark');
   readonly isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');

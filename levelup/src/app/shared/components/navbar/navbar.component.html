@@ -24,9 +24,15 @@
           <a
             routerLink="/friends"
             routerLinkActive="navbar__link--active"
-            class="navbar__link"
-            >Friends</a
+            class="navbar__link navbar__link--badged"
           >
+            Friends
+            @if (notificationService.pendingFriendRequests() > 0) {
+              <span class="navbar__badge">{{
+                notificationService.pendingFriendRequests()
+              }}</span>
+            }
+          </a>
         </li>
         <li>
           <a

@@ -7,6 +7,7 @@ import com.levelup.repository.RefreshTokenRepository;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class RefreshTokenService {
     return refreshTokenRepository.save(refreshToken);
   }
 
+  @Transactional
   public RefreshToken validateAndRotate(String tokenString) {
     RefreshToken refreshToken =
         refreshTokenRepository
@@ -39,17 +41,21 @@ public class RefreshTokenService {
       throw new InvalidTokenException("Refresh token has been revoked");
     }
 
+    // Load the user while the entity is still managed, before deleting it
+    User user = refreshToken.getUser();
+
     // Revoke the old token
     refreshTokenRepository.delete(refreshToken);
 
     // Create and return a new token
-    return createRefreshToken(refreshToken.getUser());
+    return createRefreshToken(user);
   }
 
   public void revokeAllUserTokens(User user) {
     refreshTokenRepository.deleteByUser(user);
   }
 
+  @Transactional(readOnly = true)
   public User getUserFromToken(String tokenString) {
     return refreshTokenRepository
         .findByToken(tokenString)

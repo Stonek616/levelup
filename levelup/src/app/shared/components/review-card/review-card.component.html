@@ -40,10 +40,14 @@
       ♥ {{ likeCount() }}
     </button>
 
-    <span class="review-card__comments">
-      {{ review.commentCount }}
-      {{ review.commentCount === 1 ? "comment" : "comments" }}
-    </span>
+    <button
+      class="review-card__comments-btn"
+      [class.review-card__comments-btn--active]="showComments()"
+      (click)="toggleComments()"
+    >
+      {{ commentCount() }} {{ commentCount() === 1 ? "comment" : "comments" }}
+      <span class="review-card__chevron">{{ showComments() ? "▴" : "▾" }}</span>
+    </button>
 
     <span class="review-card__date">{{
       review.createdAt | date: "mediumDate"
@@ -53,4 +57,62 @@
       >View →</a
     >
   </div>
+
+  @if (showComments()) {
+    <div class="review-card__inline-comments">
+      @if (commentsLoading()) {
+        <p class="review-card__comments-loading">Loading comments...</p>
+      } @else {
+        @if (comments().length > 0) {
+          <div class="review-card__comments-list">
+            @for (comment of comments(); track comment.id) {
+              <div class="review-card__comment">
+                <app-avatar
+                  [avatarUrl]="comment.author.avatarUrl"
+                  [username]="comment.author.username"
+                  size="sm"
+                />
+                <div class="review-card__comment-content">
+                  <div class="review-card__comment-meta">
+                    <a
+                      class="review-card__comment-author"
+                      [routerLink]="['/profile', comment.author.username]"
+                    >{{ comment.author.username }}</a>
+                    <span class="review-card__comment-date">{{
+                      comment.createdAt | date: "mediumDate"
+                    }}</span>
+                  </div>
+                  <p class="review-card__comment-body">{{ comment.body }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        } @else if (commentsLoaded()) {
+          <p class="review-card__no-comments">No comments yet. Be the first!</p>
+        }
+
+        @if (isLoggedIn) {
+          <form
+            class="review-card__comment-form"
+            [formGroup]="commentForm"
+            (ngSubmit)="submitComment()"
+          >
+            <textarea
+              class="review-card__comment-textarea"
+              formControlName="body"
+              placeholder="Add a comment..."
+              rows="2"
+            ></textarea>
+            <button
+              class="review-card__comment-submit"
+              type="submit"
+              [disabled]="commentForm.invalid || submitting()"
+            >
+              {{ submitting() ? "Posting..." : "Post" }}
+            </button>
+          </form>
+        }
+      }
+    </div>
+  }
 </div>

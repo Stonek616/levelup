@@ -13,6 +13,7 @@ import { ThemeService } from './core/services/theme.service';
 })
 export class AppComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  readonly initialized = this.authService.initialized;
 
   constructor() {
     inject(ThemeService);
